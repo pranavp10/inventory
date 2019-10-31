@@ -1,3 +1,9 @@
+<?
+session_start();
+require '../../../connect.php';
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -16,7 +22,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-      folder instead of downloading all of them to reduce the load. -->
+    folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../../dist/css/skins/_all-skins.min.css">
     <!-- Morris chart -->
     <link rel="stylesheet" href="../../../bower_components/morris.js/morris.css">
@@ -28,16 +34,14 @@
     <link rel="stylesheet" href="../../../bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
 
-    <!-- Google Font -->
-    <link rel="stylesheet" href="../../../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -69,7 +73,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                     <p>
                                         Alexander Pierce - Web Developer
@@ -224,7 +228,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- <li><a href="#"><i class="fa fa-link"></i> Salary generator</a></li>
-                  <li><a href="#"><i class="fa fa-link"></i> Allowance & Deduction</a></li> -->
+                                    <li><a href="#"><i class="fa fa-link"></i> Allowance & Deduction</a></li> -->
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -304,104 +308,238 @@
 
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
-
-                <!-- ####################################################################################################### -->
-                <!-- Modal -->
-                <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title" id="exampleModalLabel"> Add New User </h1>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="LoginId">Login ID</label>
-                                        <input style="border: none;" type="text" class="form-control" id="loginId" readonly>
+            <!-- ####################################################################################################### -->
+            <!-- Add employee -->
+            <div class="modal fade" id="addNewEmployee" tabindex="-1" role="dialog" aria-labelledby="addNewEmployeeTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="addNewEmployeeTitle"> Add New Employee </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/add_employee.php" method="POST">
+                                <label for="employeeId">Employee ID</label>
+                                <input style="background-color: transparent; border: transparent;" type="text" name="employeeId" class="form-control" id="employeeId" readonly required>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label for="employeeFirstName">First Name</label>
+                                            <input type="text" name="employeeFirstName" class="form-control" id="employeeFirstName" placeholder="Enter First Name" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="sel1">Select User</label>
-                                        <select class="form-control" id="sel1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label for="employeeLastName">Last Name</label>
+                                            <input type="text" name="employeeLastName" class="form-control" id="employeeLastName" placeholder="Enter Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="employeeEmail">Email</label>
+                                            <input type="email" name="employeeEmail" class="form-control" id="employeeEmail" placeholder="Jon@gmail.com" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="employeeDOB">Date of Birth</label>
+                                            <input type="date" name="employeeDOB" class="form-control" id="employeeDOB" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="employeeDesignation">Designation</label>
+                                            <select class="form-control selectpicker" name="employeeDesignation" id="employeeDesignation" data-show-subtext="true" data-live-search="true">
+                                                <option value="-select-">-select-</option>
+                                                <?
+                                        $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
+                                        if ($rawDate = $connect->query($sqlDisplayDesignation)) {
+                                            while ($displayDes = $rawDate->fetch_assoc()) {
+                                                $designationId = $displayDes['designation_id'];
+                                                $designation = $displayDes['description'];
+                                                ?>
+                                                <option value="<? echo $designationId ?>"><? echo $designation ?></option>
+                                            <?
+                                            }
+                                        }
+                                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <label for="employeeGender">Gender</label>
+                                        <select class="form-control" name="employeeGender" id="employeeGender" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="transgender">transgender</option>
                                         </select>
                                     </div>
-
-
-                                    <div class="form-group">
-                                        <label for="userLoginName">User Login Name</label>
-                                        <input type="email" class="form-control" id="userLoginName" placeholder="Enter User Name">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="employeeBasicSalary">Basic Salary</label>
+                                            <input type="number" name="employeeBasicSalary" class="form-control" id="employeeBasicSalary" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="userLoginPassword">User Login Password</label>
-                                        <input type="password" class="form-control" id="userLoginPassword" placeholder="Password">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="employeeDOJoining">Date of Joining</label>
+                                            <input type="date" name="employeeDOJoining" class="form-control" id="employeeDOJoining" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group form-check">
-                                        <input type="radio" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Admin</label>
-                                        <input type="radio" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Sub Admin</label>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="employeeAddress">Address</label>
+                                            <textarea class="form-control" name="employeeAddress" id="employeeAddress" rows="3">
+                                            </textarea>
+                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+                                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="addEmployeeButton">Add Employee</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- ###################################################################################################### -->
-                <section class="content">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">Employees</h3>
-
-                                    <div class="box-tools">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewUser">
-                                            <strong><i class="fa fa-plus"></i> New User</strong></button>
-                                    </div>
+            </div>
+            <!-- ###################################################################################################### -->
+            <!-- ####################################################################################################### -->
+            <!-- Edit designation -->
+            <div class="modal fade" id="editDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="editDesignation"> Edit Designation </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/update_designation.php" method="POST">
+                                <label for="designationId">Designation ID</label>
+                                <input style="background-color: transparent; border: transparent;" type="text" name="editDesignationId" class="form-control" id="editDesignationId" readonly required>
+                                <div class="form-group">
+                                    <label for="editDesignationName">Designation Name</label>
+                                    <input type="text" name="editDesignationName" class="form-control" id="editDesignationName" placeholder="Enter Designation Name" required>
                                 </div>
-                                <!-- /.box-header -->
-                                <a class="box-body table-responsive no-padding">
-                                    <table style="color: black;" class="table table-hover">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="updateDesignationButton">Update Designation</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ###################################################################################################### -->
+            <!-- ####################################################################################################### -->
+            <!-- Delete designation -->
+            <div class="modal fade" id="deleteDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="deleteDesignationHeading"> Delete Designation </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/delete_designation.php" method="POST">
+                                <h3 id='displayBox'></h3>
+                                <input type="hidden" id="deleteId" name="deleteId" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" name="deleteDesignationButton">Delete Designation</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ###################################################################################################### -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Designation</h3>
+
+                                <div class="box-tools">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEmployee" onclick="addDesignation()">
+                                        <strong><i class="fa fa-plus"></i> Add Employee</strong></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <a class="box-body table-responsive no-padding">
+                                <table style="color: black;" class="table table-hover" id="designationTable">
+                                    <thead>
                                         <tr>
-                                            <th>Login ID</th>
+                                            <th>ID</th>
                                             <th>Name</th>
-                                            <th>User Id</th>
-                                            <th>User Password</th>
+                                            <th>Email</th>
+                                            <th>Designation</th>
+                                            <th>Gender</th>
+                                            <th>DOB</th>
+                                            <th>Address</th>
+                                            <th>Joining Date</th>
+                                            <th>Basic Salary</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
-                                        <tr>
-                                            <td>183</td>
-                                            <td>John Doe</td>
-                                            <td>sfsdfh</td>
-                                            <td>skjfgsdf</td>
-                                            <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                                            </td>
-                                            <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
-                                            </td>
-                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?
+                                        $sqlDisplayEmployee = "SELECT * FROM `employees_details`";
+                                        if ($rawDate = $connect->query($sqlDisplayEmployee)) {
+                                            while ($displayEmp = $rawDate->fetch_assoc()) {
+                                                $empId = $displayEmp['emp_id'];
+                                                $empFirstName = $displayEmp['emp_first_name'];
+                                                $empLastName = $displayEmp['emp_last_name'];
+                                                $empEmail = $displayEmp['emp_email'];
+                                                $empDesignation = $displayEmp['emp_designation'];
+                                                $empDOB = $displayEmp['emp_dob'];
+                                                $empGender = $displayEmp['emp_gender'];
+                                                $empAddress = $displayEmp['emp_address'];
+                                                $empJoining = $displayEmp['emp_joining'];
+                                                $empBasicSalary = $displayEmp['emp_basic_salary'];
+                                                ?>
 
-                                    </table>
-                                    <!-- /.box-body -->
-                            </div>
-                            <!-- /.box -->
+                                                <tr>
+                                                    <td><? echo $empId; ?></td>
+                                                    <td><? echo $empFirstName,$empLastName; ?></td>
+                                                    <td><? echo $empEmail; ?></td>
+                                                    <td><? echo $designation; ?></td>
+                                                    <td><? echo $empGender; ?></td>
+                                                    <td><? echo $empDOB; ?></td>
+                                                    <td><? echo $empAddress; ?></td>
+                                                    <td><? echo $empJoining; ?></td>
+                                                    <td><? echo $empBasicSalary; ?></td>
+                                                    <td><button class="btn btn-primary btn-xs editDesignation" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                                                    </td>
+                                                    <td><button class="btn btn-danger btn-xs deleteDesignation" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                                    </td>
+                                                </tr>
+                                        <?
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <!-- /.box-body -->
                         </div>
+                        <!-- /.box -->
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
+            <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
         </div>
         <!-- /.content-wrapper -->
     </div>
@@ -445,7 +583,12 @@
 
     <!-- ###################################################################################### -->
     <!-- my scripts -->
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+    <script src="../../../scripts/hr/hr_master_employee.js"></script>
     <!-- ###################################################################################################################################### -->
 </body>
 
 </html>
+?>

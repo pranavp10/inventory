@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 30, 2019 at 11:40 AM
+-- Generation Time: Oct 31, 2019 at 12:20 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.3.5
 
@@ -35,7 +35,50 @@ CREATE TABLE IF NOT EXISTS `designation` (
   `description` varchar(50) NOT NULL,
   PRIMARY KEY (`designation_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `designation`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees_details`
+--
+
+DROP TABLE IF EXISTS `employees_details`;
+CREATE TABLE IF NOT EXISTS `employees_details` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emp_id` varchar(50) NOT NULL,
+  `emp_first_name` varchar(20) DEFAULT NULL,
+  `emp_last_name` varchar(20) DEFAULT NULL,
+  `emp_email` varchar(30) DEFAULT NULL,
+  `emp_designation` varchar(50) DEFAULT NULL,
+  `emp_dob` date DEFAULT NULL,
+  `emp_gender` varchar(10) DEFAULT NULL,
+  `emp_address` varchar(50) DEFAULT NULL,
+  `emp_joining` date DEFAULT NULL,
+  `emp_basic_salary` bigint(15) DEFAULT NULL,
+  `emp_login_flag` int(1) DEFAULT NULL,
+  PRIMARY KEY (`emp_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `emp_des` (`emp_designation`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employees_details`
+--
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `employees_details`
+--
+ALTER TABLE `employees_details`
+  ADD CONSTRAINT `employees_details_ibfk_1` FOREIGN KEY (`emp_designation`) REFERENCES `designation` (`designation_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

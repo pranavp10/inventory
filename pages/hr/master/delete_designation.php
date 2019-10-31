@@ -10,15 +10,14 @@ if (isset($_POST['deleteDesignationButton'])) {
         echo "ID Not selected";
         exit;
     }
-
     $sqlDeleteDesignation = "DELETE FROM `designation` WHERE `designation`.`designation_id` = '$delete_designation_id'";
-    echo ($sqlDeleteDesignation);
-
+    echo $sqlDeleteDesignation;
     if ($connect->query($sqlDeleteDesignation)) {
         $_SESSION["success"] = 'Designation Deleted Successfully';
         header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }else {
         $_SESSION["Error"] = 'Designation Not Deleted';
+        echo "not deleted". mysqli_error($connect);
     }
 }
 ?>
