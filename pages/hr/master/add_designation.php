@@ -29,6 +29,7 @@ if (isset($_POST['addDesignationButton'])) {
         header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }else {
         $_SESSION["Error"] = 'Designation Not added';
-        echo"sldhsdlsdfj";
+
     }
 }
+?>

@@ -35,6 +35,7 @@ require '../../../connect.php';
     <link rel="stylesheet" href="../../../bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -309,7 +310,7 @@ require '../../../connect.php';
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <!-- ####################################################################################################### -->
-            <!-- Modal -->
+            <!-- Add Designation -->
             <div class="modal fade" id="addNewDesignation" tabindex="-1" role="dialog" aria-labelledby="addNewDesignation" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -337,6 +338,60 @@ require '../../../connect.php';
                 </div>
             </div>
             <!-- ###################################################################################################### -->
+            <!-- ####################################################################################################### -->
+            <!-- Edit designation -->
+            <div class="modal fade" id="editDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="editDesignation"> Edit Designation </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/update_designation.php" method="POST">
+                                <label for="designationId">Designation ID</label>
+                                <input style="background-color: transparent; border: transparent;" type="text" name="editDesignationId" class="form-control" id="editDesignationId" readonly required>
+                                <div class="form-group">
+                                    <label for="editDesignationName">Designation Name</label>
+                                    <input type="text" name="editDesignationName" class="form-control" id="editDesignationName" placeholder="Enter Designation Name" required>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="updateDesignationButton">Update Designation</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ###################################################################################################### -->
+            <!-- ####################################################################################################### -->
+            <!-- Delete designation -->
+            <div class="modal fade" id="deleteDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="deleteDesignationHeading"> Delete Designation </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/delete_designation.php" method="POST">
+                                <h3 id='displayBox'></h3>
+                                <input type="hidden" id="deleteId" name="deleteId" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" name="deleteDesignationButton">Delete Designation</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ###################################################################################################### -->
             <section class="content">
                 <div class="row">
                     <div class="col-xs-12">
@@ -351,34 +406,37 @@ require '../../../connect.php';
                             </div>
                             <!-- /.box-header -->
                             <a class="box-body table-responsive no-padding">
-                                <table style="color: black;" class="table table-hover">
-                                    <tr>
-                                        <th>Designation ID</th>
-                                        <th>Designation</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-<?
-$sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
-if ($rawDate=$connect->query($sqlDisplayDesignation)) {
-    while($displayDes = $rawDate->fetch_assoc())
-    {
-        $designationId = $displayDes['designation_id'];
-        $designation = $displayDes['description'];
-        ?>
+                                <table style="color: black;" class="table table-hover" id="designationTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Designation ID</th>
+                                            <th>Designation</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?
+                                        $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
+                                        if ($rawDate = $connect->query($sqlDisplayDesignation)) {
+                                            while ($displayDes = $rawDate->fetch_assoc()) {
+                                                $designationId = $displayDes['designation_id'];
+                                                $designation = $displayDes['description'];
+                                                ?>
 
-                                    <tr>
-                                        <td><? echo $designationId; ?></td>
-                                        <td><? echo $designation; ?></td>
-                                        <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                                        </td>
-                                        <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
-                                        </td>
-                                    </tr>
-                                    <?
-    }
-}
-?>
+                                                <tr>
+                                                    <td><? echo $designationId; ?></td>
+                                                    <td><? echo $designation; ?></td>
+                                                    <td><button class="btn btn-primary btn-xs editDesignation" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                                                    </td>
+                                                    <td><button class="btn btn-danger btn-xs deleteDesignation" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                                    </td>
+                                                </tr>
+                                        <?
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
                                 </table>
                                 <!-- /.box-body -->
                         </div>
@@ -431,21 +489,9 @@ if ($rawDate=$connect->query($sqlDisplayDesignation)) {
 
     <!-- ###################################################################################### -->
     <!-- my scripts -->
-    <script>
-        function addDesignation() {
-            $designationId = $('#designationId');
 
-            $.ajax({ //create an ajax request to display.php
-                type: "POST",
-                url: "../../../pages/hr/master/get_designation_id.php",
-                success: function(response) {
-                    var id = JSON.parse(response);
-                    id = +id + 1;
-                    $designationId.val(`EMP-${id}`);
-                }
-            });
-        }
-    </script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.js"></script>
+    <script src="../../../scripts/hr/hr_master_designation.js"></script>
     <!-- ###################################################################################################################################### -->
 </body>
 
