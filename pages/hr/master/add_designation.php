@@ -20,15 +20,14 @@ if (isset($_POST['addDesignationButton'])) {
         exit;
     }
 
-
     $sqlInsertDesignation = "INSERT INTO `designation`(`designation_id`, `description`) VALUES ('$designation_id','$designation');";
     echo ($sqlInsertDesignation);
 
     if ($connect->query($sqlInsertDesignation)) {
-        $_SESSION["success"] = 'New Designation added';
+        $_SESSION['addDesignation'] = 'yes';
         header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }else {
-        $_SESSION["Error"] = 'Designation Not added';
+        $_SESSION['addDesignation'] = 'no';
 
     }
 }

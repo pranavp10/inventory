@@ -5,7 +5,6 @@ $sqlIdSelect = "SELECT MAX(`id`) as id FROM employees_details";
 if ($rawId=$connect->query($sqlIdSelect)) {
     while($id = $rawId->fetch_assoc())
     {
-
         if ($id['id'] == NULL) {
             $id = 0;
             echo json_encode($id);

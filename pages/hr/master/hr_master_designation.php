@@ -151,7 +151,7 @@ require '../../../connect.php';
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="../../../pages/hr/master/hr_master_designation.php"><i class="fa fa-table"></i> Designation</a></li>
+                                    <li class="active"><a href="../../../pages/hr/master/hr_master_designation.php"><i class="fa fa-table"></i> Designation</a></li>
                                     <li><a href="../../../pages/hr/master/hr_master_employee.php"><i class="fa fa-users"></i> Employees</a></li>
                                     <li><a href="../../../pages/hr/master/hr_master_parameters.php"><i class="fa fa-list"></i> Parameters</a></li>
                                 </ul>
@@ -393,6 +393,77 @@ require '../../../connect.php';
             </div>
             <!-- ###################################################################################################### -->
             <section class="content">
+                <?
+                    if(isset($_SESSION['addDesignation'])){
+                        if(($_SESSION['addDesignation']=='yes')){
+                            $newDesignationAdded =  '<div class="alert alert-success alert-dismissible" id="newDesignationAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>New </strong> Designation Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#newDesignationAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addDesignation']);
+                            echo $newDesignationAdded;
+                        }else{
+                            $designationNotAdded =  '<div class="alert alert-danger alert-dismissible" id="designationNotAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation</strong> Not Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#designationNotAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addDesignation']);
+                            echo $designationNotAdded;
+                        }
+                    }
+                    if(isset($_SESSION['updateDesignation'])){
+                        if(($_SESSION['updateDesignation']=='yes')){
+                            $designationUpdate =  '<div class="alert alert-success alert-dismissible" id="designationUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Updated </strong> Designation Successfully.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#designationUpdateAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateDesignation']);
+                            echo $designationUpdate;
+                        }else{
+                            $designationNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="designationNotUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation</strong> Not Updated.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#designationNotUpdateAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateDesignation']);
+                            echo $designationNotUpdate;
+                        }
+                    }
+                    if(isset($_SESSION['deleteDesignation'])){
+                        if(($_SESSION['deleteDesignation']=='yes')){
+                            $designationDelete =  '<div class="alert alert-warning alert-dismissible" id="designationDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation </strong> Deleted!!!.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#designationDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteDesignation']);
+                            echo $designationDelete;
+                        }else{
+                            $designationNotDelete =  '<div class="alert alert-danger alert-dismissible" id="designationNotDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            </div>   <script>setTimeout(fade_out, 10000);
+                            function fade_out() {
+                            $("#$designationNotDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteDesignation']);
+                            echo $designationNotDelete;
+                        }
+                    }
+                ?>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">

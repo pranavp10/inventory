@@ -20,14 +20,15 @@ if (isset($_POST['updateDesignationButton'])) {
         exit;
     }
 
-
     $sqlUpdateDesignation = "UPDATE `designation` SET `description` = '$update_designation' WHERE `designation`.`designation_id` = '$update_designation_id';";
     echo ($sqlUpdateDesignation);  
     if ($connect->query($sqlUpdateDesignation)) {
-        $_SESSION["success"] = 'Updated Designation Successfully';
+        $_SESSION['updateDesignation'] = 'yes';
         header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }else {
-        $_SESSION["Error"] = 'Designation Not added';
+        $_SESSION['updateDesignation'] = 'no';
+        header("Location: ../../../pages/hr/master/hr_master_designation.php");
+
     }
 }
 ?>

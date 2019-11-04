@@ -10,7 +10,7 @@ require '../../../connect.php';
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Designation</title>
+    <title>Employee</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -151,7 +151,7 @@ require '../../../connect.php';
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/hr/master/hr_master_designation.php"><i class="fa fa-table"></i> Designation</a></li>
-                                    <li><a href="../../../pages/hr/master/hr_master_employee.php"><i class="fa fa-users"></i> Employees</a></li>
+                                    <li class="active"><a href="../../../pages/hr/master/hr_master_employee.php"><i class="fa fa-users"></i> Employees</a></li>
                                     <li><a href="../../../pages/hr/master/hr_master_parameters.php"><i class="fa fa-list"></i> Parameters</a></li>
                                 </ul>
                             </li>
@@ -409,30 +409,104 @@ require '../../../connect.php';
                     </div>
                 </div>
             </div>
+
             <!-- ###################################################################################################### -->
             <!-- ####################################################################################################### -->
             <!-- Edit designation -->
-            <div class="modal fade" id="editDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+            <div class="modal fade" id="editEmployee" tabindex="-1" role="dialog" aria-labelledby="editEmployee" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="editDesignation"> Edit Designation </h1>
+                            <h1 class="modal-title" id="editEmployeeHeading"> Edit Employee </h1>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/hr/master/update_designation.php" method="POST">
-                                <label for="designationId">Designation ID</label>
-                                <input style="background-color: transparent; border: transparent;" type="text" name="editDesignationId" class="form-control" id="editDesignationId" readonly required>
-                                <div class="form-group">
-                                    <label for="editDesignationName">Designation Name</label>
-                                    <input type="text" name="editDesignationName" class="form-control" id="editDesignationName" placeholder="Enter Designation Name" required>
+                        <form action="../../../pages/hr/master/update_employee.php" method="POST">
+                                <label for="updateEmployeeId">Employee ID</label>
+                                <input style="background-color: transparent; border: transparent;" type="text" name="updateEmployeeId" class="form-control" id="updateEmployeeId" readonly required>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeFirstName">First Name</label>
+                                            <input type="text" name="updateEmployeeFirstName" class="form-control" id="updateEmployeeFirstName" placeholder="Enter First Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeLastName">Last Name</label>
+                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                        <label for="updateEmployeeEmail">Email</label>
+                                            <input type="email" name="updateEmployeeEmail" class="form-control" id="updateEmployeeEmail" placeholder="Jon@gmail.com" required>    
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeDOB">Date of Birth</label>
+                                            <input type="date" name="updateEmployeeDOB" class="form-control" id="updateEmployeeDOB" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeDesignation">Designation</label>
+                                            <select class="form-control" name="updateEmployeeDesignation" id="updateEmployeeDesignation">
+                                                <option value="-select-">-select-</option>
+                                                <?
+                                        $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
+                                        if ($rawDate = $connect->query($sqlDisplayDesignation)) {
+                                            while ($displayDes = $rawDate->fetch_assoc()) {
+                                                $designationId = $displayDes['designation_id'];
+                                                $designation = $displayDes['description'];
+                                                ?>
+                                                <option value="<? echo $designationId ?>"><? echo $designation ?></option>
+                                            <?
+                                            }
+                                        }
+                                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <label for="updateEmployeeGender">Gender</label>
+                                        <select class="form-control" name="updateEmployeeGender" id="updateEmployeeGender" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Transgender">transgender</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeBasicSalary">Basic Salary</label>
+                                            <input type="number" name="updateEmployeeBasicSalary" class="form-control" id="updateEmployeeBasicSalary" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeDOJoining">Date of Joining</label>
+                                            <input type="date" name="updateEmployeeDOJoining" class="form-control" id="updateEmployeeDOJoining" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label for="updateEmployeeAddress">Address</label>
+                                            <textarea class="form-control" name="updateEmployeeAddress" id="updateEmployeeAddress" rows="3">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="updateDesignationButton">Update Designation</button>
+                            <button type="submit" class="btn btn-primary" name="updateEmployeeButton">Update Designation</button>
                             </form>
                         </div>
                     </div>
@@ -441,23 +515,23 @@ require '../../../connect.php';
             <!-- ###################################################################################################### -->
             <!-- ####################################################################################################### -->
             <!-- Delete designation -->
-            <div class="modal fade" id="deleteDesignation" tabindex="-1" role="dialog" aria-labelledby="editDesignation" aria-hidden="true">
+            <div class="modal fade" id="deleteEmployee" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="deleteDesignationHeading"> Delete Designation </h1>
+                            <h1 class="modal-title" id="deleteEmployeeHeading"> Delete Employee </h1>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/hr/master/delete_designation.php" method="POST">
+                            <form action="../../../pages/hr/master/delete_employee.php" method="POST">
                                 <h3 id='displayBox'></h3>
-                                <input type="hidden" id="deleteId" name="deleteId" value="">
+                                <input type="hidden" id="deleteEmployeeId" name="deleteEmployeeId" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="deleteDesignationButton">Delete Designation</button>
+                            <button type="submit" class="btn btn-primary" name="deleteEmployeeButton">Delete Employee</button>
                             </form>
                         </div>
                     </div>
@@ -465,6 +539,77 @@ require '../../../connect.php';
             </div>
             <!-- ###################################################################################################### -->
             <section class="content">
+            <?
+                    if(isset($_SESSION['addEmployee'])){
+                        if(($_SESSION['addEmployee']=='yes')){
+                            $newEmployeeAdded =  '<div class="alert alert-success alert-dismissible" id="newEmployeeAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>New </strong> Employee Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#newEmployeeAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addEmployee']);
+                            echo $newEmployeeAdded;
+                        }else{
+                            $employeeNotAdded =  '<div class="alert alert-danger alert-dismissible" id="employeeNotAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation</strong> Not Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#employeeNotAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addEmployee']);
+                            echo $employeeNotAdded;
+                        }
+                    }
+                    if(isset($_SESSION['updateEmployee'])){
+                        if(($_SESSION['updateEmployee']=='yes')){
+                            $EmployeeUpdate =  '<div class="alert alert-success alert-dismissible" id="employeeUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Updated </strong> Employee Successfully.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#employeeUpdateAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateEmployee']);
+                            echo $EmployeeUpdate;
+                        }else{
+                            $EmployeeNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="employeeNotUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Employee</strong> Not Updated.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#employeeNotUpdateAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateEmployee']);
+                            echo $designationNotUpdate;
+                        }
+                    }
+                    if(isset($_SESSION['deleteEmployee'])){
+                        if(($_SESSION['deleteEmployee']=='yes')){
+                            $employeeDelete =  '<div class="alert alert-warning alert-dismissible" id="employeeDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Employee </strong> Deleted!!!.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#employeeDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteEmployee']);
+                            echo $employeeDelete;
+                        }else{
+                            $employeeNotDelete =  '<div class="alert alert-danger alert-dismissible" id="employeeNotDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Designation</strong> =cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            </div>   <script>setTimeout(fade_out, 10000);
+                            function fade_out() {
+                            $("#$employeeNotDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteEmployee']);
+                            echo $employeeNotDelete;
+                        }
+                    }
+                ?>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
@@ -472,7 +617,7 @@ require '../../../connect.php';
                                 <h3 class="box-title">Designation</h3>
 
                                 <div class="box-tools">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEmployee" onclick="addDesignation()">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewEmployee" onclick="addEmployee()">
                                         <strong><i class="fa fa-plus"></i> Add Employee</strong></button>
                                 </div>
                             </div>
@@ -490,20 +635,19 @@ require '../../../connect.php';
                                             <th>Address</th>
                                             <th>Joining Date</th>
                                             <th>Basic Salary</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?
-                                        $sqlDisplayEmployee = "SELECT * FROM `employees_details`";
+                                        $sqlDisplayEmployee = "SELECT employees_details.*,designation.description FROM employees_details, designation WHERE employees_details.emp_designation =designation.designation_id;";
                                         if ($rawDate = $connect->query($sqlDisplayEmployee)) {
                                             while ($displayEmp = $rawDate->fetch_assoc()) {
                                                 $empId = $displayEmp['emp_id'];
                                                 $empFirstName = $displayEmp['emp_first_name'];
                                                 $empLastName = $displayEmp['emp_last_name'];
                                                 $empEmail = $displayEmp['emp_email'];
-                                                $empDesignation = $displayEmp['emp_designation'];
+                                                $empDesignation = $displayEmp['description'];
                                                 $empDOB = $displayEmp['emp_dob'];
                                                 $empGender = $displayEmp['emp_gender'];
                                                 $empAddress = $displayEmp['emp_address'];
@@ -513,17 +657,15 @@ require '../../../connect.php';
 
                                                 <tr>
                                                     <td><? echo $empId; ?></td>
-                                                    <td><? echo $empFirstName,$empLastName; ?></td>
+                                                    <td><? echo "$empFirstName $empLastName"; ?></td>
                                                     <td><? echo $empEmail; ?></td>
-                                                    <td><? echo $designation; ?></td>
+                                                    <td><? echo $empDesignation; ?></td>
                                                     <td><? echo $empGender; ?></td>
-                                                    <td><? echo $empDOB; ?></td>
+                                                    <td><? echo (date('d-m-Y',strtotime($empDOB))); ?></td>
                                                     <td><? echo $empAddress; ?></td>
-                                                    <td><? echo $empJoining; ?></td>
+                                                    <td><? echo (date('d-m-Y',strtotime($empJoining))); ?></td>
                                                     <td><? echo $empBasicSalary; ?></td>
-                                                    <td><button class="btn btn-primary btn-xs editDesignation" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                                                    </td>
-                                                    <td><button class="btn btn-danger btn-xs deleteDesignation" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                                    <td><p><button class="btn btn-primary btn-xs editEmployee" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button> <span><button class="btn btn-danger btn-xs deleteEmployee" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></span> </p>
                                                     </td>
                                                 </tr>
                                         <?

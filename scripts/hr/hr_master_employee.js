@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  $(".deleteDesignation").on("click", function() {
-    $("#deleteDesignation").modal("show");
+  $(".deleteEmployee").on("click", function() {
+    $("#deleteEmployee").modal("show");
 
     $tr = $(this).closest("tr");
     var data = $tr
@@ -10,15 +10,15 @@ $(document).ready(function() {
       })
       .get();
     $("#displayBox").text(
-      `(ID = ${data[0]}) and (Designation = ${data[1]}) will be deleted !!!`
+      `Employee details of (${data[1].toUpperCase()}) will be DELETED!!!.`
     );
-    $("#deleteId").val(data[0]);
+    $("#deleteEmployeeId").val(data[0]);
   });
 });
-$(document).ready(function() {
-  $(".editDesignation").on("click", function() {
-    $("#editDesignation").modal("show");
 
+$(document).ready(function() {
+  $(".editEmployee").on("click", function() {
+    $("#editEmployee").modal("show");
     $tr = $(this).closest("tr");
     var data = $tr
       .children("td")
@@ -26,12 +26,24 @@ $(document).ready(function() {
         return $(this).text();
       })
       .get();
+      var name = data[1].split(' ');
 
-    $("#editDesignationId").val(data[0]);
-    $("#editDesignationName").val(data[1]);
+    $("#updateEmployeeId").val(data[0]);
+    $("#updateEmployeeFirstName").val(name[0]);
+    $("#updateEmployeeLastName").val(name[1]);
+    $("#updateEmployeeEmail").val(data[2]);
+    isoDateDob = data[5].split("-").reverse().join("-");
+    $("#updateEmployeeDOB").val(isoDateDob);
+    $(`#updateEmployeeDesignation option:contains(${data[3]})`).attr('selected', 'selected');
+    $(`#updateEmployeeGender option[value="${data[4]}"]`).prop('selected', true);
+    $("#updateEmployeeBasicSalary").val(+data[8]);
+    isoDateJoining = data[7].split("-").reverse().join("-");
+    $("#updateEmployeeDOJoining").val(isoDateJoining);
+    $("textarea#updateEmployeeAddress").val(data[6]);
   });
 });
-function addDesignation() {
+
+function addEmployee() {
   $employeeId = $("#employeeId");
 
   $.ajax({

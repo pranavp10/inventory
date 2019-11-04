@@ -84,18 +84,17 @@ if (isset($_POST['addEmployeeButton'])) {
     {
         $employee_Address = "";
     }
-
     $sqlInsertEmployee = "INSERT INTO `employees_details` (`emp_id`, `emp_first_name`, `emp_last_name`, `emp_email`, `emp_designation`, `emp_dob`, `emp_gender`, `emp_address`, `emp_joining`, `emp_basic_salary`, `emp_login_flag`) VALUES ('$employee_Id', '$employee_First_Name', '$employee_Last_Name', '$employee_Email', '$employee_Designation', '$employee_DOB', '$employee_Gender','$employee_Address', '$employee_DO_Joining', '$employee_Basic_Salary','1');";
 
     echo $sqlInsertEmployee;
     if ($connect->query($sqlInsertEmployee)) {
-        $_SESSION["success"] = 'New Employee added';
+        $_SESSION["addEmployee"] = 'yes';
         header("Location: ../../../pages/hr/master/hr_master_employee.php");
     }else {
-        $_SESSION["Error"] = 'Employee Not added';
-
+        $_SESSION["addEmployee"] = 'no';
+        header("Location: ../../../pages/hr/master/hr_master_employee.php");
     }
 }else{
-    echo "fjasd";
+    echo 'You did not click the button';
 }
 ?>
