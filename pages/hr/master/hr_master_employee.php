@@ -554,7 +554,7 @@ require '../../../connect.php';
                         }else{
                             $employeeNotAdded =  '<div class="alert alert-danger alert-dismissible" id="employeeNotAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Designation</strong> Not Added
+                            <strong>Employee</strong> Not Added
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#employeeNotAddedAlert").fadeOut().empty();
@@ -583,7 +583,7 @@ require '../../../connect.php';
                             $("#employeeNotUpdateAlert").fadeOut().empty();
                             }</script>';
                             unset($_SESSION['updateEmployee']);
-                            echo $designationNotUpdate;
+                            echo $EmployeeNotUpdate;
                         }
                     }
                     if(isset($_SESSION['deleteEmployee'])){
@@ -600,7 +600,7 @@ require '../../../connect.php';
                         }else{
                             $employeeNotDelete =  '<div class="alert alert-danger alert-dismissible" id="employeeNotDeleteAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Designation</strong> =cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            <strong>Employee</strong> cannot be deleted  because the User is used in User Login Credentials. 
                             </div>   <script>setTimeout(fade_out, 10000);
                             function fade_out() {
                             $("#$employeeNotDeleteAlert").fadeOut().empty();

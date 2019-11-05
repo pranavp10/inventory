@@ -130,7 +130,7 @@ require './connect.php';
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="active"><a href="#"><i class="fa fa-user-plus"></i> Users</a></li>
+              <li class="active"><a href="../../../inventory/home_users.php"><i class="fa fa-user-plus"></i> Users</a></li>
             </ul>
           </li>
           <!-- ############################################################################################################ -->
@@ -350,72 +350,226 @@ require './connect.php';
 
                   <div class="form-group">
                     <label for="userLoginName">User Login Name</label>
-                    <input type="email" class="form-control" id="userLoginName" name="userLoginName" placeholder="Enter User Name">
+                    <input type="text" class="form-control" id="userLoginName" name="userLoginName" placeholder="Enter User Name">
+                    <button type="button" class="btn btn-secondary" onclick="checkUserName()">Check User Name</button>
                   </div>
 
                   <label for="userLoginPassword">User Login Password</label>
                   <div class="input-group">
-                    <input type="password" class="form-control pwd" name="userLoginPassword" id="userLoginPassword" >
+                    <input type="password" class="form-control pwd" name="userLoginPassword" id="userLoginPassword">
                     <span class="input-group-btn">
                       <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </span>
                   </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" name="submitLoginDetails">Submit</button>
-          </div>
-          </>
-        </div>
-    </div>
-  </div>
-  <!-- ###################################################################################################### -->
-  <section class="content">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">User Login Credentials</h3>
-
-            <div class="box-tools">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLoginUser" onclick="getUserId()">
-                <strong><i class="fa fa-plus"></i> Create New Login User</strong></button>
+                  <button type="button" class="btn btn-secondary" onclick="generate()">Generate Password</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="submitLoginDetails" id="submitLoginDetails">Submit</button>
+              </div>
+              </form>
             </div>
           </div>
-          <!-- /.box-header -->
-          <a class="box-body table-responsive no-padding">
-            <table style="color: black;" class="table table-hover">
-              <tr>
-                <th>Login ID</th>
-                <th>Name</th>
-                <th>User Id</th>
-                <th>User Password</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-              <tr>
-                <td>183</td>
-                <td>John Doe</td>
-                <td>sfsdfh</td>
-                <td>skjfgsdf</td>
-                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                </td>
-                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
-                </td>
-              </tr>
-
-            </table>
-            <!-- /.box-body -->
         </div>
-        <!-- /.box -->
-      </div>
-    </div>
-  </section>
 
-  <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
-  </div>
-  <!-- /.content-wrapper -->
+
+        <!-- ########################################################## edit -->
+        <div class="modal fade" id="editLoginUser" tabindex="-1" role="dialog" aria-labelledby="editLoginUser" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" id="editLoginUserHeading"> Edit Login User </h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="./update_user.php" method="post">
+                  <div class="form-group">
+                    <label for="editLoginId">Login ID</label>
+                    <input style="border: none;" type="text" class="form-control" id="editLoginId" name="editLoginId" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="editUser">Selected User</label>
+                    <input style="border: none;" type="text" class="form-control" id="editUser" name="editUser" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="editUserLoginName">User Login Name</label>
+                    <input type="text" class="form-control" id="editUserLoginName" name="editUserLoginName" placeholder="Enter User Name">
+                    <button type="button" class="btn btn-secondary" onclick="editCheckUserName()">Check User Name</button>
+                  </div>
+
+                  <label for="editUserLoginPassword">User Login Password</label>
+                  <div class="input-group">
+                    <input type="password" class="form-control pwd" name="editUserLoginPassword" id="editUserLoginPassword">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
+                    </span>
+                  </div>
+                  <button type="button" class="btn btn-secondary" onclick="editGenerate()">Generate Password</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="submitEditLoginDetails" id="submitEditLoginDetails">Update</button>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+        <!-- ################################################################# delete-->
+        <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="deleteUser" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="deleteUserHeading"> Delete User </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="./delete_user.php" method="POST">
+                                <h3 id='displayBox'></h3>
+                                <input type="hidden" id="deleteUserId" name="deleteUserId" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" name="deleteUserButton">Delete User</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- ###################################################################################################### -->
+        <section class="content">
+        <?
+                    if(isset($_SESSION['addUser'])){
+                        if(($_SESSION['addUser']=='yes')){
+                            $addUserAdded =  '<div class="alert alert-success alert-dismissible" id="addUserAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>New </strong> User Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#addUserAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addUser']);
+                            echo $addUserAdded;
+                        }else{
+                            $UserNotAdded =  '<div class="alert alert-danger alert-dismissible" id="UserNotAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>User</strong> Not Added
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#UserNotAddedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['addUser']);
+                            echo $UserNotAdded;
+                        }
+                    }
+                    if(isset($_SESSION['updateUser'])){
+                        if(($_SESSION['updateUser']=='yes')){
+                            $userUpdated =  '<div class="alert alert-success alert-dismissible" id="userUpdatedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Updated </strong> User Successfully.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#userUpdatedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateUser']);
+                            echo $userUpdated;
+                        }else{
+                            $userNotUpdated =  '<div class="alert alert-danger alert-dismissible" id="userNotUpdatedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>User</strong> Not Updated.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#userNotUpdatedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['updateUser']);
+                            echo $userNotUpdated;
+                        }
+                    }
+                    if(isset($_SESSION['deleteUser'])){
+                        if(($_SESSION['deleteUser']=='yes')){
+                            $userDeleted =  '<div class="alert alert-warning alert-dismissible" id="userDeletedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>User</strong> Deleted!!!.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#userDeletedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteUser']);
+                            echo $userDeleted;
+                        }else{
+                            $userNotDeleted =  '<div class="alert alert-danger alert-dismissible" id="userNotDeletedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>User</strong> cannot be deleted  because. 
+                            </div>   <script>setTimeout(fade_out, 10000);
+                            function fade_out() {
+                            $("#$userNotDeletedAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['deleteUser']);
+                            echo $userNotDeleted;
+                        }
+                    }
+                ?>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">User Login Credentials</h3>
+
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLoginUser" onclick="getUserId()">
+                      <strong><i class="fa fa-plus"></i> Create New Login User</strong></button>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <a class="box-body table-responsive no-padding">
+                  <table style="color: black;" class="table table-hover">
+                    <tr>
+                      <th>Login ID</th>
+                      <th>Name</th>
+                      <th>User Id</th>
+                      <th>User Password</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                    <?
+                    $sqlUserDisplay = "SELECT user_login_credentials.*,employees_details.emp_first_name,employees_details.emp_last_name FROM employees_details, user_login_credentials WHERE user_login_credentials.employees_id =employees_details.emp_id";
+                    if ($rawUser = $connect->query($sqlUserDisplay)) {
+                      while ($users = $rawUser->fetch_assoc()) {
+                        $userId = $users['login_id'];
+                        $userFirstName = $users['emp_first_name'];
+                        $userLastName = $users['emp_last_name'];
+                        $userName = $users['user_name'];
+                        $userPassword = $users['user_password'];
+                        ?>
+                        <tr>
+                          <td><? echo $userId; ?></td>
+                          <td><? echo "$userFirstName $userLastName"; ?></td>
+                          <td><? echo $userName; ?></td>
+                          <td><? echo $userPassword; ?></td>
+                          <td><button class="btn btn-primary btn-xs editLoginUser" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                          </td>
+                          <td><button class="btn btn-danger btn-xs deleteUser" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                          </td>
+                        </tr>
+                    <?
+                      }
+                    }
+                    ?>
+                  </table>
+                  <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+          </div>
+        </section>
+
+        <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
+    </div>
+    <!-- /.content-wrapper -->
   </div>
   <!-- jQuery 3 -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -427,16 +581,8 @@ require './connect.php';
   </script>
   <!-- Bootstrap 3.3.7 -->
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- Morris.js charts -->
-  <script src="bower_components/raphael/raphael.min.js"></script>
-  <script src="bower_components/morris.js/morris.min.js"></script>
   <!-- Sparkline -->
   <script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-  <!-- jvectormap -->
-  <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-  <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
   <!-- daterangepicker -->
   <script src="bower_components/moment/min/moment.min.js"></script>
   <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -462,3 +608,4 @@ require './connect.php';
 </body>
 
 </html>
+?>
