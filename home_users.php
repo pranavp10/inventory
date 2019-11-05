@@ -1,3 +1,7 @@
+<?
+session_start();
+require './connect.php';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -115,7 +119,7 @@
     <aside class="main-sidebar">
       <!-- sidebar: style can be found in sidebar.less -->
       <section class="sidebar">
-<!-- ################################################################################################################## -->
+        <!-- ################################################################################################################## -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
           <li class="active treeview">
@@ -129,7 +133,7 @@
               <li class="active"><a href="#"><i class="fa fa-user-plus"></i> Users</a></li>
             </ul>
           </li>
-<!-- ############################################################################################################ -->
+          <!-- ############################################################################################################ -->
 
           <li class="treeview">
             <a href="#">
@@ -185,7 +189,7 @@
               </li>
             </ul>
           </li>
-<!-- ############################################################################################################ -->
+          <!-- ############################################################################################################ -->
           <li class="treeview">
             <a href="#">
               <i class="fa fa-list-alt"></i> <span> Inventory</span>
@@ -239,7 +243,7 @@
               </li>
             </ul>
           </li>
-<!-- ################################################################################################################################################## -->
+          <!-- ################################################################################################################################################## -->
 
           <li class="treeview">
             <a href="#">
@@ -280,7 +284,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="./pages/PurchaseAndsales/processing/PurchaseAndsales_processing_purchase_payment.php"><i class="fa fa-money"></i> Purchase Payment</a></li>
-                  <li><a href="./pages/PurchaseAndsales/processing/PurchaseAndsales_processing_sales_payment.php"><i class="fa fa-inr"></i> Sales Payment</a></li> 
+                  <li><a href="./pages/PurchaseAndsales/processing/PurchaseAndsales_processing_sales_payment.php"><i class="fa fa-inr"></i> Sales Payment</a></li>
                 </ul>
               </li>
               <li class="treeview">
@@ -308,102 +312,110 @@
         <!-- sdfsadhf;ksdfhsadfhsfhflsdj-->
         <!-- ####################################################################################################### -->
         <!-- Modal -->
-        <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addLoginUser" tabindex="-1" role="dialog" aria-labelledby="addLoginUser" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel"> Add New User </h1>
+                <h1 class="modal-title" id="addLoginUserHeading"> Add New Login User </h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form action="./create_user.php" method="post">
                   <div class="form-group">
-                    <label for="LoginId">Login ID</label>
-                    <input style="border: none;" type="text" class="form-control" id="loginId" readonly>
+                    <label for="loginId">Login ID</label>
+                    <input style="border: none;" type="text" class="form-control" id="loginId" name="loginId" readonly>
                   </div>
                   <div class="form-group">
-                      <label for="sel1">Select User</label>
-                      <select class="form-control" id="sel1">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                      </select>
-                    </div>
-                
+                    <label for="sel1">Select User</label>
+                    <select class="form-control" id="selectUser" name="selectUser">
+                      <option value="-select-">-select-</option>
+                      <?
+                      $sqlDisplayDesignation = "SELECT `emp_id`,`emp_first_name`,`emp_last_name` FROM employees_details WHERE `emp_login_flag`=1";
+                      if ($rawDate = $connect->query($sqlDisplayDesignation)) {
+                        while ($displayUser = $rawDate->fetch_assoc()) {
+                          $userId = $displayUser['emp_id'];
+                          $firstName = $displayUser['emp_first_name'];
+                          $lastName = $displayUser['emp_last_name'];
+                          ?>
+                          <option value="<? echo $userId; ?>"><? echo "$firstName $lastName"; ?></option>
+                      <?
+                        }
+                      }
+                      ?>
+                    </select>
+                  </div>
+
 
                   <div class="form-group">
                     <label for="userLoginName">User Login Name</label>
-                    <input type="email" class="form-control" id="userLoginName" placeholder="Enter User Name">
+                    <input type="email" class="form-control" id="userLoginName" name="userLoginName" placeholder="Enter User Name">
                   </div>
-                  <div class="form-group">
-                    <label for="userLoginPassword">User Login Password</label>
-                    <input type="password" class="form-control" id="userLoginPassword" placeholder="Password">
+
+                  <label for="userLoginPassword">User Login Password</label>
+                  <div class="input-group">
+                    <input type="password" class="form-control pwd" name="userLoginPassword" id="userLoginPassword" >
+                    <span class="input-group-btn">
+                      <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
+                    </span>
                   </div>
-                  <div class="form-group form-check">
-                    <input type="radio" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Admin</label>
-                    <input type="radio" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Sub Admin</label>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
+
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="submitLoginDetails">Submit</button>
+          </div>
+          </>
         </div>
-        <!-- ###################################################################################################### -->
-        <section class="content">
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">User Login Credentials</h3>
+    </div>
+  </div>
+  <!-- ###################################################################################################### -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">User Login Credentials</h3>
 
-                  <div class="box-tools">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewUser">
-                      <strong><i class="fa fa-plus"></i> New User</strong></button>
-                  </div>
-                </div>
-                <!-- /.box-header -->
-                <a class="box-body table-responsive no-padding">
-                  <table style="color: black;" class="table table-hover">
-                    <tr>
-                      <th>Login ID</th>
-                      <th>Name</th>
-                      <th>User Id</th>
-                      <th>User Password</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                    </tr>
-                    <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>sfsdfh</td>
-                      <td>skjfgsdf</td>
-                      <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                      </td>
-                      <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
-                      </td>
-                    </tr>
-
-                  </table>
-                  <!-- /.box-body -->
-              </div>
-              <!-- /.box -->
+            <div class="box-tools">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLoginUser" onclick="getUserId()">
+                <strong><i class="fa fa-plus"></i> Create New Login User</strong></button>
             </div>
           </div>
-        </section>
+          <!-- /.box-header -->
+          <a class="box-body table-responsive no-padding">
+            <table style="color: black;" class="table table-hover">
+              <tr>
+                <th>Login ID</th>
+                <th>Name</th>
+                <th>User Id</th>
+                <th>User Password</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+              <tr>
+                <td>183</td>
+                <td>John Doe</td>
+                <td>sfsdfh</td>
+                <td>skjfgsdf</td>
+                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                </td>
+                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                </td>
+              </tr>
 
-        <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
+            </table>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
     </div>
-    <!-- /.content-wrapper -->
+  </section>
+
+  <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
+  </div>
+  <!-- /.content-wrapper -->
   </div>
   <!-- jQuery 3 -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -445,7 +457,8 @@
 
   <!-- ###################################################################################### -->
   <!-- my scripts -->
-<!-- ###################################################################################################################################### -->
+  <script src="./scripts/home/home_user.js"></script>
+  <!-- ###################################################################################################################################### -->
 </body>
 
 </html>
