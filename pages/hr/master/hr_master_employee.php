@@ -640,7 +640,7 @@ require '../../../connect.php';
                                     </thead>
                                     <tbody>
                                         <?
-                                        $sqlDisplayEmployee = "SELECT employees_details.*,designation.description FROM employees_details, designation WHERE employees_details.emp_designation =designation.designation_id;";
+                                        $sqlDisplayEmployee = "SELECT designation.*,employees_details.* FROM employees_details INNER JOIN designation ON employees_details.emp_designation = designation.designation_id";
                                         if ($rawDate = $connect->query($sqlDisplayEmployee)) {
                                             while ($displayEmp = $rawDate->fetch_assoc()) {
                                                 $empId = $displayEmp['emp_id'];

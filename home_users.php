@@ -536,7 +536,7 @@ require './connect.php';
                       <th>Delete</th>
                     </tr>
                     <?
-                    $sqlUserDisplay = "SELECT user_login_credentials.*,employees_details.emp_first_name,employees_details.emp_last_name FROM employees_details, user_login_credentials WHERE user_login_credentials.employees_id =employees_details.emp_id";
+                    $sqlUserDisplay = "SELECT user_login_credentials.*, employees_details.* FROM user_login_credentials INNER JOIN employees_details ON user_login_credentials.employees_id=employees_details.emp_id";
                     if ($rawUser = $connect->query($sqlUserDisplay)) {
                       while ($users = $rawUser->fetch_assoc()) {
                         $userId = $users['login_id'];

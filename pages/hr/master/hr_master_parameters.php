@@ -10,7 +10,7 @@ require '../../../connect.php';
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Employee</title>
+    <title>Parameters</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -25,10 +25,6 @@ require '../../../connect.php';
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../../dist/css/skins/_all-skins.min.css">
     <!-- Morris chart -->
-    <link rel="stylesheet" href="../../../bower_components/morris.js/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="../../../bower_components/jvectormap/jquery-jvectormap.css">
-    <!-- Date Picker -->
     <link rel="stylesheet" href="../../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="../../../bower_components/bootstrap-daterangepicker/daterangepicker.css">
@@ -315,117 +311,213 @@ require '../../../connect.php';
                     <div class="modal-content">
                         <div class="modal-header">
                             <h2 class="modal-title" id="addNewParametersTitle"> Add New Parameters </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/hr/master/add_employee.php" method="POST">
-                                <label for="parametersId">Employee ID</label>
-                                <input style="background-color: transparent; border: transparent;" type="text" name="parametersId" class="form-control" id="parametersId" readonly required>
-                                <h3 class="text-center">Allowance</h3>
+                            <form action="../../../pages/hr/master/add_parameters.php" method="POST">
                                 <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">Name</h4>
+                                    <div class="col-sm-3">
+                                        <label for="parametersId">Parameters ID</label>
+                                        <input style="background-color: transparent; border: transparent;" type="text" name="parametersId" class="form-control" id="parametersId" readonly required>
                                     </div>
-                                    <div class="col-xs-5">
-                                        <h4 class="text-center">Percentage %</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h4 class="text-center">Flat-Rs</h4>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">HRA</h4>
-                                    </div>
-                                    <div class="col-xs-5">
+                                    <div class="col-sm-4">
+                                        <label for="parametersDate">Date</label>
                                         <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                            <div id="filterDate2">
+                                                <!-- Datepicker as text field -->
+                                                <div class="input-group date" data-date-format="mm-yyyy">
+                                                    <input type="text" class="form-control" name="date" placeholder="mm-yyyy" required>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="col-xs-5">
                                         <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">MA</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                            <label for="designationId">Designation</label>
+                                            <select class="form-control selectpicker" name="designationId" id="designationId" data-show-subtext="true" data-live-search="true">
+                                                <?
+                                                $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
+                                                if ($rawDate = $connect->query($sqlDisplayDesignation)) {
+                                                    while ($displayDes = $rawDate->fetch_assoc()) {
+                                                        $designationId = $displayDes['designation_id'];
+                                                        $designation = $displayDes['description'];
+                                                        ?>
+                                                        <option value="<? echo $designationId ?>"><? echo $designation ?></option>
+                                                <?
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                </label>
                                 <div class="row">
+                                    <div class="col-xs-3">
+                                        <h4 class="text-center">Parameters</h4>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h4 class="text-center">Type</h4>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <h4 class="text-center">%</h4>
+                                    </div>
                                     <div class="col-xs-2">
-                                        <h4 class="text-center">TA</h4>
+                                        <h4 class="text-center">Flat</h4>
                                     </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
-                                        </div>
-                                    </div>
-                                </div>
-                                <h3 class="text-center">Deduction</h3>
-                                <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">Name</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h4 class="text-center">Percentage %</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h4 class="text-center">Flat-Rs</h4>
+                                    <div class="col-xs-3">
+                                        <h4 class="text-center">Value</h4>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">PF</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="parameters[]" value="HRA" class="form-control" readonly required>
                                         </div>
                                     </div>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="type[]" value="Allowance" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="hra" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="hra" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                            <input type="number" name="hraValue" class="form-control" min="0" placeholder="Enter Value">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-2">
-                                        <h4 class="text-center">PT</h4>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <div class="form-group">
-                                            <input  type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="parameters[]" value="Medical" class="form-control" readonly required>
                                         </div>
                                     </div>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="type[]" value="Allowance" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="medical" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="medical" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                            <input type="number" min="0" name="medicalValue" class="form-control" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="parameters[]" value="Transportation" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="type[]" value="Allowance" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="transportation" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="transportation" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="transportationValue" class="form-control" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="parameters[]" value="PF" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="type[]" value="Deductions" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="pf" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="pf" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="pfValue" class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="parameters[]" value="Professional Tax" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="type[]" value="Deductions" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <div class="radio">
+                                            <label><input type="radio" name="professionalTax" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="professionalTax" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="professionalTaxValue" class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="addEmployeeButton">Add Employee</button>
+                            <button type="submit" class="btn btn-primary" name="addParametersButton">Add Parameters</button>
                             </form>
                         </div>
                     </div>
@@ -458,7 +550,7 @@ require '../../../connect.php';
                                     <div class="col-xs-3">
                                         <div class="form-group">
                                             <label for="updateEmployeeLastName">Last Name</label>
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter Last Name">
+                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
@@ -562,27 +654,27 @@ require '../../../connect.php';
             <!-- ###################################################################################################### -->
             <section class="content">
                 <?
-                if (isset($_SESSION['addEmployee'])) {
-                    if (($_SESSION['addEmployee'] == 'yes')) {
-                        $newEmployeeAdded =  '<div class="alert alert-success alert-dismissible" id="newEmployeeAddedAlert" >
+                if (isset($_SESSION['addParameters'])) {
+                    if (($_SESSION['addParameters'] == 'yes')) {
+                        $parametersAdded =  '<div class="alert alert-success alert-dismissible" id="parametersAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New </strong> Employee Added
+                            <strong>New </strong> Parameters Added
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#newEmployeeAddedAlert").fadeOut().empty();
+                            $("#parametersAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addEmployee']);
-                        echo $newEmployeeAdded;
+                        unset($_SESSION['addParameters']);
+                        echo $parametersAdded;
                     } else {
-                        $employeeNotAdded =  '<div class="alert alert-danger alert-dismissible" id="employeeNotAddedAlert" >
+                        $parametersNotAdded =  '<div class="alert alert-danger alert-dismissible" id="parametersNotAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Designation</strong> Not Added
+                            <strong>Parameters </strong>Not Added
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#employeeNotAddedAlert").fadeOut().empty();
+                            $("#parametersNotAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addEmployee']);
-                        echo $employeeNotAdded;
+                        unset($_SESSION['addParameters']);
+                        echo $parametersNotAdded;
                     }
                 }
                 if (isset($_SESSION['updateEmployee'])) {
@@ -632,69 +724,61 @@ require '../../../connect.php';
                     }
                 }
                 ?>
+                <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="month">Month:</label>
+                                    <select class="form-control" name="month" id="month">
+                                        <option value='all'>All</option>
+                                        <option value='01'>January</option>
+                                        <option value='02'>February</option>
+                                        <option value='03'>March</option>
+                                        <option value='04'>April</option>
+                                        <option value='05'>May</option>
+                                        <option value='06'>June</option>
+                                        <option value='07'>July</option>
+                                        <option value='08'>August</option>
+                                        <option value='09'>September</option>
+                                        <option value='10'>October</option>
+                                        <option value='11'>November</option>
+                                        <option value='12'>December</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="year">Year:</label>
+                                    <select class="form-control" name="year" id="year">
+                                    </select>
+                                </div>
+
+                                <button type="button" class="btn btn-primary" onclick="getParametersList()">
+                                    <strong><i class="fa fa-search"></i> Parameters</strong></button>
+                            </div>
+                            <br>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                <h3 class="box-title">Designation</h3>
+                                <h3 class="box-title">Parameters</h3>
 
                                 <div class="box-tools">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewParameters" onclick="addParameters()">
                                         <strong><i class="fa fa-plus"></i> Add Parameters</strong></button>
                                 </div>
                             </div>
+
                             <!-- /.box-header -->
                             <a class="box-body table-responsive no-padding">
-                                <table style="color: black;" class="table table-hover" id="designationTable">
+                                <table class="table table-bordered table-striped" id="parametersTable">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
                                             <th>Designation</th>
-                                            <th>Gender</th>
-                                            <th>DOB</th>
-                                            <th>Address</th>
-                                            <th>Joining Date</th>
-                                            <th>Basic Salary</th>
+                                            <th>Date</th>
+                                            <th>Allowance</th>
+                                            <th>Deductions</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?
-                                        $sqlDisplayEmployee = "SELECT employees_details.*,designation.description FROM employees_details, designation WHERE employees_details.emp_designation =designation.designation_id;";
-                                        if ($rawDate = $connect->query($sqlDisplayEmployee)) {
-                                            while ($displayEmp = $rawDate->fetch_assoc()) {
-                                                $empId = $displayEmp['emp_id'];
-                                                $empFirstName = $displayEmp['emp_first_name'];
-                                                $empLastName = $displayEmp['emp_last_name'];
-                                                $empEmail = $displayEmp['emp_email'];
-                                                $empDesignation = $displayEmp['description'];
-                                                $empDOB = $displayEmp['emp_dob'];
-                                                $empGender = $displayEmp['emp_gender'];
-                                                $empAddress = $displayEmp['emp_address'];
-                                                $empJoining = $displayEmp['emp_joining'];
-                                                $empBasicSalary = $displayEmp['emp_basic_salary'];
-                                                ?>
-
-                                                <tr>
-                                                    <td><? echo $empId; ?></td>
-                                                    <td><? echo "$empFirstName $empLastName"; ?></td>
-                                                    <td><? echo $empEmail; ?></td>
-                                                    <td><? echo $empDesignation; ?></td>
-                                                    <td><? echo $empGender; ?></td>
-                                                    <td><? echo (date('d-m-Y', strtotime($empDOB))); ?></td>
-                                                    <td><? echo $empAddress; ?></td>
-                                                    <td><? echo (date('d-m-Y', strtotime($empJoining))); ?></td>
-                                                    <td><? echo $empBasicSalary; ?></td>
-                                                    <td>
-                                                        <p><button class="btn btn-primary btn-xs editEmployee" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button> <span><button class="btn btn-danger btn-xs deleteEmployee" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></span> </p>
-                                                    </td>
-                                                </tr>
-                                        <?
-                                            }
-                                        }
-                                        ?>
                                     </tbody>
                                 </table>
                                 <!-- /.box-body -->
@@ -719,13 +803,9 @@ require '../../../connect.php';
     <!-- Bootstrap 3.3.7 -->
     <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Morris.js charts -->
-    <script src="../../../bower_components/raphael/raphael.min.js"></script>
-    <script src="../../../bower_components/morris.js/morris.min.js"></script>
     <!-- Sparkline -->
     <script src="../../../bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="../../../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="../../../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
     <!-- jQuery Knob Chart -->
     <script src="../../../bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
     <!-- daterangepicker -->
@@ -741,8 +821,7 @@ require '../../../connect.php';
     <script src="../../../bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../../dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="../../../dist/js/pages/dashboard.js"></script>
+
     <!-- AdminLTE for demo purposes -->
     <script src="../../../dist/js/demo.js"></script>
 
@@ -751,7 +830,7 @@ require '../../../connect.php';
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
-    <script src="../../../scripts/hr/hr_master_employee.js"></script>
+    <script src="../../../scripts/hr/hr_master_parameters.js"></script>
     <!-- ###################################################################################################################################### -->
 </body>
 
