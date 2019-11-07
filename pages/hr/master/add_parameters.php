@@ -6,7 +6,7 @@ if (isset($_POST['addParametersButton'])) {
     if ($_POST['parametersId'] != NULL) {
         $parametersId = $_POST['parametersId'];
     } else {
-        echo "Parameters Id Not entered";
+        echo "Parameters Id Not entered";exit;
     }
 
     if ($_POST['date'] != NULL) {
@@ -15,40 +15,44 @@ if (isset($_POST['addParametersButton'])) {
         $addDay = "01-" . $rawDate;
         $date = date('Y-m-d', strtotime($addDay));
     } else {
-        echo "Date Not entered";
+        echo "Date Not entered";exit;
     }
 
     if ($_POST['hraValue'] != NULL) {
         $hraValue = $_POST['hraValue'];
     } else {
-        echo " HRA value is not entered";
+        echo " HRA value is not entered";exit;
     }
 
     if ($_POST['medicalValue'] != NULL) {
         $medicalValue = $_POST['medicalValue'];
     } else {
-        echo "medicalValue value is not entered";
+        echo "medicalValue value is not entered";exit;
     }
 
     if ($_POST['transportationValue'] != NULL) {
         $transportationValue = $_POST['transportationValue'];
     } else {
-        echo "transportation value is not entered";
+        echo "transportation value is not entered";exit;
     }
 
     if ($_POST['pfValue'] != NULL) {
         $pfValue = $_POST['pfValue'];
     } else {
-        echo "pfValue value is not entered";
+        echo "pfValue value is not entered";exit;
     }
 
     if ($_POST['professionalTaxValue'] != NULL) {
         $professionalTaxValue = $_POST['professionalTaxValue'];
     } else {
         echo "professionalTaxValue value is not entered";
+        exit;
     }
-
-    $designation_id = $_POST['designationId'];
+    if($_POST['designationId'] == '--select--'){
+        $designation_id = $_POST['designationId'];
+    }else{
+        echo 'did not select the option';exit;
+    }
 
     $parameter_hra = $_POST['parameters'][0];
     $parameter_type_hra = $_POST['type'][0];

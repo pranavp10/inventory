@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 05, 2019 at 10:42 AM
+-- Generation Time: Nov 07, 2019 at 12:28 PM
 -- Server version: 5.7.26
--- PHP Version: 7.3.5
+-- PHP Version: 7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `designation` (
 -- Dumping data for table `designation`
 --
 
+
 -- --------------------------------------------------------
 
 --
@@ -69,6 +70,30 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
 --
 -- Dumping data for table `employees_details`
 --
+-----------------------------------------------------
+
+--
+-- Table structure for table `parameters`
+--
+
+DROP TABLE IF EXISTS `parameters`;
+CREATE TABLE IF NOT EXISTS `parameters` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parameter_id` varchar(50) DEFAULT NULL,
+  `parameter_date` date DEFAULT NULL,
+  `designation_id` varchar(50) DEFAULT NULL,
+  `parameter_name` varchar(50) DEFAULT NULL,
+  `parameters_type` varchar(12) DEFAULT NULL,
+  `parameter_value_type` varchar(50) NOT NULL,
+  `parameter_value` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `desid` (`designation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `parameters`
+--
+
 
 -- --------------------------------------------------------
 
@@ -93,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 
 
+
 --
 -- Constraints for dumped tables
 --
@@ -102,6 +128,12 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 ALTER TABLE `employees_details`
   ADD CONSTRAINT `employees_details_ibfk_1` FOREIGN KEY (`emp_designation`) REFERENCES `designation` (`designation_id`);
+
+--
+-- Constraints for table `parameters`
+--
+ALTER TABLE `parameters`
+  ADD CONSTRAINT `parameters_ibfk_1` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`);
 
 --
 -- Constraints for table `user_login_credentials`

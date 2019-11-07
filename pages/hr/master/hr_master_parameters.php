@@ -328,7 +328,7 @@ require '../../../connect.php';
                                             <div id="filterDate2">
                                                 <!-- Datepicker as text field -->
                                                 <div class="input-group date" data-date-format="mm-yyyy">
-                                                    <input type="text" class="form-control" name="date" placeholder="mm-yyyy" required>
+                                                    <input type="text" class="form-control" name="date" id='dateSelect' placeholder="mm-yyyy" required onchange="designationCheckUsingDate()">
                                                     <div class="input-group-addon">
                                                         <span class="glyphicon glyphicon-th"></span>
                                                     </div>
@@ -340,7 +340,8 @@ require '../../../connect.php';
                                     <div class="col-xs-5">
                                         <div class="form-group">
                                             <label for="designationId">Designation</label>
-                                            <select class="form-control selectpicker" name="designationId" id="designationId" data-show-subtext="true" data-live-search="true">
+                                            <select class="form-control" name="designationId" id="designationId" onchange = "designationCheckUsingSelect()">
+                                                <option value="--select--">--select--</option>
                                                 <?
                                                 $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
                                                 if ($rawDate = $connect->query($sqlDisplayDesignation)) {
@@ -389,7 +390,7 @@ require '../../../connect.php';
                                     <div class="col-xs-1">
 
                                         <div class="radio">
-                                            <label><input type="radio" name="hra" value="percentage">%</label>
+                                            <label><input type="radio" name="hra" value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -399,7 +400,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" name="hraValue" class="form-control" min="0" placeholder="Enter Value">
+                                            <input type="number" name="hraValue" id="hra" class="form-control" min="0" placeholder="Enter Value">
                                         </div>
                                     </div>
                                 </div>
@@ -417,7 +418,7 @@ require '../../../connect.php';
                                     <div class="col-xs-1">
 
                                         <div class="radio">
-                                            <label><input type="radio" name="medical" value="percentage">%</label>
+                                            <label><input type="radio" name="medical" value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -427,7 +428,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="medicalValue" class="form-control" placeholder="Enter value">
+                                            <input type="number" min="0" name="medicalValue" id="medical" class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -445,7 +446,7 @@ require '../../../connect.php';
                                     <div class="col-xs-1">
 
                                         <div class="radio">
-                                            <label><input type="radio" name="transportation" value="percentage">%</label>
+                                            <label><input type="radio" name="transportation" value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -455,7 +456,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="transportationValue" class="form-control" placeholder="Enter value">
+                                            <input type="number" min="0" name="transportationValue" id="transportation"class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -473,7 +474,7 @@ require '../../../connect.php';
                                     <div class="col-xs-1">
 
                                         <div class="radio">
-                                            <label><input type="radio" name="pf" value="percentage">%</label>
+                                            <label><input type="radio" name="pf" value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -483,7 +484,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="pfValue" class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
+                                            <input type="number" min="0" name="pfValue" id="pf"class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -500,7 +501,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-1">
                                         <div class="radio">
-                                            <label><input type="radio" name="professionalTax" value="percentage">%</label>
+                                            <label><input type="radio" name="professionalTax"  value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -510,7 +511,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="professionalTaxValue" class="form-control" placeholder="Enter value">
+                                            <input type="number" min="0" name="professionalTaxValue" id="professionalTax" class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -527,100 +528,197 @@ require '../../../connect.php';
             <!-- ###################################################################################################### -->
             <!-- ####################################################################################################### -->
             <!-- Edit designation -->
-            <div class="modal fade" id="editEmployee" tabindex="-1" role="dialog" aria-labelledby="editEmployee" aria-hidden="true">
+            <div class="modal fade" id="editParameter" tabindex="-1" role="dialog" aria-labelledby="editParameter" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="editEmployeeHeading"> Edit Employee </h1>
+                            <h1 class="modal-title" id="editParameterHeading"> Edit Employee </h1>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/hr/master/update_employee.php" method="POST">
-                                <label for="updateEmployeeId">Employee ID</label>
-                                <input style="background-color: transparent; border: transparent;" type="text" name="updateEmployeeId" class="form-control" id="updateEmployeeId" readonly required>
+                            <form action="../../../pages/hr/master/update_parameters.php" method="POST">
                                 <div class="row">
-                                    <div class="col-xs-3">
+                                    <div class="col-sm-3">
+                                        <label for="editParametersId">Parameters ID</label>
+                                        <input style="background-color: transparent; border: transparent;" type="text" name="editParametersId" class="form-control" id="editParametersId" readonly required>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="editParametersDate">Date</label>
                                         <div class="form-group">
-                                            <label for="updateEmployeeFirstName">First Name</label>
-                                            <input type="text" name="updateEmployeeFirstName" class="form-control" id="updateEmployeeFirstName" placeholder="Enter First Name" required>
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParametersDate" class="form-control" id="editParametersDate" readonly required>
                                         </div>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <div class="form-group">
-                                            <label for="updateEmployeeLastName">Last Name</label>
-                                            <input type="text" name="updateEmployeeLastName" class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <div class="form-group">
-                                            <label for="updateEmployeeEmail">Email</label>
-                                            <input type="email" name="updateEmployeeEmail" class="form-control" id="updateEmployeeEmail" placeholder="Jon@gmail.com" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <div class="form-group">
-                                            <label for="updateEmployeeDOB">Date of Birth</label>
-                                            <input type="date" name="updateEmployeeDOB" class="form-control" id="updateEmployeeDOB" required>
-                                        </div>
-                                    </div>
+
                                     <div class="col-xs-5">
                                         <div class="form-group">
-                                            <label for="updateEmployeeDesignation">Designation</label>
-                                            <select class="form-control" name="updateEmployeeDesignation" id="updateEmployeeDesignation">
-                                                <option value="-select-">-select-</option>
-                                                <?
-                                                $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
-                                                if ($rawDate = $connect->query($sqlDisplayDesignation)) {
-                                                    while ($displayDes = $rawDate->fetch_assoc()) {
-                                                        $designationId = $displayDes['designation_id'];
-                                                        $designation = $displayDes['description'];
-                                                        ?>
-                                                        <option value="<? echo $designationId ?>"><? echo $designation ?></option>
-                                                <?
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
+                                            <label for="editDesignationId">Designation</label>
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editDesignationId" class="form-control" id="editDesignationId" readonly required>
                                         </div>
                                     </div>
+                                </div>
+                                </label>
+                                <div class="row">
                                     <div class="col-xs-3">
-                                        <label for="updateEmployeeGender">Gender</label>
-                                        <select class="form-control" name="updateEmployeeGender" id="updateEmployeeGender" required>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Transgender">transgender</option>
-                                        </select>
+                                        <h4 class="text-center">Parameters</h4>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h4 class="text-center">Type</h4>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <h4 class="text-center">%</h4>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h4 class="text-center">Flat</h4>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h4 class="text-center">Value</h4>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-4">
-                                        <div class="form-group">
-                                            <label for="updateEmployeeBasicSalary">Basic Salary</label>
-                                            <input type="number" name="updateEmployeeBasicSalary" class="form-control" id="updateEmployeeBasicSalary" required>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParameters[]" value="HRA" class="form-control" readonly required>
                                         </div>
                                     </div>
-                                    <div class="col-xs-4">
-                                        <div class="form-group">
-                                            <label for="updateEmployeeDOJoining">Date of Joining</label>
-                                            <input type="date" name="updateEmployeeDOJoining" class="form-control" id="updateEmployeeDOJoining" required>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editType[]" value="Allowance" class="form-control" readonly required>
                                         </div>
                                     </div>
-                                    <div class="col-xs-4">
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="editHra" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 text-center">
+                                        <div class="radio">
+                                            <label><input type="radio" name="editHra" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
                                         <div class="form-group">
-                                            <label for="updateEmployeeAddress">Address</label>
-                                            <textarea class="form-control" name="updateEmployeeAddress" id="updateEmployeeAddress" rows="3">
-                                            </textarea>
+                                            <input type="number" name="editHraValue" id="editHra" class="form-control" min="0" placeholder="Enter Value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParameters[]" value="Medical" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editType[]" value="Allowance" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="editMedical" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 text-center">
+                                        <div class="radio">
+                                            <label><input type="radio" name="editMedical" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="editMedicalValue" id="editMedical" class="form-control" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParameters[]" value="Transportation" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editType[]" value="Allowance" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="editTransportation" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="editTransportation" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="editTransportationValue" id="editTransportation" class="form-control" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParameters[]" value="PF" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editType[]" value="Deductions" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+
+                                        <div class="radio">
+                                            <label><input type="radio" name="editPf" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="editPf" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="editPfValue" id='editPf' class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editParameters[]" value="Professional Tax" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group text-center">
+                                            <input style="background-color: transparent; border: transparent;" type="text" name="editType[]" value="Deductions" class="form-control" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <div class="radio">
+                                            <label><input type="radio" name="editProfessionalTax" value="percentage">%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="radio text-center">
+                                            <label><input type="radio" name="editProfessionalTax" value="flat">Flat</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <input type="number" min="0" name="editProfessionalTaxValue" id='editProfessionalTax' class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="updateEmployeeButton">Update Designation</button>
+                            <button type="submit" class="btn btn-primary" name="updateEmployeeButton">Update Parameters</button>
                             </form>
                         </div>
                     </div>
@@ -628,29 +726,30 @@ require '../../../connect.php';
             </div>
             <!-- ###################################################################################################### -->
             <!-- ####################################################################################################### -->
-            <!-- Delete designation -->
-            <div class="modal fade" id="deleteEmployee" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
+            <!-- Delete parameter -->
+            <div class="modal fade" id="deleteParameter" tabindex="-1" role="dialog" aria-labelledby="deleteParameter" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="deleteEmployeeHeading"> Delete Employee </h1>
+                            <h1 class="modal-title" id="deleteParameterHeading"> Delete Parameter </h1>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/hr/master/delete_employee.php" method="POST">
+                            <form action="../../../pages/hr/master/delete_parameter.php" method="POST">
                                 <h3 id='displayBox'></h3>
-                                <input type="hidden" id="deleteEmployeeId" name="deleteEmployeeId" value="">
+                                <input type="hidden" id="deleteParameterId" name="deleteParameterId" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="deleteEmployeeButton">Delete Employee</button>
+                            <button type="submit" class="btn btn-primary" name="deleteParameterButton">Delete Parameter</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- ###################################################################################################### -->
             <section class="content">
                 <?
@@ -677,82 +776,82 @@ require '../../../connect.php';
                         echo $parametersNotAdded;
                     }
                 }
-                if (isset($_SESSION['updateEmployee'])) {
-                    if (($_SESSION['updateEmployee'] == 'yes')) {
-                        $EmployeeUpdate =  '<div class="alert alert-success alert-dismissible" id="employeeUpdateAlert" >
+                if (isset($_SESSION['updateParameters'])) {
+                    if (($_SESSION['updateParameters'] == 'yes')) {
+                        $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Updated </strong> Employee Successfully.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#employeeUpdateAlert").fadeOut().empty();
+                            $("#parametersUpdateAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['updateEmployee']);
-                        echo $EmployeeUpdate;
+                        unset($_SESSION['updateParameters']);
+                        echo $parametersUpdate;
                     } else {
-                        $EmployeeNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="employeeNotUpdateAlert" >
+                        $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Employee</strong> Not Updated.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#employeeNotUpdateAlert").fadeOut().empty();
+                            $("#parametersNotUpdateAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['updateEmployee']);
-                        echo $designationNotUpdate;
+                        unset($_SESSION['updateParameters']);
+                        echo $parametersNotUpdate;
                     }
                 }
-                if (isset($_SESSION['deleteEmployee'])) {
-                    if (($_SESSION['deleteEmployee'] == 'yes')) {
-                        $employeeDelete =  '<div class="alert alert-warning alert-dismissible" id="employeeDeleteAlert" >
+                if (isset($_SESSION['deleteParameter'])) {
+                    if (($_SESSION['deleteParameter'] == 'yes')) {
+                        $parameterDelete =  '<div class="alert alert-warning alert-dismissible" id="parameterDeleteAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Employee </strong> Deleted!!!.
+                            <strong>Parameter</strong> Deleted!!!.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#employeeDeleteAlert").fadeOut().empty();
+                            $("#parameterDeleteAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['deleteEmployee']);
-                        echo $employeeDelete;
+                        unset($_SESSION['deleteParameter']);
+                        echo $parameterDelete;
                     } else {
-                        $employeeNotDelete =  '<div class="alert alert-danger alert-dismissible" id="employeeNotDeleteAlert" >
+                        $parameterNotDelete =  '<div class="alert alert-danger alert-dismissible" id="parameterNotDeleteAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Designation</strong> =cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            <strong>Parameter</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
                             </div>   <script>setTimeout(fade_out, 10000);
                             function fade_out() {
-                            $("#$employeeNotDeleteAlert").fadeOut().empty();
+                            $("#$parameterNotDeleteAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['deleteEmployee']);
-                        echo $employeeNotDelete;
+                        unset($_SESSION['deleteParameter']);
+                        echo $parameterNotDelete;
                     }
                 }
                 ?>
                 <div class="form-inline">
-                                <div class="form-group">
-                                    <label for="month">Month:</label>
-                                    <select class="form-control" name="month" id="month">
-                                        <option value='all'>All</option>
-                                        <option value='01'>January</option>
-                                        <option value='02'>February</option>
-                                        <option value='03'>March</option>
-                                        <option value='04'>April</option>
-                                        <option value='05'>May</option>
-                                        <option value='06'>June</option>
-                                        <option value='07'>July</option>
-                                        <option value='08'>August</option>
-                                        <option value='09'>September</option>
-                                        <option value='10'>October</option>
-                                        <option value='11'>November</option>
-                                        <option value='12'>December</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="year">Year:</label>
-                                    <select class="form-control" name="year" id="year">
-                                    </select>
-                                </div>
+                    <div class="form-group">
+                        <label for="month">Month:</label>
+                        <select class="form-control" name="month" id="month">
+                            <option value='all'>All</option>
+                            <option value='01'>January</option>
+                            <option value='02'>February</option>
+                            <option value='03'>March</option>
+                            <option value='04'>April</option>
+                            <option value='05'>May</option>
+                            <option value='06'>June</option>
+                            <option value='07'>July</option>
+                            <option value='08'>August</option>
+                            <option value='09'>September</option>
+                            <option value='10'>October</option>
+                            <option value='11'>November</option>
+                            <option value='12'>December</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year:</label>
+                        <select class="form-control" name="year" id="year">
+                        </select>
+                    </div>
 
-                                <button type="button" class="btn btn-primary" onclick="getParametersList()">
-                                    <strong><i class="fa fa-search"></i> Parameters</strong></button>
-                            </div>
-                            <br>
+                    <button type="button" class="btn btn-primary" onclick="getParametersList()">
+                        <strong><i class="fa fa-search"></i> Parameters</strong></button>
+                </div>
+                <br>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
@@ -767,7 +866,7 @@ require '../../../connect.php';
 
                             <!-- /.box-header -->
                             <a class="box-body table-responsive no-padding">
-                                <table class="table table-bordered table-striped" id="parametersTable">
+                                <table style="color: black;" class="table table-bordered table-striped" id="parametersTable">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -835,4 +934,3 @@ require '../../../connect.php';
 </body>
 
 </html>
-?>
