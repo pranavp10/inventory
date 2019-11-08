@@ -340,7 +340,7 @@ require '../../../connect.php';
                                     <div class="col-xs-5">
                                         <div class="form-group">
                                             <label for="designationId">Designation</label>
-                                            <select class="form-control" name="designationId" id="designationId" onchange = "designationCheckUsingSelect()">
+                                            <select class="form-control" name="designationId" id="designationId" onchange="designationCheckUsingSelect()">
                                                 <option value="--select--">--select--</option>
                                                 <?
                                                 $sqlDisplayDesignation = "SELECT `designation_id`,`description` FROM `designation`";
@@ -456,7 +456,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="transportationValue" id="transportation"class="form-control" placeholder="Enter value">
+                                            <input type="number" min="0" name="transportationValue" id="transportation" class="form-control" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -484,7 +484,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <input type="number" min="0" name="pfValue" id="pf"class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
+                                            <input type="number" min="0" name="pfValue" id="pf" class="form-control" id="updateEmployeeLastName" placeholder="Enter value">
                                         </div>
                                     </div>
                                 </div>
@@ -501,7 +501,7 @@ require '../../../connect.php';
                                     </div>
                                     <div class="col-xs-1">
                                         <div class="radio">
-                                            <label><input type="radio" name="professionalTax"  value="percentage" checked>%</label>
+                                            <label><input type="radio" name="professionalTax" value="percentage" checked>%</label>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">

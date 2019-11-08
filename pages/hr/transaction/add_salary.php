@@ -40,7 +40,7 @@ require '../../../connect.php';
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
 
         <header class="main-header">
@@ -158,7 +158,7 @@ require '../../../connect.php';
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="active"><a href="../../../pages/hr/transaction/hr_transaction_salary_generation.php"><i class="fa fa-calculator" aria-hidden="true"></i> Salary generator</a></li>
+                                    <li class="active"><a href="../../../pages/hr/transaction/hr_transaction_salary_generation.php"><i class="fa fa-calculator" aria-hidden="true"></i> Salary generator->Add </a></li>
                                     <li><a href="../../../pages/hr/transaction/hr_transaction_allowance_and_deduction.php"><i class="fa fa-percent" aria-hidden="true"></i></i> Allowance & Deduction</a></li>
                                 </ul>
                             </li>
@@ -305,77 +305,6 @@ require '../../../connect.php';
         <div class="content-wrapper">
             <!-- ###################################################################################################### -->
             <section class="content">
-                <?
-                if (isset($_SESSION['addParameters'])) {
-                    if (($_SESSION['addParameters'] == 'yes')) {
-                        $parametersAdded =  '<div class="alert alert-success alert-dismissible" id="parametersAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New </strong> Parameters Added
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersAddedAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['addParameters']);
-                        echo $parametersAdded;
-                    } else {
-                        $parametersNotAdded =  '<div class="alert alert-danger alert-dismissible" id="parametersNotAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameters </strong>Not Added
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersNotAddedAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['addParameters']);
-                        echo $parametersNotAdded;
-                    }
-                }
-                if (isset($_SESSION['updateParameters'])) {
-                    if (($_SESSION['updateParameters'] == 'yes')) {
-                        $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Updated </strong> Employee Successfully.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersUpdateAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersUpdate;
-                    } else {
-                        $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Employee</strong> Not Updated.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersNotUpdateAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersNotUpdate;
-                    }
-                }
-                if (isset($_SESSION['deleteParameter'])) {
-                    if (($_SESSION['deleteParameter'] == 'yes')) {
-                        $parameterDelete =  '<div class="alert alert-warning alert-dismissible" id="parameterDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> Deleted!!!.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parameterDeleteAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterDelete;
-                    } else {
-                        $parameterNotDelete =  '<div class="alert alert-danger alert-dismissible" id="parameterNotDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
-                            </div>   <script>setTimeout(fade_out, 10000);
-                            function fade_out() {
-                            $("#$parameterNotDeleteAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterNotDelete;
-                    }
-                }
-                ?>
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="month">Month:</label>
@@ -400,20 +329,16 @@ require '../../../connect.php';
                         </select>
                     </div>
 
-                    <button type="button" class="btn btn-primary">
-                        <strong><i class="fa fa-search"></i> Generated Salary</strong></button>
+                    <button type="button" class="btn btn-primary" onclick="getSalaryParametersList()">
+                        <strong><i class="fa fa-plus"></i> Add Salary</strong></button>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                <h3 class="box-title">Parameters</h3>
+                                <h3 class="box-title">Add Salary</h3>
 
-                                <div class="box-tools">
-                                    <button type="button" class="btn btn-primary" onClick="location.href='../../../pages/hr/transaction/add_salary.php'">
-                                        <strong><i class="fa fa-plus"></i> Generate Salary</strong></button>
-                                </div>
                             </div>
 
                             <!-- /.box-header -->
@@ -421,17 +346,22 @@ require '../../../connect.php';
                                 <table style="color: black;" class="table table-bordered table-striped" id="parametersTable">
                                     <thead>
                                         <tr>
+                                            <th><input type="checkbox" name="selectAll" id="selectAll"></th>
                                             <th>ID</th>
+                                            <th>Employee Name</th>
                                             <th>Designation</th>
-                                            <th>Date</th>
+                                            <th>Basic Salary</th>
                                             <th>Allowance</th>
                                             <th>Deductions</th>
-                                            <th>Action</th>
+                                            <th>Net Salary</th>
                                         </tr>
                                     </thead>
+                                    <form action="../../../pages/hr/transaction/save_salary.php" method="post">
                                     <tbody>
+                                    
                                     </tbody>
                                 </table>
+                                </form>
                                 <!-- /.box-body -->
                         </div>
                         <!-- /.box -->
@@ -449,7 +379,6 @@ require '../../../connect.php';
     <script src="../../../bower_components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -481,7 +410,7 @@ require '../../../connect.php';
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
-    <script src="../../../scripts/hr/hr_transaction_salary_generation.js"></script>
+    <script src="../../../scripts/hr/hr_transaction_add_salary.js"></script>
     <!-- ###################################################################################################################################### -->
 </body>
 

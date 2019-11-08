@@ -116,6 +116,19 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 -- Dumping data for table `user_login_credentials`
 --
+DROP TABLE IF EXISTS `salary_generation`;
+CREATE TABLE IF NOT EXISTS `salary_generation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `salary_generation_id` varchar(255) NOT NULL,
+  `employee_id` varchar(50) DEFAULT NULL,
+  `basic_salary` bigint(50) DEFAULT NULL,
+  `allowance` bigint(50) DEFAULT NULL,
+  `deductions` bigint(50) DEFAULT NULL,
+  `net_salary` bigint(100) DEFAULT NULL,
+  PRIMARY KEY (`salary_generation_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `empid` (`employee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
@@ -140,7 +153,26 @@ ALTER TABLE `parameters`
 --
 ALTER TABLE `user_login_credentials`
   ADD CONSTRAINT `user_login_credentials_ibfk_1` FOREIGN KEY (`employees_id`) REFERENCES `employees_details` (`emp_id`);
+
+
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `salary_generation`
+--
+ALTER TABLE `salary_generation`
+  ADD CONSTRAINT `salary_generation_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees_details` (`emp_id`);
 COMMIT;
+
+
+
+
+
+
+COMMIT;
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
