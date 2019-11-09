@@ -15,8 +15,7 @@ function getSalaryParametersList() {
     $("#parametersTable tr").remove();
     var showTableHeading = `
     <tr>
-        <th><input type="checkbox" name="selectAll" id="selectAll"></th>                                            
-        <th>ID</th>
+        <th><input type="checkbox" id="selectAll"></th>                                            
         <th>Employee Name</th>
         <th>Designation</th>
         <th>Basic Salary</th>
@@ -38,14 +37,17 @@ function getSalaryParametersList() {
         success: function (response) {
             if (JSON.parse(response) != "noData") {
                 var dataList = JSON.parse(response);
-                var display = '<tr>';
+                console.log(dataList);
+                var displayHidden = '<tr>';
                 var dataListLength = dataList.length;
                 for(let i = 0; i<dataListLength; i++){
-                    display +=`<td><input type="checkbox" name="select[]" id="selectAll${i}"></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="ASG-${month}${year[2]}${year[3]}-${i}" class="form-control" readonly required></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${dataList[i].name}" class="form-control" readonly required></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${dataList[i].designation}" class="form-control" readonly required></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${dataList[i].basicSalary}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input type="checkbox" name="select[]" value='${i}' class="selectAll" id='${i}' ></td>`;
+                    displayHidden += `<td hidden><input style="background-color: transparent; border: transparent;" type="text" name="parameterID[]" value="${dataList[i].parameterID}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td hidden><input style="background-color: transparent; border: transparent;" type="text" name="empID[]" value="${dataList[i].empId}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td hidden><input style="background-color: transparent; border: transparent;" type="text" name="date[]" value="${year}-${month}-01" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="employeeName[]" value="${dataList[i].name}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="employeeDesignation[]" value="${dataList[i].designation}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="BasicSalary[]" value="${dataList[i].basicSalary}" class="form-control" readonly required></td>`;
                     
                     var parameterType = dataList[i].parType.split(',');
                     var valueType = dataList[i].valueType.split(',');
@@ -71,16 +73,13 @@ function getSalaryParametersList() {
                             }
                         }
                     }
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${Allowance}" class="form-control" readonly required></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${Deductions}" class="form-control" readonly required></td>`;
-                    display +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="id[]" value="${Allowance+(+dataList[i].basicSalary)+Deductions}" class="form-control" readonly required></td>`;
-                    display +='</tr>'
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="allowance[]" value="${Allowance}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="deductions[]" value="${Deductions}" class="form-control" readonly required></td>`;
+                    displayHidden +=`<td><input style="background-color: transparent; border: transparent;" type="text" name="netSalary[]" value="${Allowance+(+dataList[i].basicSalary)+Deductions}" class="form-control" readonly required></td>`;
+                    displayHidden +='</tr>'
                 }
-                display +=`<tr class='text-center' ><td colspan="8"><button type="button" class="btn btn-alert">
-                <strong><i class="fa fa-times"></i> Cancel</strong></button> <button type="submit" id="submitSalary" class="btn btn-primary">
-                <strong> Submit</strong></button></td></tr>`;
-                $("table tbody").append(display);
-
+                $("table tbody").append(displayHidden);
+                $('#saveSalary').attr("disabled", false);
             } else {
                 var displayNothing = `<tr class='text-center' ><td colspan="8"> NO Data at this date</td></tr>`;
                 $("table tbody").append(displayNothing);
@@ -89,4 +88,27 @@ function getSalaryParametersList() {
     });
 }
 
-$(document).on('submit');
+$(document).on("click", '#selectAll', function (){
+    if($('#selectAll').is(':checked')){
+
+        $(".selectAll").prop('checked', true);
+        // $(".selectAll").val(1);
+    }else{
+        $(".selectAll").prop('checked', false);
+        // $(".selectAll").val(0);
+    }
+});
+
+
+
+// $(document).on("click", '.selectAll', function (){
+//     $(this).each(function(){
+//         if(this.checked){
+//             // $(this).val(1);
+//             console.log(this.value);            
+//         }else{
+//             $(this).val(0);
+//             // console.log(this.value);
+//         }
+//     })
+// });

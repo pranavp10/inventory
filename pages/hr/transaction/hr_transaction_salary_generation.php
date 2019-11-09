@@ -40,7 +40,7 @@ require '../../../connect.php';
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
 
         <header class="main-header">
@@ -303,76 +303,75 @@ require '../../../connect.php';
         <!-- ######################################################################################################## -->
 
         <div class="content-wrapper">
+        <div class="modal fade" id="deleteSalary" tabindex="-1" role="dialog" aria-labelledby="deleteSalary" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="deleteSalaryHeading"> Delete Salary </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/transaction/delete_salary.php" method="POST">
+                                <h3 id='displayBox'></h3>
+                                <input type="hidden" id="deleteSalaryId" name="deleteSalaryId" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" name="deleteSalaryButton">Delete Employee</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- ###################################################################################################### -->
             <section class="content">
                 <?
-                if (isset($_SESSION['addParameters'])) {
-                    if (($_SESSION['addParameters'] == 'yes')) {
-                        $parametersAdded =  '<div class="alert alert-success alert-dismissible" id="parametersAddedAlert" >
+                if (isset($_SESSION['addSalary'])) {
+                    if (($_SESSION['addSalary'] == 'yes')) {
+                        $salaryAdded =  '<div class="alert alert-success alert-dismissible" id="salaryAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New </strong> Parameters Added
+                            <strong>Salary </strong> has been Generated.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parametersAddedAlert").fadeOut().empty();
+                            $("#salaryAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addParameters']);
-                        echo $parametersAdded;
+                        unset($_SESSION['addSalary']);
+                        echo $salaryAdded;
                     } else {
-                        $parametersNotAdded =  '<div class="alert alert-danger alert-dismissible" id="parametersNotAddedAlert" >
+                        $salaryNotAdded =  '<div class="alert alert-danger alert-dismissible" id="salaryNotAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameters </strong>Not Added
+                            <strong>Salary </strong> has not Generated!!!    
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parametersNotAddedAlert").fadeOut().empty();
+                            $("#salaryNotAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addParameters']);
-                        echo $parametersNotAdded;
+                        unset($_SESSION['addSalary']);
+                        echo $salaryNotAdded;
                     }
                 }
-                if (isset($_SESSION['updateParameters'])) {
-                    if (($_SESSION['updateParameters'] == 'yes')) {
-                        $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
+                if (isset($_SESSION['deleteSalary'])) {
+                    if (($_SESSION['deleteSalary'] == 'yes')) {
+                        $salaryDeleted =  '<div class="alert alert-warning alert-dismissible" id="salaryDeletedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Updated </strong> Employee Successfully.
+                            <strong>Salary</strong> Deleted!!!.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parametersUpdateAlert").fadeOut().empty();
+                            $("#salaryDeletedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersUpdate;
+                        unset($_SESSION['deleteSalary']);
+                        echo $salaryDeleted;
                     } else {
-                        $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
+                        $salaryNotDeleted =  '<div class="alert alert-danger alert-dismissible" id="salaryNotDeletedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Employee</strong> Not Updated.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersNotUpdateAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersNotUpdate;
-                    }
-                }
-                if (isset($_SESSION['deleteParameter'])) {
-                    if (($_SESSION['deleteParameter'] == 'yes')) {
-                        $parameterDelete =  '<div class="alert alert-warning alert-dismissible" id="parameterDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> Deleted!!!.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parameterDeleteAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterDelete;
-                    } else {
-                        $parameterNotDelete =  '<div class="alert alert-danger alert-dismissible" id="parameterNotDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            <strong>Salary</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
                             </div>   <script>setTimeout(fade_out, 10000);
                             function fade_out() {
-                            $("#$parameterNotDeleteAlert").fadeOut().empty();
+                            $("#$salaryNotDeletedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterNotDelete;
+                        unset($_SESSION['deleteSalary']);
+                        echo $salaryNotDeleted;
                     }
                 }
                 ?>
@@ -400,7 +399,7 @@ require '../../../connect.php';
                         </select>
                     </div>
 
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="displaySalaryParametersList()">
                         <strong><i class="fa fa-search"></i> Generated Salary</strong></button>
                 </div>
                 <br>
@@ -412,20 +411,23 @@ require '../../../connect.php';
 
                                 <div class="box-tools">
                                     <button type="button" class="btn btn-primary" onClick="location.href='../../../pages/hr/transaction/add_salary.php'">
-                                        <strong><i class="fa fa-plus"></i> Generate Salary</strong></button>
+                                        <strong><i class="fa fa-plus"></i> Add Salary</strong></button>
                                 </div>
                             </div>
 
                             <!-- /.box-header -->
                             <a class="box-body table-responsive no-padding">
-                                <table style="color: black;" class="table table-bordered table-striped" id="parametersTable">
+                                <table style="color: black;" class="table table-bordered table-striped" id="salaryDisplay">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
+                                            <th> Employee Name</th>
                                             <th>Designation</th>
-                                            <th>Date</th>
+                                            <th>Salary Date</th>
+                                            <th>Basic Salary</th>
                                             <th>Allowance</th>
                                             <th>Deductions</th>
+                                            <th>Net Salary</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>

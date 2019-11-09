@@ -333,12 +333,21 @@ require '../../../connect.php';
                         <strong><i class="fa fa-plus"></i> Add Salary</strong></button>
                 </div>
                 <br>
+                <form action="../../../pages/hr/transaction/save_salary.php" method="post">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
                                 <h3 class="box-title">Add Salary</h3>
+                                <div class="box-tools" >
+                                    <button  type="submit" class="btn btn-primary" name="saveSalary" id="saveSalary" disabled>
+                                        <strong> Save Salary</strong></button>
+                                </div>
 
+                                <div class="box-tools">
+                                    <button type="button" class="btn btn-alert" onClick="location.href='../../../pages/hr/transaction/hr_transaction_salary_generation.php'">
+                                        <strong><i class="fa fa-times"></i> Cancel</strong></button>
+                                </div>
                             </div>
 
                             <!-- /.box-header -->
@@ -347,7 +356,6 @@ require '../../../connect.php';
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" name="selectAll" id="selectAll"></th>
-                                            <th>ID</th>
                                             <th>Employee Name</th>
                                             <th>Designation</th>
                                             <th>Basic Salary</th>
@@ -356,10 +364,10 @@ require '../../../connect.php';
                                             <th>Net Salary</th>
                                         </tr>
                                     </thead>
-                                    <form action="../../../pages/hr/transaction/save_salary.php" method="post">
-                                    <tbody>
-                                    
-                                    </tbody>
+
+                                        <tbody>
+
+                                        </tbody>
                                 </table>
                                 </form>
                                 <!-- /.box-body -->
