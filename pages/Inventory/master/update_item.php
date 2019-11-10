@@ -1,0 +1,41 @@
+<?
+session_start();
+require '../../../connect.php';
+
+if (isset($_POST['updateItemButton'])) {
+
+    if ($_POST['editItemId'] != NULL) {
+        $editItemId = $_POST['editItemId'];
+    } else {
+        $_SESSION['messageNo']='Item Category ID Not Entered';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+        exit;
+    }
+
+    if ($_POST['editItemCategory'] != NULL) {
+        $editItemCategory =($_POST['editItemCategory']);
+    }else{
+        $_SESSION['messageNo']='Item Category Name Not Entered';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+        exit;
+    }
+    if ($_POST['editItemName'] != NULL) {
+        $editItemName = ucfirst(strtolower($_POST['editItemName']));
+    }else{
+        $_SESSION['messageNo']='Item Name Not Entered';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+        exit;
+    }
+
+    $sqlUpdateItem = "UPDATE `item` SET `item_category` = '$editItemCategory', `item_name` = '$editItemName' WHERE `item`.`item_id` = '$editItemId';";
+
+
+    if ($connect->query($sqlUpdateItem)) {
+        $_SESSION['updateItem'] = 'yes';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+    }else {
+        $_SESSION['updateItem'] = 'no';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+    }
+}
+?>

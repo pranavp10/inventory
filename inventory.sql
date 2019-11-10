@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 09, 2019 at 12:26 PM
+-- Generation Time: Nov 10, 2019 at 05:15 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -39,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `designation` (
 
 --
 -- Dumping data for table `designation`
---
 
 -- --------------------------------------------------------
 
@@ -74,6 +73,44 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `item`
+--
+
+DROP TABLE IF EXISTS `item`;
+CREATE TABLE IF NOT EXISTS `item` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_id` varchar(50) NOT NULL,
+  `item_category` varchar(50) DEFAULT NULL,
+  `item_name` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `itemid` (`item_category`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item`
+----------------------------------------
+
+--
+-- Table structure for table `item_category`
+--
+
+DROP TABLE IF EXISTS `item_category`;
+CREATE TABLE IF NOT EXISTS `item_category` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_category_id` varchar(50) NOT NULL,
+  `item_category_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`item_category_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_category`
+--
+
+-------------------------------------------
+
+--
 -- Table structure for table `parameters`
 --
 
@@ -94,8 +131,6 @@ CREATE TABLE IF NOT EXISTS `parameters` (
 --
 -- Dumping data for table `parameters`
 --
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `salary_generation`
@@ -140,12 +175,6 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user_login_credentials`
---
-
-
-
---
 -- Constraints for dumped tables
 --
 
@@ -154,6 +183,12 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 ALTER TABLE `employees_details`
   ADD CONSTRAINT `employees_details_ibfk_1` FOREIGN KEY (`emp_designation`) REFERENCES `designation` (`designation_id`);
+
+--
+-- Constraints for table `item`
+--
+ALTER TABLE `item`
+  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`);
 
 --
 -- Constraints for table `parameters`

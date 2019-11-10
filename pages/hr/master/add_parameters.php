@@ -48,7 +48,7 @@ if (isset($_POST['addParametersButton'])) {
         echo "professionalTaxValue value is not entered";
         exit;
     }
-    if($_POST['designationId'] == '--select--'){
+    if($_POST['designationId'] != '--select--'){
         $designation_id = $_POST['designationId'];
     }else{
         echo 'did not select the option';exit;
@@ -74,7 +74,7 @@ if (isset($_POST['addParametersButton'])) {
     $parameter_type_professionalTax = $_POST['type'][4];
     $parameter_value_type_professionalTax = $_POST['professionalTax'];
 
-    $sqlInsertParameter = "INSERT INTO `parameters`(`parameter_id`, `parameter_date`, `designation_id`, `parameter_name`, `parameters_type`, `parameter_value_type`, `parameter_value`) VALUES 
+    $sqlInsertParameter = "INSERT INTO `parameters`(`parameter_id`, `parameter_date`, `designation_id`, `parameter_name`, `parameters_type`, `parameter_value_type`, `parameter_value`) VALUES
     ('$parametersId','$date','$designation_id','$parameter_hra','$parameter_type_hra','$parameter_value_type_hra','$hraValue'),
     ('$parametersId','$date','$designation_id','$parameter_medical','$parameter_type_medical','$parameter_value_type_medical','$medicalValue'),
     ('$parametersId','$date','$designation_id','$parameter_transportation','$parameter_type_transportation','$parameter_value_type_transportation','$transportationValue'),
