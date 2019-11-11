@@ -343,7 +343,7 @@ require '../../../connect.php';
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table id="example2" class="table table-bordered table-hover">
+                                    <table class="table table-bordered table-hover" id="tableData">
                                         <thead>
                                             <tr>
                                                 <th>Sl-No</th>
@@ -359,7 +359,7 @@ require '../../../connect.php';
                                         <tbody>
                                             <tr>
                                                 <td>1</td>
-                                                <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory" style="width: 100%;">
+                                                <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory" onchange="getItemList()">
                                                         <option value="-Select-">-Select-</option>
                                                         <?
                                                         $sqlDisplayItemCategory = "SELECT `item_category_id`,`item_category_name` FROM `item_category`";
@@ -375,13 +375,13 @@ require '../../../connect.php';
                                                         ?>
                                                     </select>
                                                 </td>
-                                                <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode" style="width: 100%;">
+                                                <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode" onchange="itemCategorySelect()">
                                                         <!-- <option selected="selected">Alabama</option> -->
                                                         <option value="-Select-">-Select-</option>
 
                                                     </select>
                                                 </td>
-                                                <td> <select class="form-control item" name="item[]" id="item" style="width: 100%;">
+                                                <td> <select class="form-control item" name="item[]" id="item" onchange="itemSelect()">
                                                         <option value="-Select-">-Select-</option>
                                                     </select>
                                                 </td>
@@ -395,7 +395,7 @@ require '../../../connect.php';
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="number" min='0' max='1000000' name="taxPercentage" class="form-control" id="taxPercentage" required>
+                                                        <input type="number" min='0' max='1000000' name="flat" class="form-control" id="flat" required>
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-inr"></i>
                                                         </div>
@@ -403,19 +403,19 @@ require '../../../connect.php';
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="number" min='0' max='1000000' name="taxPercentage" class="form-control" id="taxPercentage" required>
+                                                        <input type="number" min='0' max='1000000' name="minAmount" class="form-control" id="minAmount" required>
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-inr"></i>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><button class="btn btn-danger btn-xs deleteTax" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                                <td><button class="btn btn-danger btn-xs deleteRow" disabled><span class="glyphicon glyphicon-trash"></span></button></p>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <div class="box-tools">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewTax" onclick="addNewRow()">
+                                        <button type="button" class="btn btn-primary" onclick="addNewRow()">
                                             <strong><i class="fa fa-plus"></i> Add New Item </strong></button>
                                     </div>
                                     <button type="submit" class="btn btn-info pull-right">Save</button>
