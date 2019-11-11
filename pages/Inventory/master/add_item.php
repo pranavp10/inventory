@@ -21,6 +21,15 @@ if (isset($_POST['addItemButton'])) {
         header("Location: ../../../pages/Inventory/master/inventory_master_item.php");
         exit;
     }
+    if ($_POST['itemTax'] != NULL) {
+        $itemTax = $_POST['itemTax'];
+    }
+    else
+    {
+        $_SESSION['messageNo']='Item Tax Not Entered';
+        header("Location: ../../../pages/Inventory/master/inventory_master_item.php");
+        exit;
+    }
     if ($_POST['itemName'] != NULL) {
         $itemName = ucfirst(strtolower($_POST['itemName']));
     }
@@ -31,7 +40,7 @@ if (isset($_POST['addItemButton'])) {
         exit;
     }
 
-    $sqlInsertItemCategory = "INSERT INTO `item`(`item_id`, `item_category`, `item_name`) VALUES ('$itemId','$itemCategory','$itemName')";
+    $sqlInsertItemCategory = "INSERT INTO `item`(`item_id`, `item_category`, `item_tax`, `item_name`) VALUES ('$itemId','$itemCategory','$itemTax','$itemName')";
 
 
     if ($connect->query($sqlInsertItemCategory)) {

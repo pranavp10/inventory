@@ -202,8 +202,8 @@ require '../../../connect.php';
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/Inventory/master/inventory_master_item_category.php"><i class="fa fa-sitemap"></i> Item Category</a></li>
-                                    <li><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
                                     <li><a href="../../../pages/Inventory/master/inventory_master_tax.php"><i class="fa fa-calculator"></i> Tax</a></li>
+                                    <li><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -213,7 +213,7 @@ require '../../../connect.php';
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php/"><i class="fa fa-tag" aria-hidden="true"></i> Discount & Flat</a></li>
+                                    <li><a href="../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php"><i class="fa fa-tag" aria-hidden="true"></i> Discount & Flat</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">

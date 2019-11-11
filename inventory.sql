@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 10, 2019 at 05:15 PM
+-- Generation Time: Nov 11, 2019 at 12:18 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -37,8 +37,47 @@ CREATE TABLE IF NOT EXISTS `designation` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `designation`
+-- Table structure for table `discounts_and_flats`
+--
+
+DROP TABLE IF EXISTS `discounts_and_flats`;
+CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `discount_id` varchar(50) NOT NULL,
+  PRIMARY KEY (`discount_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discounts_and_flats`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discounts_and_flats_details`
+--
+
+DROP TABLE IF EXISTS `discounts_and_flats_details`;
+CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `discount_id` varchar(50) DEFAULT NULL,
+  `item_category` varchar(50) DEFAULT NULL,
+  `item` varchar(50) DEFAULT NULL,
+  `discount_from_date` date DEFAULT NULL,
+  `discount_to_date` date DEFAULT NULL,
+  `discount` bigint(5) DEFAULT NULL,
+  `flat` bigint(20) DEFAULT NULL,
+  `minimun_amount` bigint(50) DEFAULT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `desid` (`discount_id`),
+  KEY `itmcat` (`item_category`),
+  KEY `itm` (`item`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -65,35 +104,22 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
   KEY `emp_des` (`emp_designation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `employees_details`
---
-
-
 -- --------------------------------------------------------
 
---
--- Table structure for table `item`
---
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE IF NOT EXISTS `item` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `item_id` varchar(50) NOT NULL,
   `item_category` varchar(50) DEFAULT NULL,
+  `item_tax` varchar(50) NOT NULL,
   `item_name` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`item_id`),
   UNIQUE KEY `id` (`id`),
-  KEY `itemid` (`item_category`)
+  KEY `itemid` (`item_category`),
+  KEY `itemTax` (`item_tax`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `item`
-----------------------------------------
-
---
--- Table structure for table `item_category`
---
 
 DROP TABLE IF EXISTS `item_category`;
 CREATE TABLE IF NOT EXISTS `item_category` (
@@ -108,7 +134,8 @@ CREATE TABLE IF NOT EXISTS `item_category` (
 -- Dumping data for table `item_category`
 --
 
--------------------------------------------
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `parameters`
@@ -128,9 +155,7 @@ CREATE TABLE IF NOT EXISTS `parameters` (
   KEY `desid` (`designation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `parameters`
---
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `salary_generation`
@@ -150,11 +175,25 @@ CREATE TABLE IF NOT EXISTS `salary_generation` (
   KEY `empid` (`employee_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `salary_generation`
+-- Table structure for table `tax`
 --
 
+DROP TABLE IF EXISTS `tax`;
+CREATE TABLE IF NOT EXISTS `tax` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tax_id` varchar(50) NOT NULL,
+  `tax_code` varchar(50) DEFAULT NULL,
+  `tax_percentage` bigint(5) DEFAULT NULL,
+  PRIMARY KEY (`tax_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tax`
+--
 
 -- --------------------------------------------------------
 
@@ -179,6 +218,14 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 
 --
+-- Constraints for table `discounts_and_flats_details`
+--
+ALTER TABLE `discounts_and_flats_details`
+  ADD CONSTRAINT `discounts_and_flats_details_ibfk_1` FOREIGN KEY (`discount_id`) REFERENCES `discounts_and_flats` (`discount_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `discounts_and_flats_details_ibfk_2` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`),
+  ADD CONSTRAINT `discounts_and_flats_details_ibfk_3` FOREIGN KEY (`item`) REFERENCES `item` (`item_id`);
+
+--
 -- Constraints for table `employees_details`
 --
 ALTER TABLE `employees_details`
@@ -188,7 +235,8 @@ ALTER TABLE `employees_details`
 -- Constraints for table `item`
 --
 ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`);
+  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`),
+  ADD CONSTRAINT `item_ibfk_2` FOREIGN KEY (`item_tax`) REFERENCES `tax` (`tax_id`);
 
 --
 -- Constraints for table `parameters`

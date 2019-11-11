@@ -19,6 +19,13 @@ if (isset($_POST['updateItemButton'])) {
         header("Location: ../../../pages/inventory/master/inventory_master_item.php");
         exit;
     }
+    if ($_POST['editItemTax'] != NULL) {
+        $editItemTax =($_POST['editItemTax']);
+    }else{
+        $_SESSION['messageNo']='Item Tax Not Entered';
+        header("Location: ../../../pages/inventory/master/inventory_master_item.php");
+        exit;
+    }
     if ($_POST['editItemName'] != NULL) {
         $editItemName = ucfirst(strtolower($_POST['editItemName']));
     }else{
@@ -27,8 +34,7 @@ if (isset($_POST['updateItemButton'])) {
         exit;
     }
 
-    $sqlUpdateItem = "UPDATE `item` SET `item_category` = '$editItemCategory', `item_name` = '$editItemName' WHERE `item`.`item_id` = '$editItemId';";
-
+    $sqlUpdateItem = "UPDATE `item` SET `item_category` = '$editItemCategory', `item_name` = '$editItemName',`item_tax` = '$editItemTax' WHERE `item`.`item_id` = '$editItemId';";
 
     if ($connect->query($sqlUpdateItem)) {
         $_SESSION['updateItem'] = 'yes';

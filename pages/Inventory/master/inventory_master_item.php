@@ -13,8 +13,8 @@ require '../../../connect.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Item</title>
     <!-- Tell the browser to be responsive to screen width -->
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -26,10 +26,6 @@ require '../../../connect.php';
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../../dist/css/skins/_all-skins.min.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="../../../bower_components/morris.js/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="../../../bower_components/jvectormap/jquery-jvectormap.css">
     <!-- Date Picker -->
     <link rel="stylesheet" href="../../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- Daterange picker -->
@@ -211,8 +207,8 @@ require '../../../connect.php';
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/Inventory/master/inventory_master_item_category.php"><i class="fa fa-sitemap"></i> Item Category</a></li>
-                                    <li class="active"><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
                                     <li><a href="../../../pages/Inventory/master/inventory_master_tax.php"><i class="fa fa-calculator"></i> Tax</a></li>
+                                    <li class="active"><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -222,7 +218,7 @@ require '../../../connect.php';
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php/"><i class="fa fa-tag" aria-hidden="true"></i> Discount & Flat</a></li>
+                                    <li><a href="../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php"><i class="fa fa-tag" aria-hidden="true"></i> Discount & Flat</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -338,7 +334,24 @@ require '../../../connect.php';
                                                 $ItemCategory = $displayCat['item_category_name'];
                                                 ?>
                                                 <option value="<? echo $itemCategoryId ?>"><? echo $ItemCategory ?></option>
-                                            <?
+                                        <?
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Item Tax</label>
+                                    <select class="form-control itemTax" name="itemTax" id="itemTax" style="width: 100%;">
+                                        <?
+                                        $sqlDisplayItemTax = "SELECT `tax_id`,`tax_code` FROM `tax`;";
+                                        if ($rawDate = $connect->query($sqlDisplayItemTax)) {
+                                            while ($displayCat = $rawDate->fetch_assoc()) {
+                                                $itemTaxId = $displayCat['tax_id'];
+                                                $taxCode = $displayCat['tax_code'];
+                                                ?>
+                                                <option value="<? echo $itemTaxId ?>"><? echo $taxCode ?></option>
+                                        <?
                                             }
                                         }
                                         ?>
@@ -385,7 +398,25 @@ require '../../../connect.php';
                                                 $ItemCategory = $displayCat['item_category_name'];
                                                 ?>
                                                 <option value="<? echo $itemCategoryId ?>"><? echo $ItemCategory ?></option>
-                                            <?
+                                        <?
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Item Tax</label>
+                                    <select class="form-control editItemTax" name="editItemTax" id="editItemTax" style="width: 100%;">
+                                        <!-- <option selected="selected">Alabama</option> -->
+                                        <?
+                                        $sqlDisplayItemTax = "SELECT `tax_id`,`tax_code` FROM `tax`;";
+                                        if ($rawDate = $connect->query($sqlDisplayItemTax)) {
+                                            while ($displayCat = $rawDate->fetch_assoc()) {
+                                                $itemTaxId = $displayCat['tax_id'];
+                                                $taxCode = $displayCat['tax_code'];
+                                                ?>
+                                                <option value="<? echo $itemTaxId ?>"><? echo $taxCode ?></option>
+                                        <?
                                             }
                                         }
                                         ?>
@@ -520,6 +551,7 @@ require '../../../connect.php';
                                             <tr>
                                                 <th>Item ID</th>
                                                 <th>Item Category Name</th>
+                                                <th>Item Tax</th>
                                                 <th>Item Name</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
@@ -527,17 +559,19 @@ require '../../../connect.php';
                                         </thead>
                                         <tbody>
                                             <?
-                                            $sqlDisplayItem = "SELECT item.`item_id`,item.`item_name`,itemcat.item_category_name FROM item AS item INNER JOIN item_category as itemcat ON item.item_category = itemcat.item_category_id";
+                                            $sqlDisplayItem = "SELECT item.`item_id`,item.`item_name`,itemCat.item_category_name,tax.tax_code FROM item AS item INNER JOIN item_category as itemCat ON item.item_category = itemCat.item_category_id INNER JOIN tax as tax on  item.item_tax =tax.tax_id";
                                             if ($rawDate = $connect->query($sqlDisplayItem)) {
                                                 while ($displayItem = $rawDate->fetch_assoc()) {
                                                     $ItemId = $displayItem['item_id'];
                                                     $ItemCat = $displayItem['item_category_name'];
+                                                    $itemTax =$displayItem['tax_code']; 
                                                     $ItemName = $displayItem['item_name'];
                                                     ?>
 
                                                     <tr>
                                                         <td><? echo $ItemId; ?></td>
                                                         <td><? echo $ItemCat; ?></td>
+                                                        <td><? echo $itemTax; ?></td>
                                                         <td><? echo $ItemName; ?></td>
                                                         <td><button class="btn btn-primary btn-xs editItem" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
                                                         </td>
@@ -563,46 +597,34 @@ require '../../../connect.php';
             <!-- /.content-wrapper -->
         </div>
         <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="../../../bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Morris.js charts -->
-    <script src="../../../bower_components/raphael/raphael.min.js"></script>
-    <script src="../../../bower_components/morris.js/morris.min.js"></script>
-    <!-- Sparkline -->
-    <script src="../../../bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="../../../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="../../../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="../../../bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
-    <script src="../../../bower_components/moment/min/moment.min.js"></script>
-    <script src="../../../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- datepicker -->
-    <script src="../../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="../../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <!-- Slimscroll -->
-    <script src="../../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="../../../bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../../dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="../../../dist/js/pages/dashboard.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../../dist/js/demo.js"></script><!-- Select2 -->
-        <script src="../../../bower_components/select2/dist/js/select2.full.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="../../../bower_components/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- Sparkline -->
+        <script src="../../../bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+
+        <!-- daterangepicker -->
+        <script src="../../../bower_components/moment/min/moment.min.js"></script>
+        <script src="../../../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <!-- datepicker -->
+        <script src="../../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="../../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <!-- Slimscroll -->
+        <script src="../../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="../../../bower_components/fastclick/lib/fastclick.js"></script>
+        <!-- AdminLTE App -->
+        <script src="../../../dist/js/adminlte.min.js"></script>
         <!-- DataTables -->
         <script src="../../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="../../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
+        <script src="../../../bower_components/select2/dist/js/select2.full.min.js"></script>
         <!-- ###################################################################################### -->
         <!-- my scripts -->
 

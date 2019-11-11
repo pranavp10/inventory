@@ -28,12 +28,20 @@ $(document).ready(function() {
         })
         .get();
         $("#editItemId").val(data[0]);
-      var value = $(`#editItemCategory option:contains("${data[1]}")`).val();
-      var creatOption = $("<option selected></option>").val(value).text(`${data[1]}`);
-      $(`#editItemCategory option[value='${value}']`).remove();
-      $('#editItemCategory').append(creatOption);
+
+      var categoryValue = $(`#editItemCategory option:contains("${data[1]}")`).val();
+      var creatCategoryOption = $("<option selected></option>").val(categoryValue).text(`${data[1]}`);
+      $(`#editItemCategory option[value='${categoryValue}']`).remove();
+      $('#editItemCategory').append(creatCategoryOption);
       $('#editItemCategory').select2().trigger('change');
-      $("#editItemName").val(data[2]);
+
+      var taxValue = $(`#editItemTax option:contains("${data[2]}")`).val();
+      var creatTaxOption = $("<option selected></option>").val(taxValue).text(`${data[2]}`);
+      $(`#editItemTax option[value='${taxValue}']`).remove();
+      $('#editItemTax').append(creatTaxOption);
+      $('#editItemTax').select2().trigger('change');
+
+      $("#editItemName").val(data[3]);
     });
   });
 
@@ -58,5 +66,6 @@ $(document).ready(function() {
   $('#ItemTable').DataTable()
 
   $('#itemCategory').select2()
+  $('#itemTax').select2()
 
   
