@@ -10,8 +10,7 @@ if ($rawId=$connect->query($sqlIdSelect)) {
             $id = 0;
             echo json_encode($id);
         } else {
-            $idNum = explode("-",$id['id']);
-            echo json_encode($idNum[1]);
+            echo json_encode($id['id']);
         }
     }
 }

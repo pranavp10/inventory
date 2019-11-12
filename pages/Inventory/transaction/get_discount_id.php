@@ -4,7 +4,7 @@ require '../../../connect.php';
 
 if ($_POST['date'] != NULL) {
     $currentFiscalYear= $_POST['date'];
-    $sqlIdSelect = "SELECT max(`discount_id`) as id FROM discounts_and_flats WHERE discount_id LIKE 'DAF-$currentFiscalYear-%'";
+    $sqlIdSelect = "SELECT MAX(CAST(SUBSTRING(`discount_id`, 10, length(`discount_id`)-9) AS UNSIGNED))AS id FROM discounts_and_flats WHERE discount_id LIKE 'DAF-$currentFiscalYear-%'";
     if ($rawId = $connect->query($sqlIdSelect)) {
         while ($id = $rawId->fetch_assoc()) {
 
@@ -12,8 +12,7 @@ if ($_POST['date'] != NULL) {
                 $id = 0;
                 echo json_encode($id);
             } else {
-                $idNum = explode("-", $id['id']);
-                echo json_encode($idNum[2]);
+                echo json_encode($id['id']);
             }
         }
     }

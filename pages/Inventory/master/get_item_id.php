@@ -1,7 +1,7 @@
 <?
 require '../../../connect.php';
 
-$sqlIdSelect = "SELECT MAX(`item_id`)AS id FROM item";
+$sqlIdSelect = "SELECT MAX(`id`)AS id FROM item";
 if ($rawId=$connect->query($sqlIdSelect)) {
     while($id = $rawId->fetch_assoc())
     {
@@ -10,8 +10,7 @@ if ($rawId=$connect->query($sqlIdSelect)) {
             $id = 0;
             echo json_encode($id);
         } else {
-            $idNum = explode("-",$id['id']);
-            echo json_encode($idNum[1]);
+            echo json_encode($id['id']);
         }
     }
 }

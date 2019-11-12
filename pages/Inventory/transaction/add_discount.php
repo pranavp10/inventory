@@ -306,7 +306,6 @@ require '../../../connect.php';
         <!-- ######################################################################################################## -->
 
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
 
             <!-- ###################################################################################################### -->
             <section class="content">
@@ -317,41 +316,42 @@ require '../../../connect.php';
                             <div class="box-header">
                                 <h3 class="box-title">Add Discount</h3>
                                 <div class="row">
-                                    <div class="col-xs-3">
-                                        <div class="form-group">
-                                            <label for="discountId">Item ID</label>
-                                            <input style="background-color: transparent; border: transparent;" type="text" name="discountId" class="form-control" id="discountId" readonly required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <div class="form-group">
-                                            <label for="discountName">Discount Name</label>
-                                            <input type="text" name="discountName" class="form-control" value='' id="discountName" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <div class="form-group">
-                                            <label>Discount Applicable Between date:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" class="form-control pull-right" name="betweenDate"  id="betweenDate">
+                                    <form action="../../../pages/Inventory/transaction/save_discount.php" method="post">
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="discountId">Item ID</label>
+                                                <input style="background-color: transparent; border: transparent;" type="text" name="discountId" class="form-control" id="discountId" readonly required>
                                             </div>
-                                            <!-- /.input group -->
                                         </div>
-                                    </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="discountName">Discount Name</label>
+                                                <input type="text" name="discountName" class="form-control" value='' id="discountName" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label>Discount Applicable Between date:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right" name="betweenDate" id="betweenDate">
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered table-hover" id="tableData">
                                         <thead>
                                             <tr>
                                                 <th>Sl-No</th>
-                                                <th>Item Category</th>
-                                                <th>Item Code</th>
-                                                <th>Item</th>
-                                                <th>Discount(%)</th>
-                                                <th>Flat</th>
+                                                <th>List of ItemCategory Name</th>
+                                                <th>Item Code (Based on category) </th>
+                                                <th>Item Name (Based on category) </th>
+                                                <th>Discount Type</th>
+                                                <th>Discount Value</th>
                                                 <th>Min Amount</th>
                                                 <th>Action</th>
                                             </tr>
@@ -359,7 +359,7 @@ require '../../../connect.php';
                                         <tbody>
                                             <tr>
                                                 <td>1</td>
-                                                <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory" onchange="getItemList()">
+                                                <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory0">
                                                         <option value="-Select-">-Select-</option>
                                                         <?
                                                         $sqlDisplayItemCategory = "SELECT `item_category_id`,`item_category_name` FROM `item_category`";
@@ -375,35 +375,31 @@ require '../../../connect.php';
                                                         ?>
                                                     </select>
                                                 </td>
-                                                <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode" onchange="itemCategorySelect()">
+                                                <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode0">
                                                         <!-- <option selected="selected">Alabama</option> -->
                                                         <option value="-Select-">-Select-</option>
 
                                                     </select>
                                                 </td>
-                                                <td> <select class="form-control item" name="item[]" id="item" onchange="itemSelect()">
+                                                <td> <select class="form-control item" name="item[]" id="item0">
                                                         <option value="-Select-">-Select-</option>
                                                     </select>
                                                 </td>
                                                 <td>
+                                                    <label><input type="radio" class="percent" name="discountType0" id="percent0" value="percent" checked>Percent(%)</label>
+                                                    <label><input type="radio" class="flat" name="discountType0" id="flat0" value="flat">Flat</label>
+                                                </td>
+                                                <td>
                                                     <div class="input-group">
-                                                        <input type="number" min='0' max='100' name="taxPercentage" class="form-control" id="taxPercentage" placeholder="Enter Percentage(%)" required>
+                                                        <input type="number" min='0' max='1000000' name="discountValue[]" class="form-control discountValue" id="discountValue0" required>
                                                         <div class="input-group-addon">
-                                                            <i class="fa fa-percent"></i>
+                                                            <i id="icon0" class="fa fa-percent"></i>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="number" min='0' max='1000000' name="flat" class="form-control" id="flat" required>
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-inr"></i>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="number" min='0' max='1000000' name="minAmount" class="form-control" id="minAmount" required>
+                                                        <input type="number" min='0' max='1000000' name="minAmount[]" class="form-control" id="minAmount0" required>
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-inr"></i>
                                                         </div>
@@ -418,9 +414,10 @@ require '../../../connect.php';
                                         <button type="button" class="btn btn-primary" onclick="addNewRow()">
                                             <strong><i class="fa fa-plus"></i> Add New Item </strong></button>
                                     </div>
-                                    <button type="submit" class="btn btn-info pull-right">Save</button>
-                                    <button type="submit" class="btn btn-default pull-right">Cancel</button>
+                                    <button type="submit" class="btn btn-info pull-right" disabled>Save</button>
+                                    <button class="btn btn-default pull-right" onClick="location.href='../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php'">Cancel</button>
                                 </div>
+                                </form>
                                 <!-- /.box-header -->
                                 <div class="box-body">
 

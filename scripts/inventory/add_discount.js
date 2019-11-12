@@ -1,3 +1,5 @@
+var numberOfRows = 0;
+
 $("#betweenDate").daterangepicker({
   locale: {
     format: "DD/MM/YYYY"
@@ -37,10 +39,10 @@ function getDiscountId() {
     //create an ajax request to display.php
     type: "POST",
     data: {
-      date: date
+      "date": date
     },
     url: "../../../pages/Inventory/transaction/get_discount_id.php",
-    success: function(response) {
+    success: function (response) {
       var id = JSON.parse(response);
       id = +id + 1;
       discountId.val(`DAF-${date}-${id}`);
@@ -49,106 +51,217 @@ function getDiscountId() {
 }
 getDiscountId();
 
-function getItemList() {
-  var catCode = $("#itemCategory").val();
+function getItemList(id) {
+  var catCode = $(`#itemCategory${id}`).val();
 
   $.ajax({
     //create an ajax request to display.php
     type: "POST",
     data: {
-      catCode: catCode
+      'catCode': catCode
     },
     url: "../../../pages/Inventory/transaction/get_item.php",
-    success: function(response) {
+    success: function (response) {
       var itemList = JSON.parse(response);
       var itemCode = itemList[0].itemCode.split(",");
       var item = itemList[0].item.split(",");
       var arraySize = itemCode.length;
-      $("#itemCode").empty();
-      $("#item").empty();
-      $("#itemCode").append(`<option value="-select-">-select-</option>`);
-      $("#item").append(`<option value="-select-">-select-</option>`);
+      $(`#itemCode${id}`).empty();
+      $(`#item${id}`).empty();
+      $(`#itemCode${id}`).append(`<option value="-select-">-select-</option>`);
+      $(`#item${id}`).append(`<option value="-select-">-select-</option>`);
       for (let i = 0; i < arraySize; i++) {
-        $("#itemCode").append(
+        $(`#itemCode${id}`).append(
           `<option value="${itemCode[i]}">${itemCode[i]}</option>`
         );
-        $("#item").append(`<option value="${itemCode[i]}">${item[i]}</option>`);
+        $(`#item${id}`).append(`<option value="${itemCode[i]}">${item[i]}</option>`);
       }
     }
   });
 }
 
-function itemCategorySelect() {
-  var itemCat = $("#itemCode").val();
-  $("#item").val(itemCat);
-}
-function itemSelect() {
-  var item = $("#item").val();
-  $("#itemCode").val(item);
+function itemCategorySelect(id) {
+  var itemCat = $(`#itemCode${id}`).val();
+  $(`#item${id}`).val(itemCat);
 }
 
-$("#tableData tbody").on("click", ".deleteRow", function() {
+function itemSelect(id) {
+  var item = $(`#item${id}`).val();
+  $(`#itemCode${id}`).val(item);
+}
+
+$(document).on("change", '.itemCategory', function () {
+  $(this).each(function () {
+    var itemCategoryId = this.id;
+    var onlyId = itemCategoryId.match(/(\d+)/);
+    getItemList(onlyId[0]);
+  })
+});
+
+$(document).on("change", '.itemCode', function () {
+  $(this).each(function () {
+    var itemCodeId = this.id;
+    var onlyId = itemCodeId.match(/(\d+)/);
+    itemCategorySelect(onlyId[0]);
+    ValidateItem(onlyId[0]);
+  })
+});
+
+$(document).on("change", '.item', function () {
+  $(this).each(function () {
+    var itemId = this.id;
+    var onlyId = itemId.match(/(\d+)/);
+    itemSelect(onlyId[0]);
+    ValidateItem(onlyId[0]);
+  })
+});
+
+function ValidateItem(id) {
+  let presentCatRow = $(`#itemCategory${id}`).val();
+  let presentItemCode = $(`#itemCode${id}`).val();
+
+  for (let i = 0; i <= numberOfRows; i++) {
+    let catRows = $(`#itemCategory${i}`).val();
+    if (i != id) {
+      if (presentCatRow == catRows) {
+        let itemCode = $(`#itemCode${i}`).val();
+        if (itemCode == presentItemCode) {
+          alert(`you cannot select the same item ${$(`#item${id}`).val()}`);
+          $(`select#itemCode${id}`)[0].selectedIndex = 0;
+          $(`select#item${id}`)[0].selectedIndex = 0;
+        }
+      }
+    } else {
+      continue;
+    }
+  }
+}
+
+function addNewRow() {
+  numberOfRows++;
+  var newRow = `                                            <tr>
+    <td id='${numberOfRows}'>${numberOfRows+1}</td>
+    <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory${numberOfRows}">
+
+        </select>
+    </td>
+    <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode${numberOfRows}">
+    <!-- <option selected="selected">Alabama</option> -->
+            <option value="-Select-">-Select-</option>
+
+        </select>
+    </td>
+    <td> <select class="form-control item" name="item[]" id="item${numberOfRows}">
+            <option value="-Select-">-Select-</option>
+        </select>
+    </td>
+    <td>
+        <label><input class="percent" type="radio" name="discountType${numberOfRows}" id="percent${numberOfRows}" value="percent" checked>Percent(%)</label>
+        <label><input class="flat" type="radio" name="discountType${numberOfRows}" id="flat${numberOfRows}" value="flat">Flat</label>
+    </td>
+    <td>
+        <div class="input-group">
+            <input type="number" min='0' max='1000000' name="discountValue[]" class="form-control discountValue" id="discountValue${numberOfRows}" required>
+            <div class="input-group-addon">
+                <i id="icon${numberOfRows}" class="fa fa-percent"></i>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="input-group">
+            <input type="number" min='0' max='1000000' name="minAmount" class="form-control" id="minAmount${numberOfRows}" required>
+            <div class="input-group-addon">
+                <i class="fa fa-inr"></i>
+            </div>
+        </div>
+    </td>
+    <td><button class="btn btn-danger btn-xs deleteRow"><span class="glyphicon glyphicon-trash"></span></button></p>
+    </td>
+</tr>`;
+  $("#tableData tbody").append(newRow);
+  $.ajax({
+    //create an ajax request to display.php
+    type: "POST",
+    url: "../../../pages/Inventory/transaction/get_item_category.php",
+    success: function (response) {
+      var itemCatList = JSON.parse(response);
+      var catId = itemCatList[0].catId.split(",");
+      var catName = itemCatList[0].catName.split(",");
+      var arraySize = catId.length;
+      $(`#itemCategory${numberOfRows}`).empty();
+      $(`#itemCategory${numberOfRows}`).append(`<option value="-select-">-select-</option>`);
+      for (let i = 0; i < arraySize; i++) {
+        $(`#itemCategory${numberOfRows}`).append(
+          `<option value="${catId[i]}">${catName[i]}</option>`
+        );
+      }
+    }
+  });
+}
+
+$("#tableData tbody").on("click", ".deleteRow", function () {
+  var $tr = $(this).closest("tr");
+  var data = $tr
+    .children("td")
+    .map(function () {
+      return $(this).text();
+    })
+    .get();
+  var deletedRowNumber = data[0] - 1;
+
   $(this)
     .closest("tr")
     .remove();
+  for (let i = deletedRowNumber; i < numberOfRows; i++) {
+    $(`#${i+1}`).html(i + 1);
+    $(`#${i+1}`).attr('id', `${i}`);
+    $(`#itemCategory${i+1}`).attr('id', `itemCategory${i}`);
+    $(`#itemCode${i+1}`).attr('id', `itemCode${i}`);
+    $(`#item${i+1}`).attr('id', `item${i}`);
+    $(`#percent${i+1}`).attr('id', `percent${i}`).attr('name', `discountType${i}`);
+    $(`#flat${i+1}`).attr('id', `flat${i}`).attr('name', `discountType${i}`);
+    $(`#discountValue${i+1}`).attr('id', `discountValue${i}`);
+    $(`#minAmount${i+1}`).attr('id', `minAmount${i}`);
+    $(`#icon${i+1}`).attr('id', `icon${i}`);
+  }
+  numberOfRows--;
+
 });
 
-function addNewRow(){
-    var newRow = `                                            <tr>
-    <td>1</td>
-    <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory" onchange="getItemList()">
-            <option value="-Select-">-Select-</option>
-            <?
-            $sqlDisplayItemCategory = "SELECT item_category_id,item_category_name FROM item_category";
-            if ($rawDate = $connect->query($sqlDisplayItemCategory)) {
-                while ($displayCat = $rawDate->fetch_assoc()) {
-                    $itemCategoryId = $displayCat['item_category_id'];
-                    $ItemCategory = $displayCat['item_category_name'];
-                    ?>
-                    <option value="<? echo $itemCategoryId ?>"><? echo $ItemCategory ?></option>
-            <?
-                }
-            }
-            ?>
-        </select>
-    </td>
-    <td> <select class="form-control itemCode" name="itemCode[]" id="itemCode" onchange="itemCategorySelect()">
-            <!-- <option selected="selected">Alabama</option> -->
-            <option value="-Select-">-Select-</option>
+$(document).on("click", '.percent', function () {
+  $(this).each(function () {
+    var percentId = this.id;
+    var onlyId = percentId.match(/(\d+)/);
+    $(`#icon${onlyId[0]}`).removeClass("fa-inr");
+    $(`#icon${onlyId[0]}`).addClass("fa-percent");
+    checkValueInput(onlyId[0]);
+  });
+});
 
-        </select>
-    </td>
-    <td> <select class="form-control item" name="item[]" id="item" onchange="itemSelect()">
-            <option value="-Select-">-Select-</option>
-        </select>
-    </td>
-    <td>
-        <div class="input-group">
-            <input type="number" min='0' max='100' name="taxPercentage" class="form-control" id="taxPercentage" placeholder="Enter Percentage(%)" required>
-            <div class="input-group-addon">
-                <i class="fa fa-percent"></i>
-            </div>
-        </div>
-    </td>
-    <td>
-        <div class="input-group">
-            <input type="number" min='0' max='1000000' name="flat" class="form-control" id="flat" required>
-            <div class="input-group-addon">
-                <i class="fa fa-inr"></i>
-            </div>
-        </div>
-    </td>
-    <td>
-        <div class="input-group">
-            <input type="number" min='0' max='1000000' name="minAmount" class="form-control" id="minAmount" required>
-            <div class="input-group-addon">
-                <i class="fa fa-inr"></i>
-            </div>
-        </div>
-    </td>
-    <td><button class="btn btn-danger btn-xs deleteRow" disabled><span class="glyphicon glyphicon-trash"></span></button></p>
-    </td>
-</tr>`;
-    $("#tableData tbody").append(newRow)
+
+$(document).on("click", '.flat', function () {
+  $(this).each(function () {
+    var flatId = this.id;
+    var onlyId = flatId.match(/(\d+)/);
+    $(`#icon${onlyId[0]}`).removeClass("fa-percent");
+    $(`#icon${onlyId[0]}`).addClass("fa-inr");
+  });
+});
+
+$(document).on("keyup", '.discountValue', function () {
+  $(this).each(function () {
+    var inputId = this.id;
+    var onlyId = inputId.match(/(\d+)/);
+    var radioCheck = $(`input[type=radio][name=discountType${onlyId[0]}]:checked`).val();
+    if (radioCheck == 'percent') {
+      checkValueInput(onlyId[0]);
+    }
+  })
+});
+
+function checkValueInput(id) {
+  if ($(`#discountValue${id}`).val() > 100) {
+    alert("No numbers above 100");
+    $(`#discountValue${id}`).val('0');
+  }
 }
-
