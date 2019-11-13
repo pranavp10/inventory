@@ -2,7 +2,7 @@ var numberOfRows = 0;
 
 $("#betweenDate").daterangepicker({
   locale: {
-    format: "DD/MM/YYYY"
+    format: "DD-MM-YYYY"
   }
 });
 
@@ -68,8 +68,8 @@ function getItemList(id) {
       var arraySize = itemCode.length;
       $(`#itemCode${id}`).empty();
       $(`#item${id}`).empty();
-      $(`#itemCode${id}`).append(`<option value="-select-">-select-</option>`);
-      $(`#item${id}`).append(`<option value="-select-">-select-</option>`);
+      $(`#itemCode${id}`).append(`<option value="-Select-">-Select-</option>`);
+      $(`#item${id}`).append(`<option value="-Select-">-Select-</option>`);
       for (let i = 0; i < arraySize; i++) {
         $(`#itemCode${id}`).append(
           `<option value="${itemCode[i]}">${itemCode[i]}</option>`
@@ -95,6 +95,7 @@ $(document).on("change", '.itemCategory', function () {
     var itemCategoryId = this.id;
     var onlyId = itemCategoryId.match(/(\d+)/);
     getItemList(onlyId[0]);
+    $(`#itemCategory${onlyId[0]} option[value='-Select-']`).remove();
   })
 });
 
@@ -161,7 +162,7 @@ function addNewRow() {
     </td>
     <td>
         <div class="input-group">
-            <input type="number" min='0' max='1000000' name="discountValue[]" class="form-control discountValue" id="discountValue${numberOfRows}" required>
+            <input type="number" min='0' max='1000000' name="discountValue[]" class="form-control discountValue"  id="discountValue${numberOfRows}" required>
             <div class="input-group-addon">
                 <i id="icon${numberOfRows}" class="fa fa-percent"></i>
             </div>
@@ -169,7 +170,7 @@ function addNewRow() {
     </td>
     <td>
         <div class="input-group">
-            <input type="number" min='0' max='1000000' name="minAmount" class="form-control" id="minAmount${numberOfRows}" required>
+            <input type="number" min='0' max='1000000' name="minAmount" class="form-control" value="0" id="minAmount${numberOfRows}" required>
             <div class="input-group-addon">
                 <i class="fa fa-inr"></i>
             </div>
@@ -189,7 +190,7 @@ function addNewRow() {
       var catName = itemCatList[0].catName.split(",");
       var arraySize = catId.length;
       $(`#itemCategory${numberOfRows}`).empty();
-      $(`#itemCategory${numberOfRows}`).append(`<option value="-select-">-select-</option>`);
+      $(`#itemCategory${numberOfRows}`).append(`<option value="-Select-">-Select-</option>`);
       for (let i = 0; i < arraySize; i++) {
         $(`#itemCategory${numberOfRows}`).append(
           `<option value="${catId[i]}">${catName[i]}</option>`
@@ -265,3 +266,99 @@ function checkValueInput(id) {
     $(`#discountValue${id}`).val('0');
   }
 }
+
+function checkDiscountName() {
+  var discountNameButton = $('#discountNameButton');
+  var discountNameButtonIcon = $('#discountNameButtonIcon');
+  var discountName = $('#discountName').val();
+  $.ajax({
+    //create an ajax request to display.php
+    type: "POST",
+    data: {
+      "name": discountName
+    },
+    url: "../../../pages/Inventory/transaction/checkDiscountName.php",
+    success: function (response) {
+      var check = JSON.parse(response);
+      if (check === 'yes') {
+        discountNameButton.removeClass('btn-danger').addClass('btn-success').attr('disabled', true);
+        discountNameButtonIcon.removeClass('fa-question-circle').addClass('fa-check');
+        $('#discountName').attr('readonly', true);
+
+      } else {
+
+      }
+    }
+  });
+}
+
+function displayMessage(message) {
+  $("#alert").show().html(`<div id="alertInside"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> ${message} </strong></div>
+  <script>setTimeout(fade_out, 7000);
+  function fade_out() {
+  $("#alertInside").fadeOut().empty();
+  $('#alert').hide();
+  }</script>`)
+}
+
+function checkData() {
+  var itemCategory = [];
+  var itemCode = [];
+  var discountName = $("#discountName").val();
+  var betweenDate = $('#betweenDate').val();
+  if ($('#discountName').is('[readonly]') && discountName != '' && $("#discountNameButton").hasClass('btn-success')) {
+
+
+    for (let i = 0; i <= numberOfRows; i++) {
+      var valueItemCategory = $(`#itemCategory${i}`).val();
+      var valueItemCode = $(`#itemCode${i}`).val();
+      var valueItemCode = $(`#itemCode${i}`).val();
+      var discountValue = $(`#discountValue${i}`).val();
+
+      if (valueItemCategory == '-Select-') {
+        displayMessage(`Select the Item Category in Serial Number ${i}`);
+        return false;
+      } else {
+        if (valueItemCode == '-Select-') {
+          displayMessage(`Select the Item in Serial Number ${i}`);
+          return false;
+        } else {
+          if (discountValue == '') {
+            displayMessage(`Enter the Discount Value in Serial Number ${i}`);
+            return false;
+          } else {
+            itemCategory.push(valueItemCategory);
+            itemCode.push(valueItemCode);
+          }
+        }
+      }
+    }
+    $.ajax({
+      //create an ajax request to display.php
+      type: "POST",
+      data: {
+        "betweenDate": betweenDate,"itemCategory":itemCategory,"itemCode":itemCode
+      },
+      url: "../../../pages/Inventory/transaction/chackDiscountList.php",
+      success: function (response) {
+        var list = JSON.parse(response);
+        var listLength = list.length;
+        for(let i=0; i<listLength; i++){
+          if(list[i].value == "yes"){
+            displayMessage(`The Serial Number ${i} Item is already under the offer for the given Date `);
+          return false;
+          }else{
+            $('#submitButton').removeClass('btn-danger').addClass('btn-success').prop('type', 'submit').attr("onclick", "").html(`Submit<i class="fa fa-check"></i>`);
+            
+          }
+        }
+      }
+    });
+
+
+  } else {
+    displayMessage('Enter Discount Name and check Availability');
+    return false;
+  }
+}
+

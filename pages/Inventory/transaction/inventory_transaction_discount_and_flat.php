@@ -306,6 +306,77 @@ require '../../../connect.php';
         <!-- ######################################################################################################## -->
 
         <div class="content-wrapper">
+        <?
+                if (isset($_SESSION['addDiscount'])) {
+                    if (($_SESSION['addDiscount'] == 'yes')) {
+                        $discountAdded =  '<div class="alert alert-success alert-dismissible" id="discountAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>New Discount Added!</strong>
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#discountAddedAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['addDiscount']);
+                        echo $discountAdded;
+                    } else {
+                        $discountNotAdded =  '<div class="alert alert-danger alert-dismissible" id="discountNotAddedAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>New DIscount Item Has Not Been Saved!!! </strong>
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#discountNotAddedAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['addDiscount']);
+                        echo $discountNotAdded;
+                    }
+                }
+                if (isset($_SESSION['updateParameters'])) {
+                    if (($_SESSION['updateParameters'] == 'yes')) {
+                        $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Updated </strong> Employee Successfully.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#parametersUpdateAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['updateParameters']);
+                        echo $parametersUpdate;
+                    } else {
+                        $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Employee</strong> Not Updated.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#parametersNotUpdateAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['updateParameters']);
+                        echo $parametersNotUpdate;
+                    }
+                }
+                if (isset($_SESSION['deleteParameter'])) {
+                    if (($_SESSION['deleteParameter'] == 'yes')) {
+                        $parameterDelete =  '<div class="alert alert-warning alert-dismissible" id="parameterDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Parameter</strong> Deleted!!!.
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#parameterDeleteAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['deleteParameter']);
+                        echo $parameterDelete;
+                    } else {
+                        $parameterNotDelete =  '<div class="alert alert-danger alert-dismissible" id="parameterNotDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Parameter</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            </div>   <script>setTimeout(fade_out, 10000);
+                            function fade_out() {
+                            $("#$parameterNotDeleteAlert").fadeOut().empty();
+                            }</script>';
+                        unset($_SESSION['deleteParameter']);
+                        echo $parameterNotDelete;
+                    }
+                }
+                ?>
             <!-- Content Header (Page header) -->
             <!-- ####################################################################################################### -->
             <!-- Add item -->
