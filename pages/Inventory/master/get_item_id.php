@@ -1,7 +1,7 @@
 <?
 require '../../../connect.php';
 
-$sqlIdSelect = "SELECT MAX(`id`)AS id FROM item";
+$sqlIdSelect = "SELECT MAX(CAST(SUBSTRING(`item_id`, 5, length(`item_id`)-4) AS UNSIGNED))AS id FROM item WHERE `item_id` LIKE 'ITM-%'";
 if ($rawId=$connect->query($sqlIdSelect)) {
     while($id = $rawId->fetch_assoc())
     {
@@ -14,5 +14,4 @@ if ($rawId=$connect->query($sqlIdSelect)) {
         }
     }
 }
-
 ?>

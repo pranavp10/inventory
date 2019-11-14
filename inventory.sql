@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 11, 2019 at 12:18 PM
+-- Generation Time: Nov 14, 2019 at 10:11 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -47,6 +47,9 @@ DROP TABLE IF EXISTS `discounts_and_flats`;
 CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `discount_id` varchar(50) NOT NULL,
+  `discount_name` varchar(255) NOT NULL,
+  `discount_from_date` date NOT NULL,
+  `discount_to_date` date NOT NULL,
   PRIMARY KEY (`discount_id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -68,16 +71,19 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
   `discount_id` varchar(50) DEFAULT NULL,
   `item_category` varchar(50) DEFAULT NULL,
   `item` varchar(50) DEFAULT NULL,
-  `discount_from_date` date DEFAULT NULL,
-  `discount_to_date` date DEFAULT NULL,
-  `discount` bigint(5) DEFAULT NULL,
-  `flat` bigint(20) DEFAULT NULL,
+  `discount_type` varchar(50) DEFAULT NULL,
+  `discount_value` bigint(255) NOT NULL,
   `minimun_amount` bigint(50) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `desid` (`discount_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discounts_and_flats_details`
+--
+
 
 -- --------------------------------------------------------
 
@@ -106,6 +112,9 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `item`
+--
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE IF NOT EXISTS `item` (
@@ -113,13 +122,22 @@ CREATE TABLE IF NOT EXISTS `item` (
   `item_id` varchar(50) NOT NULL,
   `item_category` varchar(50) DEFAULT NULL,
   `item_tax` varchar(50) NOT NULL,
-  `item_name` varchar(80) DEFAULT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`item_id`),
   UNIQUE KEY `id` (`id`),
   KEY `itemid` (`item_category`),
   KEY `itemTax` (`item_tax`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `item`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_category`
+--
 
 DROP TABLE IF EXISTS `item_category`;
 CREATE TABLE IF NOT EXISTS `item_category` (
@@ -128,11 +146,8 @@ CREATE TABLE IF NOT EXISTS `item_category` (
   `item_category_name` varchar(50) NOT NULL,
   PRIMARY KEY (`item_category_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `item_category`
---
 
 
 -- --------------------------------------------------------

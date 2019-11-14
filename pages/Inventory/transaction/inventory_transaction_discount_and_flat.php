@@ -45,7 +45,7 @@ require '../../../connect.php';
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
 
         <header class="main-header">
@@ -208,7 +208,7 @@ require '../../../connect.php';
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/Inventory/master/inventory_master_item_category.php"><i class="fa fa-sitemap"></i> Item Category</a></li>
                                     <li><a href="../../../pages/Inventory/master/inventory_master_tax.php"><i class="fa fa-calculator"></i> Tax</a></li>
-                                    <li ><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
+                                    <li><a href="../../../pages/Inventory/master/inventory_master_item.php"><i class="fa fa-inbox"></i> Item</a></li>
                                 </ul>
                             </li>
                             <li class="active treeview">
@@ -304,306 +304,126 @@ require '../../../connect.php';
             <!-- /.sidebar -->
         </aside>
         <!-- ######################################################################################################## -->
-
         <div class="content-wrapper">
-        <?
-                if (isset($_SESSION['addDiscount'])) {
-                    if (($_SESSION['addDiscount'] == 'yes')) {
-                        $discountAdded =  '<div class="alert alert-success alert-dismissible" id="discountAddedAlert" >
+            <?
+            if (isset($_SESSION['addDiscount'])) {
+                if (($_SESSION['addDiscount'] == 'yes')) {
+                    $discountAdded =  '<div class="alert alert-success alert-dismissible" id="discountAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>New Discount Added!</strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#discountAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addDiscount']);
-                        echo $discountAdded;
-                    } else {
-                        $discountNotAdded =  '<div class="alert alert-danger alert-dismissible" id="discountNotAddedAlert" >
+                    unset($_SESSION['addDiscount']);
+                    echo $discountAdded;
+                } else {
+                    $discountNotAdded =  '<div class="alert alert-danger alert-dismissible" id="discountNotAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>New DIscount Item Has Not Been Saved!!! </strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#discountNotAddedAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['addDiscount']);
-                        echo $discountNotAdded;
-                    }
+                    unset($_SESSION['addDiscount']);
+                    echo $discountNotAdded;
                 }
-                if (isset($_SESSION['updateParameters'])) {
-                    if (($_SESSION['updateParameters'] == 'yes')) {
-                        $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
+            }
+            if (isset($_SESSION['updateParameters'])) {
+                if (($_SESSION['updateParameters'] == 'yes')) {
+                    $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Updated </strong> Employee Successfully.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#parametersUpdateAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersUpdate;
-                    } else {
-                        $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
+                    unset($_SESSION['updateParameters']);
+                    echo $parametersUpdate;
+                } else {
+                    $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Employee</strong> Not Updated.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#parametersNotUpdateAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['updateParameters']);
-                        echo $parametersNotUpdate;
-                    }
+                    unset($_SESSION['updateParameters']);
+                    echo $parametersNotUpdate;
                 }
-                if (isset($_SESSION['deleteParameter'])) {
-                    if (($_SESSION['deleteParameter'] == 'yes')) {
-                        $parameterDelete =  '<div class="alert alert-warning alert-dismissible" id="parameterDeleteAlert" >
+            }
+            if (isset($_SESSION['deleteDiscount'])) {
+                if (($_SESSION['deleteDiscount'] == 'yes')) {
+                    $discountDelete =  '<div class="alert alert-warning alert-dismissible" id="discountDeleteAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> Deleted!!!.
+                            <strong>Discount Deleted!!!.</strong> 
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parameterDeleteAlert").fadeOut().empty();
+                            $("#discountDeleteAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterDelete;
-                    } else {
-                        $parameterNotDelete =  '<div class="alert alert-danger alert-dismissible" id="parameterNotDeleteAlert" >
+                    unset($_SESSION['deleteDiscount']);
+                    echo $discountDelete;
+                } else {
+                    $discountNotDelete =  '<div class="alert alert-danger alert-dismissible" id="discountNotDeleteAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Parameter</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
+                            <strong>Discount</strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
                             </div>   <script>setTimeout(fade_out, 10000);
                             function fade_out() {
-                            $("#$parameterNotDeleteAlert").fadeOut().empty();
+                            $("#$discountNotDeleteAlert").fadeOut().empty();
                             }</script>';
-                        unset($_SESSION['deleteParameter']);
-                        echo $parameterNotDelete;
-                    }
+                    unset($_SESSION['deleteDiscount']);
+                    echo $discountNotDelete;
                 }
-                ?>
-            <!-- Content Header (Page header) -->
-            <!-- ####################################################################################################### -->
-            <!-- Add item -->
-            <div class="modal fade" id="addNewItem" tabindex="-1" role="dialog" aria-labelledby="addNewItem" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title" id="addNewItemHeading"> Add New Item </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../../pages/Inventory/master/add_item.php" method="POST">
-                                <label for="itemId">Item ID</label>
-                                <input style="background-color: transparent; border: transparent;" type="text" name="itemId" class="form-control" id="itemId" readonly required>
-                                <div class="form-group">
-                                    <label>Item Category</label>
-                                    <select class="form-control itemCategory" name="itemCategory" id="itemCategory" style="width: 100%;">
-                                        <!-- <option selected="selected">Alabama</option> -->
-                                        <?
-                                        $sqlDisplayItemCategory = "SELECT `item_category_id`,`item_category_name` FROM `item_category`";
-                                        if ($rawDate = $connect->query($sqlDisplayItemCategory)) {
-                                            while ($displayCat = $rawDate->fetch_assoc()) {
-                                                $itemCategoryId = $displayCat['item_category_id'];
-                                                $ItemCategory = $displayCat['item_category_name'];
-                                                ?>
-                                                <option value="<? echo $itemCategoryId ?>"><? echo $ItemCategory ?></option>
-                                        <?
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Item Tax</label>
-                                    <select class="form-control itemTax" name="itemTax" id="itemTax" style="width: 100%;">
-                                        <?
-                                        $sqlDisplayItemTax = "SELECT `tax_id`,`tax_code` FROM `tax`;";
-                                        if ($rawDate = $connect->query($sqlDisplayItemTax)) {
-                                            while ($displayCat = $rawDate->fetch_assoc()) {
-                                                $itemTaxId = $displayCat['tax_id'];
-                                                $taxCode = $displayCat['tax_code'];
-                                                ?>
-                                                <option value="<? echo $itemTaxId ?>"><? echo $taxCode ?></option>
-                                        <?
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ItemName">Item Name</label>
-                                    <input type="text" name="itemName" minlength="3" class="form-control" id="itemName" placeholder="Enter Item Name" required>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="addItemButton">Add Item </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ###################################################################################################### -->
-            <!-- ####################################################################################################### -->
-            <!-- Edit item -->
-            <div class="modal fade" id="editItem" tabindex="-1" role="dialog" aria-labelledby="editItem" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title" id="editItemHeading"> Edit Item Category </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../../pages/Inventory/master/update_item.php" method="POST">
-                                <label for="editItemId">Item Category ID</label>
-                                <input style="background-color: transparent; border: transparent;" type="text" name="editItemId" class="form-control" id="editItemId" readonly required>
-                                <div class="form-group">
-                                    <label>Item Category</label>
-                                    <select class="form-control editItemCategory" name="editItemCategory" id="editItemCategory" style="width: 100%;">
-                                        <!-- <option selected="selected">Alabama</option> -->
-                                        <?
-                                        $sqlDisplayItemCategory = "SELECT `item_category_id`,`item_category_name` FROM `item_category`";
-                                        if ($rawDate = $connect->query($sqlDisplayItemCategory)) {
-                                            while ($displayCat = $rawDate->fetch_assoc()) {
-                                                $itemCategoryId = $displayCat['item_category_id'];
-                                                $ItemCategory = $displayCat['item_category_name'];
-                                                ?>
-                                                <option value="<? echo $itemCategoryId ?>"><? echo $ItemCategory ?></option>
-                                        <?
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Item Tax</label>
-                                    <select class="form-control editItemTax" name="editItemTax" id="editItemTax" style="width: 100%;">
-                                        <!-- <option selected="selected">Alabama</option> -->
-                                        <?
-                                        $sqlDisplayItemTax = "SELECT `tax_id`,`tax_code` FROM `tax`;";
-                                        if ($rawDate = $connect->query($sqlDisplayItemTax)) {
-                                            while ($displayCat = $rawDate->fetch_assoc()) {
-                                                $itemTaxId = $displayCat['tax_id'];
-                                                $taxCode = $displayCat['tax_code'];
-                                                ?>
-                                                <option value="<? echo $itemTaxId ?>"><? echo $taxCode ?></option>
-                                        <?
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="editItemName">Item Category Name</label>
-                                    <input type="text" name="editItemName" minlength="3" class="form-control" id="editItemName" placeholder="Enter Item Name" required>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="updateItemButton">Update Item Category</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ###################################################################################################### -->
-            <!-- ####################################################################################################### -->
+            }
+            ?>
             <!-- Delete addItem -->
-            <div class="modal fade" id="deleteItem" tabindex="-1" role="dialog" aria-labelledby="deleteItem" aria-hidden="true">
+            <div class="modal fade" id="deleteDiscount" tabindex="-1" role="dialog" aria-labelledby="deleteDiscount" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="deleteItemHeading"> Delete Item </h1>
+                            <h1 class="modal-title" id="deleteDiscountHeading"> Delete Item </h1>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/Inventory/master/delete_item.php" method="POST">
+                            <form action="../../../pages/Inventory/transaction/delete_discount.php" method="POST">
                                 <h3 id='displayBox'></h3>
                                 <input type="hidden" id="deleteId" name="deleteId" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="deleteItemButton">Delete Item Category</button>
+                            <button type="submit" class="btn btn-primary" name="deleteDiscountButton">Delete Discount</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <!-- ###################################################################################################### -->
             <section class="content">
-                <?
-                if (isset($_SESSION['addItem'])) {
-                    if (($_SESSION['addItem'] == 'yes')) {
-                        $newItemAdded =  '<div class="alert alert-success alert-dismissible" id="newItemAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong> New Item Added. </strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#newItemAddedAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['addItem']);
-                        echo $newItemAdded;
-                    } else {
-                        $ItemNotAdded =  '<div class="alert alert-danger alert-dismissible" id="ItemNotAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New Item Not Added!!!</strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#ItemNotAddedAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['addItem']);
-                        echo $ItemNotAdded;
-                    }
-                }
-                if (isset($_SESSION['updateItem'])) {
-                    if (($_SESSION['updateItem'] == 'yes')) {
-                        $ItemUpdate =  '<div class="alert alert-success alert-dismissible" id="ItemUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Updated Item Successfully</strong>.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#ItemUpdateAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['updateItem']);
-                        echo $ItemUpdate;
-                    } else {
-                        $ItemNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="ItemNotUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong> Item Not Updated !!!</strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#ItemNotUpdateAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['updateItem']);
-                        echo $ItemNotUpdate;
-                    }
-                }
-                if (isset($_SESSION['deleteItem'])) {
-                    if (($_SESSION['deleteItem'] == 'yes')) {
-                        $ItemDelete =  '<div class="alert alert-warning alert-dismissible" id="ItemDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Item Deleted!!!</strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#ItemDeleteAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['deleteItem']);
-                        echo $ItemDelete;
-                    } else {
-                        $ItemNotDelete =  '<div class="alert alert-danger alert-dismissible" id="ItemNotDeleteAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Item cannot be deleted  because the Item  is used by the one of the Item So you cannot perform this action.</strong>
-                            </div>   <script>setTimeout(fade_out, 10000);
-                            function fade_out() {
-                            $("#$ItemNotDeleteAlert").fadeOut().empty();
-                            }</script>';
-                        unset($_SESSION['deleteItem']);
-                        echo $ItemNotDelete;
-                    }
-                }
-                ?>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="discountId">Select Discount:</label>
+                        <select class="form-control" name="discountId" id="discountId">
+                            <option value="-Select-">-Select-</option>
+                            <?
+                            $sqlDisplayDiscount = "SELECT discount_id,discount_name FROM discounts_and_flats";
+                            if ($rawDate = $connect->query($sqlDisplayDiscount)) {
+                                while ($displayDiscount = $rawDate->fetch_assoc()) {
+                                    $discountId = $displayDiscount['discount_id'];
+                                    $discountName = $displayDiscount['discount_name'];
+                                    ?>
+                                    <option value='<? echo $discountId; ?>'><? echo $discountName; ?></option>
+                            <?
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <br>
                 <div class="row">
                     <div class="col-xs-12">
 
@@ -612,49 +432,26 @@ require '../../../connect.php';
                                 <h3 class="box-title">Items</h3>
 
                                 <div class="box-tools">
-                                    <button type="button" class="btn btn-primary"onClick="location.href='../../../pages/Inventory/transaction/add_discount.php'">
+                                    <button type="button" class="btn btn-primary" onClick="location.href='../../../pages/Inventory/transaction/add_discount.php'">
                                         <strong><i class="fa fa-plus"></i> Add Discount </strong></button>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="ItemTable" class="table table-bordered table-striped">
+                                    <table id="discountTable" class="table table-bordered" >
                                         <thead>
                                             <tr>
-                                                <th>Item ID</th>
-                                                <th>Item Category Name</th>
-                                                <th>Item Tax</th>
-                                                <th>Item Name</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
+                                                <th>Discount Id</th>
+                                                <th>Discount Name</th>
+                                                <th>Discount Between</th>
+                                                <th>Discount Category</th>
+                                                <th>Discount Item</th>
+                                                <th>Discount Value</th>
+                                                <th>Minimum Amount</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?
-                                            $sqlDisplayItem = "SELECT item.`item_id`,item.`item_name`,itemCat.item_category_name,tax.tax_code FROM item AS item INNER JOIN item_category as itemCat ON item.item_category = itemCat.item_category_id INNER JOIN tax as tax on  item.item_tax =tax.tax_id";
-                                            if ($rawDate = $connect->query($sqlDisplayItem)) {
-                                                while ($displayItem = $rawDate->fetch_assoc()) {
-                                                    $ItemId = $displayItem['item_id'];
-                                                    $ItemCat = $displayItem['item_category_name'];
-                                                    $itemTax =$displayItem['tax_code']; 
-                                                    $ItemName = $displayItem['item_name'];
-                                                    ?>
-
-                                                    <tr>
-                                                        <td><? echo $ItemId; ?></td>
-                                                        <td><? echo $ItemCat; ?></td>
-                                                        <td><? echo $itemTax; ?></td>
-                                                        <td><? echo $ItemName; ?></td>
-                                                        <td><button class="btn btn-primary btn-xs editItem" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                                                        </td>
-                                                        <td><button class="btn btn-danger btn-xs deleteItem" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>
-                                                        </td>
-                                                    </tr>
-                                            <?
-                                                }
-                                            }
-                                            ?>
                                         </tbody>
-
                                     </table>
                                 </div>
                                 <!-- /.box-body -->
@@ -704,4 +501,3 @@ require '../../../connect.php';
 </body>
 
 </html>
-?>

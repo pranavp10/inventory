@@ -5,6 +5,12 @@ $("#betweenDate").daterangepicker({
     format: "DD-MM-YYYY"
   }
 });
+$(document).on('change','#betweenDate',function(){
+  $('#submitButton').removeClass('btn-success').addClass('btn-danger').prop('type', 'button').attr("onclick", "checkData()").html(`Check <i class="fa fa-question-circle"></i>`);
+  $(document).on("click", "#submitButton",function(){
+    checkData();
+  });
+});
 
 function getCurrentFiscalYear() {
   //get current date
@@ -91,6 +97,10 @@ function itemSelect(id) {
 }
 
 $(document).on("change", '.itemCategory', function () {
+  $('#submitButton').removeClass('btn-success').addClass('btn-danger').prop('type', 'button').attr("onclick", "checkData()").html(`Check <i class="fa fa-question-circle"></i>`);
+  $(document).on("click", "#submitButton",function(){
+    checkData();
+  });
   $(this).each(function () {
     var itemCategoryId = this.id;
     var onlyId = itemCategoryId.match(/(\d+)/);
@@ -100,6 +110,10 @@ $(document).on("change", '.itemCategory', function () {
 });
 
 $(document).on("change", '.itemCode', function () {
+  $('#submitButton').removeClass('btn-success').addClass('btn-danger').prop('type', 'button').attr("onclick", "checkData()").html(`Check <i class="fa fa-question-circle"></i>`);
+  $(document).on("click", "#submitButton",function(){
+    checkData();
+  });
   $(this).each(function () {
     var itemCodeId = this.id;
     var onlyId = itemCodeId.match(/(\d+)/);
@@ -109,6 +123,10 @@ $(document).on("change", '.itemCode', function () {
 });
 
 $(document).on("change", '.item', function () {
+  $('#submitButton').removeClass('btn-success').addClass('btn-danger').prop('type', 'button').attr("onclick", "checkData()").html(`Check <i class="fa fa-question-circle"></i>`);
+  $(document).on("click", "#submitButton",function(){
+    checkData();
+  });
   $(this).each(function () {
     var itemId = this.id;
     var onlyId = itemId.match(/(\d+)/);
@@ -285,8 +303,6 @@ function checkDiscountName() {
         discountNameButtonIcon.removeClass('fa-question-circle').addClass('fa-check');
         $('#discountName').attr('readonly', true);
 
-      } else {
-
       }
     }
   });
@@ -294,7 +310,7 @@ function checkDiscountName() {
 
 function displayMessage(message) {
   $("#alert").show().html(`<div id="alertInside"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> ${message} </strong></div>
-  <script>setTimeout(fade_out, 7000);
+  <script>setTimeout(fade_out, 90000);
   function fade_out() {
   $("#alertInside").fadeOut().empty();
   $('#alert').hide();
@@ -307,8 +323,6 @@ function checkData() {
   var discountName = $("#discountName").val();
   var betweenDate = $('#betweenDate').val();
   if ($('#discountName').is('[readonly]') && discountName != '' && $("#discountNameButton").hasClass('btn-success')) {
-
-
     for (let i = 0; i <= numberOfRows; i++) {
       var valueItemCategory = $(`#itemCategory${i}`).val();
       var valueItemCode = $(`#itemCode${i}`).val();
@@ -345,7 +359,7 @@ function checkData() {
         var listLength = list.length;
         for(let i=0; i<listLength; i++){
           if(list[i].value == "yes"){
-            displayMessage(`The Serial Number ${i} Item is already under the offer for the given Date `);
+            displayMessage(`The Serial Number ${i+1} Item is already under the offer for the given Date `);
           return false;
           }else{
             $('#submitButton').removeClass('btn-danger').addClass('btn-success').prop('type', 'submit').attr("onclick", "").html(`Submit<i class="fa fa-check"></i>`);
@@ -354,11 +368,11 @@ function checkData() {
         }
       }
     });
-
-
   } else {
     displayMessage('Enter Discount Name and check Availability');
     return false;
   }
 }
+
+
 
