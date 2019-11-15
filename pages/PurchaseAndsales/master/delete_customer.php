@@ -2,21 +2,21 @@
 session_start();
 require '../../../connect.php';
 
-if (isset($_POST['deleteEmployeeButton'])) {
+if (isset($_POST['deleteCustomerButton'])) {
 
-    if ($_POST['deleteEmployeeId'] != NULL) {
-        $delete_Employee_id = $_POST['deleteEmployeeId'];
+    if ($_POST['deleteCustomerId'] != NULL) {
+        $deleteCustomerId = $_POST['deleteCustomerId'];
     } else {
         echo "Employee ID Not selected";
         exit;
     }
-    $sqlDeleteEmployee = "DELETE FROM `employees_details` WHERE `employees_details`.`emp_id` = '$delete_Employee_id'";
-    if ($connect->query($sqlDeleteEmployee)) {
-        $_SESSION['deleteEmployee'] = 'yes';
-        header("Location: ../../../pages/hr/master/hr_master_employee.php");
+    $sqlDeleteCustomer = "DELETE FROM `customer_or_company` WHERE `customer_or_company`.`customer_id` = '$deleteCustomerId';";
+    if ($connect->query($sqlDeleteCustomer)) {
+        $_SESSION['deleteCustomer'] = 'yes';
+        header("Location: ../../../pages/PurchaseAndsales/master/purchaseAndsales_master_customers.php");
     }else {
-        $_SESSION['deleteEmployee'] = 'no';
-        header("Location: ../../../pages/hr/master/hr_master_employee.php");
+        $_SESSION['deleteCustomer'] = 'no';
+        header("Location: ../../../pages/PurchaseAndsales/master/purchaseAndsales_master_customers.php");
     }
 }
 ?>
