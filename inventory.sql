@@ -24,9 +24,52 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_or_company`
+--
+
+DROP TABLE IF EXISTS `customer_or_company`;
+CREATE TABLE IF NOT EXISTS `customer_or_company` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(50) NOT NULL,
+  `gstin` varchar(50) DEFAULT NULL,
+  `cust_comp_name` varchar(100) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `city_pincode` bigint(10) DEFAULT NULL,
+  `c_phone_number` bigint(12) DEFAULT NULL,
+  `c_email` varchar(50) DEFAULT NULL,
+  `c_address` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`customer_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
 -- Table structure for table `designation`
 --
+
+--
+-- Table structure for table `supplier_or_company`
+--
+
+DROP TABLE IF EXISTS `supplier_or_company`;
+CREATE TABLE IF NOT EXISTS `supplier_or_company` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `supplier_id` varchar(50) NOT NULL,
+  `gstin` varchar(50) DEFAULT NULL,
+  `supplier_name` varchar(100) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `city_pincode` bigint(10) DEFAULT NULL,
+  `s_phone_number` bigint(12) DEFAULT NULL,
+  `s_email` varchar(50) DEFAULT NULL,
+  `s_address` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`supplier_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 DROP TABLE IF EXISTS `designation`;
 CREATE TABLE IF NOT EXISTS `designation` (

@@ -151,7 +151,7 @@ require '../../../connect.php';
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/hr/master/hr_master_designation.php"><i class="fa fa-table"></i> Designation</a></li>
-                                    <li class="active"><a href="../../../pages/hr/master/hr_master_employee.php"><i class="fa fa-users"></i> Employees</a></li>
+                                    <li ><a href="../../../pages/hr/master/hr_master_employee.php"><i class="fa fa-users"></i> Employees</a></li>
                                     <li><a href="../../../pages/hr/master/hr_master_parameters.php"><i class="fa fa-list"></i> Parameters</a></li>
                                 </ul>
                             </li>
@@ -262,7 +262,7 @@ require '../../../connect.php';
                                 <ul class="treeview-menu">
                                     <li class="active"><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_customers.php"><i class="fa fa-male"></i> Customers</a></li>
                                     <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_supplier.php"><i class="fa fa-industry"></i> Supplier</a></li>
-                                    <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_tax.php"><i class="fa fa-dashboard"></i> Credit Limit</a></li>
+                                    <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_credit_limit.php"><i class="fa fa-dashboard"></i> Credit Limit</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -399,7 +399,7 @@ require '../../../connect.php';
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="addCustomerOrCompanyButton">Add Employee</button>
+                                <button type="submit" class="btn btn-primary" name="addCustomerOrCompanyButton">Add Customer OR Company</button>
                             </div>
                         </form>
                     </div>
@@ -498,7 +498,7 @@ require '../../../connect.php';
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="updateCustomerButton">Update Designation</button>
+                                <button type="submit" class="btn btn-primary" name="updateCustomerButton">Update Customer OR Company</button>
                         </form>
                     </div>
                 </div>
