@@ -69,6 +69,22 @@ CREATE TABLE IF NOT EXISTS `supplier_or_company` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Table structure for table `credit_limit`
+--
+
+DROP TABLE IF EXISTS `credit_limit`;
+CREATE TABLE IF NOT EXISTS `credit_limit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `credit_limit_id` varchar(50) NOT NULL,
+  `customer_id` varchar(50) DEFAULT NULL,
+  `credit_limit_value` bigint(15) DEFAULT NULL,
+  `credit_limit_from_date` date DEFAULT NULL,
+  `credit_limit_to_date` date DEFAULT NULL,
+  PRIMARY KEY (`credit_limit_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `cusid` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 DROP TABLE IF EXISTS `designation`;

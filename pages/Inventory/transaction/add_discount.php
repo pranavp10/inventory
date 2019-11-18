@@ -263,7 +263,7 @@ require '../../../connect.php';
                                 <ul class="treeview-menu">
                                     <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_customers.php"><i class="fa fa-male"></i> Customers</a></li>
                                     <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_supplier.php"><i class="fa fa-industry"></i> Supplier</a></li>
-                                    <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_tax.php"><i class="fa fa-dashboard"></i> Credit Limit</a></li>
+                                    <li><a href="../../../pages/PurchaseAndsales/master/purchaseAndsales_master_credit_limit.php"><i class="fa fa-dashboard"></i> Credit Limit</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -310,7 +310,6 @@ require '../../../connect.php';
             <!-- ###################################################################################################### -->
             <section class="content">
                 <form action="../../../pages/Inventory/transaction/save_discount.php" method="post">
-
                     <div class="alert alert-danger alert-dismissible" id="alert" hidden>
                     </div>
                     <div class="row">
