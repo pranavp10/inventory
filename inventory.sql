@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 18, 2019 at 12:15 PM
+-- Generation Time: Nov 18, 2019 at 06:54 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -228,6 +228,23 @@ CREATE TABLE IF NOT EXISTS `parameters` (
   `parameter_value` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `desid` (`designation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase`
+--
+
+DROP TABLE IF EXISTS `purchase`;
+CREATE TABLE IF NOT EXISTS `purchase` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `purchase_id` varchar(50) NOT NULL,
+  `supplier_id` varchar(50) DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  PRIMARY KEY (`purchase_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `supid` (`supplier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1382,6 +1399,12 @@ ALTER TABLE `item`
 --
 ALTER TABLE `parameters`
   ADD CONSTRAINT `parameters_ibfk_1` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`);
+
+--
+-- Constraints for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier_or_company` (`supplier_id`);
 
 --
 -- Constraints for table `salary_generation`

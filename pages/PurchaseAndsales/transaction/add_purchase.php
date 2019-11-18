@@ -320,15 +320,15 @@ require '../../../connect.php';
                                     <div class="row">
                                         <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label for="discountId">Purchase ID</label>
-                                                <input style="background-color: transparent; border: transparent;" type="text" name="discountId" class="form-control" id="discountId" readonly required>
+                                                <label for="purchaseId">Purchase ID</label>
+                                                <input style="background-color: transparent; border: transparent;" type="text" name="purchaseId" class="form-control" id="purchaseId" readonly required>
                                             </div>
                                         </div>
                                         <div class="col-xs-4">
                                             <div class="form-group">
                                                 <label for="supplierId">Supplier</label>
                                                 <select class="form-control select2" name="supplierId" id="supplierId" style="width: 100%;">
-                                                    <option value="-select-">-select-</option>
+                                                    <option value="-Select-">-select-</option>
                                                     <?
                                                     $sqlDisplaySupplier = "SELECT `supplier_id`,`supplier_name` FROM `supplier_or_company` ";
                                                     if ($rawDate = $connect->query($sqlDisplaySupplier)) {
@@ -375,7 +375,7 @@ require '../../../connect.php';
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
+                                                <td id="0">1</td>
                                                 <td> <select class="form-control itemCategory" name="itemCategory[]" id="itemCategory0">
                                                         <option value="-Select-">-Select-</option>
                                                         <?
@@ -403,27 +403,27 @@ require '../../../connect.php';
                                                     </select>
                                                 </td>
                                                 <td>
-                                                <input style="background-color: transparent; border: transparent;" type="text" name="discountId" value="GST-18%" class="form-control" id="discountId" readonly required>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="text" min='0' onkeypress="return isNumberKey(event)" max='1000000' name="discountValue[]" class="form-control discountValue" id="discountValue0" required>
-                                                </div>
-                                            </td>
-                                                                    <td>
-                                                                    <input style="background-color: transparent; border: transparent;" type="text" name="discountId" value="Kg" class="form-control" id="discountId" readonly required>
-                                                                </td>
+                                                    <input style="background-color: transparent; border: transparent;" class="tax" type="text" name="tax[]" class="form-control" id="tax0" readonly required>
+                                                </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="text" min='0' max='1000000' name="minAmount[]" onkeypress="return isNumberKey(event)" class="form-control" id="minAmount0" required>
+                                                        <input type="text" onkeypress="return isNumberKey(event)" name="quantity[]" class="form-control quantity" id="quantity0" disabled required>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                <input style="background-color: transparent; border: transparent;" type="text" name="discountId" class="form-control" id="discountId" readonly required>
+                                                    <input style="background-color: transparent; border: transparent;" type="text" name="itemType[]" class="form-control itemType" id="itemType0" readonly required>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text"  name="pricePerUnit[]" onkeypress="return isNumberKey(event)" class="form-control pricePerUnit" id="pricePerUnit0" disabled required>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input style="background-color: transparent; border: transparent;" type="text" name="totalAmount[]" class="form-control totalAmount" id="totalAmount0" readonly required>
 
                                                 </td>
                                                 <td>
-                                                <input style="background-color: transparent; border: transparent;" type="text" name="discountId" class="form-control" id="discountId" readonly required>
+                                                    <input style="background-color: transparent; border: transparent;" type="text" name="totalAmountWithTax[]" class="form-control totalAmountWithTax" id="totalAmountWithTax0" readonly required>
 
                                                 </td>
                                                 <td><button class="btn btn-danger btn-xs deleteRow" disabled><span class="glyphicon glyphicon-trash"></span></button></p>
@@ -435,6 +435,7 @@ require '../../../connect.php';
                                         <button type="button" class="btn btn-primary" onclick="addNewRow()">
                                             <strong><i class="fa fa-plus"></i> Add New Item </strong></button>
                                     </div>
+                                    <button type="submit" class="btn pull-right btn-success" id="readySubmitButton" disabled>Submit<i class="fa fa-check"></i></button>
                                     <button type="button" class="btn btn-danger pull-right" id="submitButton" onclick="checkData()">Check <i class="fa fa-question-circle"></i></button>
                                     <button class="btn btn-default pull-right" onClick="location.href='../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php'">Cancel</button>
                                 </div>
@@ -452,7 +453,6 @@ require '../../../connect.php';
         </form>
         </section>
 
-        <!-- sdjksdhdkfjshfkasjfhdlskadjfhskldjfhsakf -->
     </div>
     <!-- /.content-wrapper -->
     </div>
