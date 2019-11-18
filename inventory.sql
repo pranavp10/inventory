@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 15, 2019 at 12:02 PM
+-- Generation Time: Nov 18, 2019 at 12:15 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -23,6 +23,30 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `credit_limit`
+--
+
+DROP TABLE IF EXISTS `credit_limit`;
+CREATE TABLE IF NOT EXISTS `credit_limit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `credit_limit_id` varchar(50) NOT NULL,
+  `customer_id` varchar(50) DEFAULT NULL,
+  `credit_limit_value` bigint(15) DEFAULT NULL,
+  `credit_limit_from_date` date DEFAULT NULL,
+  `credit_limit_to_date` date DEFAULT NULL,
+  PRIMARY KEY (`credit_limit_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `cusid` (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `credit_limit`
+--
+
+INSERT INTO `credit_limit` (`id`, `credit_limit_id`, `customer_id`, `credit_limit_value`, `credit_limit_from_date`, `credit_limit_to_date`) VALUES
+(1, 'CCL-1', 'CMS-2', 1, '2019-11-12', '2019-11-06');
 
 -- --------------------------------------------------------
 
@@ -44,48 +68,21 @@ CREATE TABLE IF NOT EXISTS `customer_or_company` (
   `c_address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer_or_company`
+--
+
+INSERT INTO `customer_or_company` (`id`, `customer_id`, `gstin`, `cust_comp_name`, `state`, `city`, `city_pincode`, `c_phone_number`, `c_email`, `c_address`) VALUES
+(1, 'CMS-1', 'F2', 'Ad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(2, 'CMS-2', '231', 'Asdasdadad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `designation`
 --
-
---
--- Table structure for table `supplier_or_company`
---
-
-DROP TABLE IF EXISTS `supplier_or_company`;
-CREATE TABLE IF NOT EXISTS `supplier_or_company` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `supplier_id` varchar(50) NOT NULL,
-  `gstin` varchar(50) DEFAULT NULL,
-  `supplier_name` varchar(100) DEFAULT NULL,
-  `state` varchar(50) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `city_pincode` bigint(10) DEFAULT NULL,
-  `s_phone_number` bigint(12) DEFAULT NULL,
-  `s_email` varchar(50) DEFAULT NULL,
-  `s_address` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`supplier_id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Table structure for table `credit_limit`
---
-
-DROP TABLE IF EXISTS `credit_limit`;
-CREATE TABLE IF NOT EXISTS `credit_limit` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `credit_limit_id` varchar(50) NOT NULL,
-  `customer_id` varchar(50) DEFAULT NULL,
-  `credit_limit_value` bigint(15) DEFAULT NULL,
-  `credit_limit_from_date` date DEFAULT NULL,
-  `credit_limit_to_date` date DEFAULT NULL,
-  PRIMARY KEY (`credit_limit_id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `cusid` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 DROP TABLE IF EXISTS `designation`;
 CREATE TABLE IF NOT EXISTS `designation` (
@@ -113,9 +110,6 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `discounts_and_flats`
-
 -- --------------------------------------------------------
 
 --
@@ -136,11 +130,6 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `discounts_and_flats_details`
---
-
 
 -- --------------------------------------------------------
 
@@ -180,16 +169,22 @@ CREATE TABLE IF NOT EXISTS `item` (
   `item_category` varchar(50) DEFAULT NULL,
   `item_tax` varchar(50) NOT NULL,
   `item_name` varchar(255) DEFAULT NULL,
+  `item_type` varchar(50) NOT NULL,
   PRIMARY KEY (`item_id`),
   UNIQUE KEY `id` (`id`),
   KEY `itemid` (`item_category`),
   KEY `itemTax` (`item_tax`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item`
 --
 
+INSERT INTO `item` (`id`, `item_id`, `item_category`, `item_tax`, `item_name`, `item_type`) VALUES
+(1, 'ITM-1', 'CAT-1', 'TAX-1', 'Mango', 'Piece'),
+(2, 'ITM-2', 'CAT-2', 'TAX-1', 'Potato', 'Piece'),
+(3, 'ITM-3', 'CAT-3', 'TAX-1', 'Gst-18', 'Kg'),
+(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Mango', 'Kg');
 
 -- --------------------------------------------------------
 
@@ -204,12 +199,16 @@ CREATE TABLE IF NOT EXISTS `item_category` (
   `item_category_name` varchar(50) NOT NULL,
   PRIMARY KEY (`item_category_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_category`
 --
 
+INSERT INTO `item_category` (`id`, `item_category_id`, `item_category_name`) VALUES
+(1, 'CAT-1', 'Fruit'),
+(2, 'CAT-2', 'Veg'),
+(3, 'CAT-3', 'Dry fruits');
 
 -- --------------------------------------------------------
 
@@ -1277,6 +1276,38 @@ INSERT INTO `statelist` (`city_id`, `city_name`, `latitude`, `longitude`, `state
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `supplier_or_company`
+--
+
+DROP TABLE IF EXISTS `supplier_or_company`;
+CREATE TABLE IF NOT EXISTS `supplier_or_company` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `supplier_id` varchar(50) NOT NULL,
+  `gstin` varchar(50) DEFAULT NULL,
+  `supplier_name` varchar(100) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `city_pincode` bigint(10) DEFAULT NULL,
+  `s_phone_number` bigint(12) DEFAULT NULL,
+  `s_email` varchar(50) DEFAULT NULL,
+  `s_address` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`supplier_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supplier_or_company`
+--
+
+INSERT INTO `supplier_or_company` (`id`, `supplier_id`, `gstin`, `supplier_name`, `state`, `city`, `city_pincode`, `s_phone_number`, `s_email`, `s_address`) VALUES
+(1, 'SUP-1', 'F2', 'Ad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(2, 'SUP-2', '231', 'A', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(3, 'SUP-3', 'DAD', 'B', 'Karnataka', 'Hubli', 585032, 9999999999, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(4, 'SUP-4', 'F2', 'C', 'Karnataka', 'Hubli', 585032, 8888888888, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tax`
 --
 
@@ -1288,12 +1319,14 @@ CREATE TABLE IF NOT EXISTS `tax` (
   `tax_percentage` bigint(5) DEFAULT NULL,
   PRIMARY KEY (`tax_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tax`
 --
 
+INSERT INTO `tax` (`id`, `tax_id`, `tax_code`, `tax_percentage`) VALUES
+(1, 'TAX-1', 'GST-18', 18);
 
 -- --------------------------------------------------------
 
@@ -1316,6 +1349,12 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `credit_limit`
+--
+ALTER TABLE `credit_limit`
+  ADD CONSTRAINT `credit_limit_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer_or_company` (`customer_id`);
 
 --
 -- Constraints for table `discounts_and_flats_details`

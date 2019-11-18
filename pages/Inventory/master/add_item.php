@@ -39,8 +39,9 @@ if (isset($_POST['addItemButton'])) {
         header("Location: ../../../pages/Inventory/master/inventory_master_item.php");
         exit;
     }
+    $itemType = $_POST['itemType'];
 
-    $sqlInsertItemCategory = "INSERT INTO `item`(`item_id`, `item_category`, `item_tax`, `item_name`) VALUES ('$itemId','$itemCategory','$itemTax','$itemName')";
+    $sqlInsertItemCategory = "INSERT INTO `item`(`item_id`, `item_category`, `item_tax`, `item_name`,`item_type`) VALUES ('$itemId','$itemCategory','$itemTax','$itemName','$itemType')";
 
 
     if ($connect->query($sqlInsertItemCategory)) {

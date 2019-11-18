@@ -361,6 +361,13 @@ require '../../../connect.php';
                                     <label for="ItemName">Item Name</label>
                                     <input type="text" name="itemName" minlength="3" class="form-control" id="itemName" placeholder="Enter Item Name" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="itemType">Item Type</label>
+                                    <select class="form-control" name="itemType" id="itemType" style="width: 100%;">
+                                        <option value="Piece">Piece</option>
+                                        <option value="Kg">Kg</option>
+                                    </select>
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -425,6 +432,13 @@ require '../../../connect.php';
                                 <div class="form-group">
                                     <label for="editItemName">Item Category Name</label>
                                     <input type="text" name="editItemName" minlength="3" class="form-control" id="editItemName" placeholder="Enter Item Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editItemType">Item Type</label>
+                                    <select class="form-control" name="editItemType" id="editItemType" style="width: 100%;">
+                                        <option value="Piece" selected>Piece</option>
+                                        <option value="Kg">Kg</option>
+                                    </select>
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -553,26 +567,29 @@ require '../../../connect.php';
                                                 <th>Item Category Name</th>
                                                 <th>Item Tax</th>
                                                 <th>Item Name</th>
+                                                <th>Item Type</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?
-                                            $sqlDisplayItem = "SELECT item.`item_id`,item.`item_name`,itemCat.item_category_name,tax.tax_code FROM item AS item INNER JOIN item_category as itemCat ON item.item_category = itemCat.item_category_id INNER JOIN tax as tax on  item.item_tax =tax.tax_id";
+                                            $sqlDisplayItem = "SELECT item.`item_id`,item.`item_name`,itemCat.item_category_name,tax.tax_code,item.item_type FROM item AS item INNER JOIN item_category as itemCat ON item.item_category = itemCat.item_category_id INNER JOIN tax as tax on  item.item_tax =tax.tax_id";
                                             if ($rawDate = $connect->query($sqlDisplayItem)) {
                                                 while ($displayItem = $rawDate->fetch_assoc()) {
                                                     $ItemId = $displayItem['item_id'];
                                                     $ItemCat = $displayItem['item_category_name'];
-                                                    $itemTax =$displayItem['tax_code']; 
+                                                    $itemTax = $displayItem['tax_code'];
                                                     $ItemName = $displayItem['item_name'];
+                                                    $ItemType = $displayItem['item_type'];
                                                     ?>
 
                                                     <tr>
                                                         <td><? echo $ItemId; ?></td>
                                                         <td><? echo $ItemCat; ?></td>
                                                         <td><? echo $itemTax; ?></td>
-                                                        <td><? echo $ItemName; ?></td>
+                                                        <td><? echo $itemTax; ?></td>
+                                                        <td><? echo $ItemType; ?></td>
                                                         <td><button class="btn btn-primary btn-xs editItem" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
                                                         </td>
                                                         <td><button class="btn btn-danger btn-xs deleteItem" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p>

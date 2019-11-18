@@ -33,8 +33,8 @@ if (isset($_POST['updateItemButton'])) {
         header("Location: ../../../pages/inventory/master/inventory_master_item.php");
         exit;
     }
-
-    $sqlUpdateItem = "UPDATE `item` SET `item_category` = '$editItemCategory', `item_name` = '$editItemName',`item_tax` = '$editItemTax' WHERE `item`.`item_id` = '$editItemId';";
+    $editItemType = $_POST['editItemType'];
+    $sqlUpdateItem = "UPDATE `item` SET `item_category` = '$editItemCategory', `item_name` = '$editItemName',`item_tax` = '$editItemTax',`item_type` = '$editItemType' WHERE `item`.`item_id` = '$editItemId';";
 
     if ($connect->query($sqlUpdateItem)) {
         $_SESSION['updateItem'] = 'yes';

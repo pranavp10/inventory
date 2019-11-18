@@ -42,6 +42,7 @@ $(document).ready(function() {
       $('#editItemTax').select2().trigger('change');
 
       $("#editItemName").val(data[3]);
+      $("#editItemType").val(data[4]);
     });
   });
 
