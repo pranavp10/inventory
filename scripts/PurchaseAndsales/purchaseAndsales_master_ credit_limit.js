@@ -18,7 +18,6 @@ $('#editToDate').datepicker({
 $('#customerId').select2();
 
 $.ajax({
-  //create an ajax request to display.php
   type: "POST",
   url: "../../../pages/PurchaseAndsales/master/get_credit_limit_id.php",
   success: function(response) {

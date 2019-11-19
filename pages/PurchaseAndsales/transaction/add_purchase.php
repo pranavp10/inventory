@@ -308,7 +308,7 @@ require '../../../connect.php';
 
         <div class="content-wrapper">
             <section class="content">
-                <form action="../../../pages/Inventory/transaction/save_discount.php" method="post">
+                <form action="../../../pages/PurchaseAndsales/transaction/save_purchase.php" method="post">
                     <div class="alert alert-danger alert-dismissible" id="alert" hidden>
                     </div>
                     <div class="row">
@@ -318,13 +318,13 @@ require '../../../connect.php';
                                 <h3 class="box-title">Add Purchase</h3>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-xs-4">
+                                        <div class="col-xs-3">
                                             <div class="form-group">
                                                 <label for="purchaseId">Purchase ID</label>
                                                 <input style="background-color: transparent; border: transparent;" type="text" name="purchaseId" class="form-control" id="purchaseId" readonly required>
                                             </div>
                                         </div>
-                                        <div class="col-xs-4">
+                                        <div class="col-xs-3">
                                             <div class="form-group">
                                                 <label for="supplierId">Supplier</label>
                                                 <select class="form-control select2" name="supplierId" id="supplierId" style="width: 100%;">
@@ -344,7 +344,7 @@ require '../../../connect.php';
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xs-4">
+                                        <div class="col-xs-3">
                                             <div class="form-group">
                                                 <label for="purchaseDate">Purchase Date</label>
                                                 <div class="input-group">
@@ -353,7 +353,17 @@ require '../../../connect.php';
                                                     </div>
                                                     <input type="text" class="form-control pull-right" name="purchaseDate" id="purchaseDate">
                                                 </div>
-                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="lrNumber">LR Number</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-truck"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="lrNumber" id="lrNumber">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -403,7 +413,9 @@ require '../../../connect.php';
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input style="background-color: transparent; border: transparent;" class="tax" type="text" name="tax[]" class="form-control" id="tax0" readonly required>
+                                                    <div class="input-group">
+                                                        <input style="background-color: transparent; border: transparent;" type="text" name="tax[]" class="form-control tax" id="tax0" readonly required>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
@@ -415,7 +427,7 @@ require '../../../connect.php';
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="text"  name="pricePerUnit[]" onkeypress="return isNumberKey(event)" class="form-control pricePerUnit" id="pricePerUnit0" disabled required>
+                                                        <input type="text" name="pricePerUnit[]" onkeypress="return isNumberKey(event)" class="form-control pricePerUnit" id="pricePerUnit0" disabled required>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -430,6 +442,20 @@ require '../../../connect.php';
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <td colspan="5">Total Amount:</td>
+                                            <td>
+                                                <input type="text" name="totalQuantityOfPurchase" class="form-control totalQuantityOfPurchase" id="totalQuantityOfPurchase" readonly  required>
+                                            </td>
+                                            <td colspan="2"></td>
+                                            <td>
+                                                <input type="text" name="totalAmountOfPurchase" class="form-control totalAmountOfPurchase" id="totalAmountOfPurchase" readonly required>
+                                            </td>
+                                            <td colspan="2">
+                                                <input type="text" name="totalAmountWithTaxOfPurchase" class="form-control totalAmountWithTaxOfPurchase" id="totalAmountWithTaxOfPurchase" readonly required>
+                                            </td>
+
+                                        </tfoot>
                                     </table>
                                     <div class="box-tools">
                                         <button type="button" class="btn btn-primary" onclick="addNewRow()">
@@ -437,7 +463,7 @@ require '../../../connect.php';
                                     </div>
                                     <button type="submit" class="btn pull-right btn-success" id="readySubmitButton" disabled>Submit<i class="fa fa-check"></i></button>
                                     <button type="button" class="btn btn-danger pull-right" id="submitButton" onclick="checkData()">Check <i class="fa fa-question-circle"></i></button>
-                                    <button class="btn btn-default pull-right" onClick="location.href='../../../pages/Inventory/transaction/inventory_transaction_discount_and_flat.php'">Cancel</button>
+                                    <button type="button" class="btn btn-default pull-right" onClick="location.href='../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_purchase.php'">Cancel</button>
                                 </div>
 
                                 <!-- /.box-header -->

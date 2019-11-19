@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 18, 2019 at 06:54 PM
+-- Generation Time: Nov 19, 2019 at 12:18 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -91,7 +91,15 @@ CREATE TABLE IF NOT EXISTS `designation` (
   `description` varchar(50) NOT NULL,
   PRIMARY KEY (`designation_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `designation`
+--
+
+INSERT INTO `designation` (`id`, `designation_id`, `description`) VALUES
+(1, 'DES-1', 'Manager'),
+(2, 'DES-2', 'Developer');
 
 -- --------------------------------------------------------
 
@@ -108,7 +116,16 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
   `discount_to_date` date NOT NULL,
   PRIMARY KEY (`discount_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discounts_and_flats`
+--
+
+INSERT INTO `discounts_and_flats` (`id`, `discount_id`, `discount_name`, `discount_from_date`, `discount_to_date`) VALUES
+(1, 'DAF-1920-1', 'Diwali', '2019-12-01', '2019-12-18'),
+(2, 'DAF-1920-2', 'Dfds', '2020-01-09', '2020-01-24'),
+(3, 'DAF-1920-3', 'Diwalids', '2019-06-03', '2019-06-18');
 
 -- --------------------------------------------------------
 
@@ -129,7 +146,21 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
   KEY `desid` (`discount_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discounts_and_flats_details`
+--
+
+INSERT INTO `discounts_and_flats_details` (`id`, `discount_id`, `item_category`, `item`, `discount_type`, `discount_value`, `minimun_amount`) VALUES
+(1, 'DAF-1920-1', 'CAT-3', 'ITM-3', 'percent', 33, 33),
+(2, 'DAF-1920-2', 'CAT-3', 'ITM-3', 'percent', 1, 6),
+(3, 'DAF-1920-2', 'CAT-1', 'ITM-4', 'flat', 1, 0),
+(4, 'DAF-1920-2', 'CAT-1', 'ITM-1', 'percent', 1, 0),
+(5, 'DAF-1920-3', 'CAT-2', 'ITM-2', 'percent', 1, 4),
+(6, 'DAF-1920-3', 'CAT-1', 'ITM-1', 'percent', 1, 0),
+(7, 'DAF-1920-3', 'CAT-1', 'ITM-4', 'percent', 1, 0),
+(8, 'DAF-1920-3', 'CAT-3', 'ITM-3', 'percent', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -154,7 +185,15 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `id` (`id`),
   KEY `emp_des` (`emp_designation`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employees_details`
+--
+
+INSERT INTO `employees_details` (`id`, `emp_id`, `emp_first_name`, `emp_last_name`, `emp_email`, `emp_designation`, `emp_dob`, `emp_gender`, `emp_address`, `emp_joining`, `emp_basic_salary`, `emp_login_flag`) VALUES
+(1, 'EMP-1', 'Aa', 'God', 'mahantesh@gmail.com', 'DES-2', '2019-11-07', 'Male', 'h.no 89 sawmi-vivekananda', '2019-11-16', 20000, 1),
+(2, 'EMP-2', 'Bb', 'Bbb', 'mahantesh@gmail.com', 'DES-1', '2019-11-28', 'Female', 'h.no 89 sawmi-vivekananda', '2019-11-08', 43532, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   UNIQUE KEY `id` (`id`),
   KEY `itemid` (`item_category`),
   KEY `itemTax` (`item_tax`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item`
@@ -183,8 +222,10 @@ CREATE TABLE IF NOT EXISTS `item` (
 INSERT INTO `item` (`id`, `item_id`, `item_category`, `item_tax`, `item_name`, `item_type`) VALUES
 (1, 'ITM-1', 'CAT-1', 'TAX-1', 'Mango', 'Piece'),
 (2, 'ITM-2', 'CAT-2', 'TAX-1', 'Potato', 'Piece'),
-(3, 'ITM-3', 'CAT-3', 'TAX-1', 'Gst-18', 'Kg'),
-(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Mango', 'Kg');
+(3, 'ITM-3', 'CAT-3', 'TAX-1', 'sdsadf', 'Kg'),
+(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Mango', 'Kg'),
+(5, 'ITM-5', 'CAT-3', 'TAX-1', 'Kaju', 'Piece'),
+(6, 'ITM-6', 'CAT-3', 'TAX-1', 'Kismis', 'Piece');
 
 -- --------------------------------------------------------
 
@@ -228,7 +269,18 @@ CREATE TABLE IF NOT EXISTS `parameters` (
   `parameter_value` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `desid` (`designation_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `parameters`
+--
+
+INSERT INTO `parameters` (`id`, `parameter_id`, `parameter_date`, `designation_id`, `parameter_name`, `parameters_type`, `parameter_value_type`, `parameter_value`) VALUES
+(1, 'PMI-1', '2019-12-01', 'DES-1', 'HRA', 'Allowance', 'percentage', 18),
+(2, 'PMI-1', '2019-12-01', 'DES-1', 'Medical', 'Allowance', 'flat', 3000),
+(3, 'PMI-1', '2019-12-01', 'DES-1', 'Transportation', 'Allowance', 'flat', 2000),
+(4, 'PMI-1', '2019-12-01', 'DES-1', 'PF', 'Deductions', 'percentage', 18),
+(5, 'PMI-1', '2019-12-01', 'DES-1', 'Professional Tax', 'Deductions', 'percentage', 13);
 
 -- --------------------------------------------------------
 
@@ -242,10 +294,63 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   `purchase_id` varchar(50) NOT NULL,
   `supplier_id` varchar(50) DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
+  `lr_number` varchar(50) NOT NULL,
+  `total_quantity` bigint(60) NOT NULL,
+  `total_amount` bigint(60) NOT NULL,
+  `total_amount_tax` bigint(60) NOT NULL,
   PRIMARY KEY (`purchase_id`),
   UNIQUE KEY `id` (`id`),
   KEY `supid` (`supplier_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`id`, `purchase_id`, `supplier_id`, `purchase_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
+(7, 'PTNO-1920-1', 'SUP-2', '2019-11-11', 'fsds34322', 68, 3654, 4312),
+(8, 'PTNO-1920-2', 'SUP-1', '2019-11-15', 'fsds34322', 20, 90, 106),
+(9, 'PTNO-1920-3', 'SUP-2', '2019-11-20', 'fsds34322', 6, 20553, 24253);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_list`
+--
+
+DROP TABLE IF EXISTS `purchase_list`;
+CREATE TABLE IF NOT EXISTS `purchase_list` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `purchase_id` varchar(50) DEFAULT NULL,
+  `item_category` varchar(50) DEFAULT NULL,
+  `item_code` varchar(50) DEFAULT NULL,
+  `quantity` bigint(100) DEFAULT NULL,
+  `price_per_unit` bigint(100) DEFAULT NULL,
+  `total_amount` bigint(100) DEFAULT NULL,
+  `total_amount_with_tax` bigint(100) DEFAULT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `puchid` (`purchase_id`),
+  KEY `itmcat` (`item_category`),
+  KEY `itm` (`item_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_list`
+--
+
+INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
+(7, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 56, 60, 3360, 3965),
+(8, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 3, 60, 180, 212),
+(9, 'PTNO-1920-1', 'CAT-1', 'ITM-4', 3, 30, 90, 106),
+(10, 'PTNO-1920-1', 'CAT-3', 'ITM-3', 6, 4, 24, 28),
+(11, 'PTNO-1920-2', 'CAT-1', 'ITM-1', 3, 10, 30, 35),
+(12, 'PTNO-1920-2', 'CAT-1', 'ITM-4', 2, 3, 6, 7),
+(13, 'PTNO-1920-2', 'CAT-2', 'ITM-2', 3, 3, 9, 11),
+(14, 'PTNO-1920-2', 'CAT-3', 'ITM-3', 3, 6, 18, 21),
+(15, 'PTNO-1920-2', 'CAT-3', 'ITM-6', 6, 3, 18, 21),
+(16, 'PTNO-1920-2', 'CAT-3', 'ITM-5', 3, 3, 9, 11),
+(17, 'PTNO-1920-3', 'CAT-2', 'ITM-2', 3, 6847, 20541, 24238),
+(18, 'PTNO-1920-3', 'CAT-1', 'ITM-1', 3, 4, 12, 14);
 
 -- --------------------------------------------------------
 
@@ -265,7 +370,14 @@ CREATE TABLE IF NOT EXISTS `salary_generation` (
   `net_salary` bigint(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `empid` (`employee_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salary_generation`
+--
+
+INSERT INTO `salary_generation` (`id`, `employee_id`, `parameter_id`, `salaryDate`, `basic_salary`, `allowance`, `deductions`, `net_salary`) VALUES
+(1, 'EMP-2', 'PMI-1', '2019-12-01', 43532, 12836, -13496, 42872);
 
 -- --------------------------------------------------------
 
@@ -1405,6 +1517,14 @@ ALTER TABLE `parameters`
 --
 ALTER TABLE `purchase`
   ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier_or_company` (`supplier_id`);
+
+--
+-- Constraints for table `purchase_list`
+--
+ALTER TABLE `purchase_list`
+  ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchase` (`purchase_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`),
+  ADD CONSTRAINT `purchase_list_ibfk_3` FOREIGN KEY (`item_code`) REFERENCES `item` (`item_id`);
 
 --
 -- Constraints for table `salary_generation`

@@ -6,29 +6,41 @@ $("#purchaseDate").datepicker({
   format: "dd-mm-yyyy"
 });
 
-$("#purchaseDate").on("change", function() {
-  let financialYear = "PTNO-";
+$("#purchaseDate").on("change", function () {
+  let financialYear = "";
   let purchaseDate = $(this)
     .val()
     .split("-");
   if (+purchaseDate[1] > 3) {
     let presentYear = `${purchaseDate[2][2]}${purchaseDate[2][3]}`;
     let nextYear = `${+presentYear + 1}`;
-    financialYear +=presentYear+nextYear;
+    financialYear += presentYear + nextYear;
 
   } else {
     let presentYear = `${purchaseDate[2][2]}${purchaseDate[2][3]}`;
     let previousYear = `${+presentYear - 1}`;
-    financialYear += previousYear+presentYear;
+    financialYear += previousYear + presentYear;
   }
-  $('#purchaseId').val(financialYear);
+  $.ajax({
+    //create an ajax request to display.php
+    type: "POST",
+    data: {'financialYear':financialYear},
+    url: "../../../pages/PurchaseAndsales/transaction/get_purchase_id.php",
+    success: function (response) {
+      var id = JSON.parse(response);
+      id = +id + 1;
+      $("#purchaseId").val(`PTNO-${financialYear}-${id}`);
+    }
+  });
 });
+
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
   if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
     return false;
   return true;
 }
+
 function displayMessage(message) {
   $("#alert").show()
     .html(`<div id="alertInside"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> ${message} </strong></div>
@@ -59,8 +71,9 @@ function addNewRow() {
           <option value="-Select-">-Select-</option>
       </select>
   </td>
-  <td>
-      <input style="background-color: transparent; border: transparent;" class="tax" type="text" name="tax[]" class="form-control" id="tax${numberOfRows}" readonly required>
+  <td><div class="input-group">
+  <input style="background-color: transparent; border: transparent;" type="text" name="tax[]" class="form-control tax" id="tax${numberOfRows}" readonly required>
+  </div>
   </td>
   <td>
       <div class="input-group">
@@ -91,7 +104,7 @@ function addNewRow() {
     //create an ajax request to display.php
     type: "POST",
     url: "../../../pages/Inventory/transaction/get_item_category.php",
-    success: function(response) {
+    success: function (response) {
       var itemCatList = JSON.parse(response);
       var catId = itemCatList[0].catId.split(",");
       var catName = itemCatList[0].catName.split(",");
@@ -109,11 +122,11 @@ function addNewRow() {
   });
 }
 
-$("#tableData tbody").on("click", ".deleteRow", function() {
+$("#tableData tbody").on("click", ".deleteRow", function () {
   var $tr = $(this).closest("tr");
   var data = $tr
     .children("td")
-    .map(function() {
+    .map(function () {
       return $(this).text();
     })
     .get();
@@ -136,6 +149,9 @@ $("#tableData tbody").on("click", ".deleteRow", function() {
     $(`#totalAmountWithTax${i + 1}`).attr("id", `totalAmountWithTax${i}`);
   }
   numberOfRows--;
+  totalQuantityOfPurchase();
+  totalAmountOfPurchase();
+  totalAmountWithTaxOfPurchase();
 });
 
 function getItemList(id) {
@@ -148,7 +164,7 @@ function getItemList(id) {
       catCode: catCode
     },
     url: "../../../pages/PurchaseAndsales/transaction/get_item.php",
-    success: function(response) {
+    success: function (response) {
       var itemList = JSON.parse(response);
       var itemCode = itemList[0].itemCode.split(",");
       var item = itemList[0].item.split(",");
@@ -169,22 +185,22 @@ function getItemList(id) {
   });
 }
 
-$(document).on("change", ".itemCategory", function() {
-  $(document).on("click", "#submitButton", function() {
+$(document).on("change", ".itemCategory", function () {
+  $(document).on("click", "#submitButton", function () {
     $(`#readySubmitButton`).prop("disabled", true);
     $(`#submitButton`).prop("disabled", false);
   });
-  $(this).each(function() {
+  $(this).each(function () {
     var itemCategoryId = this.id;
     var onlyId = itemCategoryId.match(/(\d+)/);
     getItemList(onlyId[0]);
   });
 });
 
-$(document).on("change", ".itemCode", function() {
+$(document).on("change", ".itemCode", function () {
   $(`#readySubmitButton`).prop("disabled", true);
   $(`#submitButton`).prop("disabled", false);
-  $(this).each(function() {
+  $(this).each(function () {
     var itemCodeId = this.id;
     var onlyId = itemCodeId.match(/(\d+)/);
     itemCategorySelect(onlyId[0]);
@@ -193,10 +209,10 @@ $(document).on("change", ".itemCode", function() {
   });
 });
 
-$(document).on("change", ".item", function() {
+$(document).on("change", ".item", function () {
   $(`#readySubmitButton`).prop("disabled", true);
   $(`#submitButton`).prop("disabled", false);
-  $(this).each(function() {
+  $(this).each(function () {
     var itemId = this.id;
     var onlyId = itemId.match(/(\d+)/);
     itemSelect(onlyId[0]);
@@ -224,7 +240,7 @@ function taxAndItemType(id) {
       item: item
     },
     url: "../../../pages/PurchaseAndsales/transaction/get_taxAndItemType.php",
-    success: function(response) {
+    success: function (response) {
       if (JSON.parse(response) == "nothing") {
         $(`#tax${id}`).val(null);
         $(`#itemType${id}`).val(null);
@@ -262,21 +278,24 @@ function ValidateItem(id) {
   }
 }
 
-$(document).on("keyup", ".quantity", function() {
+$(document).on("keyup", ".quantity", function () {
   $(`#readySubmitButton`).prop("disabled", true);
   $(`#submitButton`).prop("disabled", false);
-  $(this).each(function() {
+  $(this).each(function () {
     var inputId = this.id;
     var onlyId = inputId.match(/(\d+)/);
     var percent = $(`#tax${onlyId[0]}`)
       .val()
       .split("%");
     amount(onlyId[0], percent[0]);
+    totalQuantityOfPurchase();
+    totalAmountOfPurchase();
+    totalAmountWithTaxOfPurchase();
   });
 });
 
-$(document).on("keyup", ".pricePerUnit", function() {
-  $(this).each(function() {
+$(document).on("keyup", ".pricePerUnit", function () {
+  $(this).each(function () {
     var inputId = this.id;
     var onlyId = inputId.match(/(\d+)/);
     var percent = $(`#tax${onlyId[0]}`)
@@ -285,6 +304,8 @@ $(document).on("keyup", ".pricePerUnit", function() {
     amount(onlyId[0], percent[0]);
     $(`#readySubmitButton`).prop("disabled", true);
     $(`#submitButton`).prop("disabled", false);
+    totalAmountOfPurchase();
+    totalAmountWithTaxOfPurchase();
   });
 });
 
@@ -300,8 +321,35 @@ function amount(id, taxPercent) {
     totalAmountWithTax.val((percentValue + +totalAmount.val()).toFixed(2));
   }
 }
+function totalQuantityOfPurchase() {
+  let totalQuantityOfPurchase = 0;
+  for (let i = 0; i <= numberOfRows; i++) {
+    let rowQuantity = $(`#quantity${i}`).val();
+    totalQuantityOfPurchase += (+rowQuantity);
+  }
+  $('#totalQuantityOfPurchase').val(totalQuantityOfPurchase);
+}
+
+function totalAmountOfPurchase() {
+  let totalAmountOfPurchase = 0;
+  for (let i = 0; i <= numberOfRows; i++) {
+    let rowAmount = $(`#totalAmount${i}`).val();
+    totalAmountOfPurchase += (+rowAmount);
+  }
+  $('#totalAmountOfPurchase').val(totalAmountOfPurchase);
+}
+function totalAmountWithTaxOfPurchase() {
+  let totalAmountWithTaxOfPurchase = 0;
+  for (let i = 0; i <= numberOfRows; i++) {
+    let rowAmount = $(`#totalAmountWithTax${i}`).val();
+    totalAmountWithTaxOfPurchase += (+rowAmount);
+  }
+  $('#totalAmountWithTaxOfPurchase').val(totalAmountWithTaxOfPurchase);
+}
+
 
 function checkData() {
+  let flag = false;
   $(`#readySubmitButton`).prop("disabled", true);
   $(`#submitButton`).prop("disabled", false);
   let supplierId = $("#supplierId").val();
@@ -314,32 +362,39 @@ function checkData() {
       let pricePerUnit = $(`#pricePerUnit${i}`).val();
 
       if (valueItemCategory == "-Select-") {
+        flag = false;
         displayMessage(`Select the Item Category in Serial Number ${i + 1}`);
         return false;
       } else {
         if (valueItemCode == "-Select-") {
+          flag = false;
           displayMessage(`Select the Item in Serial Number ${i + 1}`);
           return false;
         } else {
           if (quantity == "") {
+            flag = false;
             displayMessage(
               `Enter the Quantity Value in Serial Number ${i + 1}`
             );
             return false;
           } else {
             if (pricePerUnit == "") {
+              flag = false;
               displayMessage(
                 `Enter the Price Per Unit Value in Serial Number ${i + 1}`
               );
               return false;
             } else {
-              $(`#readySubmitButton`).prop("disabled", false);
-              $(`#submitButton`).prop("disabled", true);
+              flag = true;
             }
           }
         }
       }
     }
+if(flag === true){
+    $(`#readySubmitButton`).prop("disabled", false);
+    $(`#submitButton`).prop("disabled", true);
+}
   } else {
     displayMessage("Enter the Purchase date and Select the Supplier");
     return false;
