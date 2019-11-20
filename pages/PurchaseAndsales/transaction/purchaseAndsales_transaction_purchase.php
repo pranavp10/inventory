@@ -329,26 +329,26 @@ require '../../../connect.php';
                     echo $purchaseNotAdded;
                 }
             }
-            if (isset($_SESSION['updateParameters'])) {
-                if (($_SESSION['updateParameters'] == 'yes')) {
+            if (isset($_SESSION['updatePurchaseList'])) {
+                if (($_SESSION['updatePurchaseList'] == 'yes')) {
                     $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Updated </strong> Employee Successfully.
+                            <strong>Updated Purchase List </strong>.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#parametersUpdateAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['updateParameters']);
+                    unset($_SESSION['updatePurchaseList']);
                     echo $parametersUpdate;
                 } else {
                     $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Employee</strong> Not Updated.
+                            <strong>Purchase List Not Updated!!!</strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#parametersNotUpdateAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['updateParameters']);
+                    unset($_SESSION['updatePurchaseList']);
                     echo $parametersNotUpdate;
                 }
             }

@@ -103,5 +103,5 @@ $(document).on("click", ".editPurchase", function () {
             return $(this).text();
         })
         .get();
-    window.location = "../../../pages/PurchaseAndsales/transaction/edit_purchase_list.php?trNumber=" + data[1];
+    window.location = `../../../pages/PurchaseAndsales/transaction/edit_purchase_list.php?trNumber=${data[1]}&date=${data[0]}&supplier=${data[2]}`;
 });
