@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2019 at 06:32 AM
+-- Generation Time: Nov 20, 2019 at 12:00 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS `customer_or_company` (
 --
 
 INSERT INTO `customer_or_company` (`id`, `customer_id`, `gstin`, `cust_comp_name`, `state`, `city`, `city_pincode`, `c_phone_number`, `c_email`, `c_address`) VALUES
-(1, 'CMS-1', 'F2', 'Ad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(2, 'CMS-2', '231', 'Asdasdadad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
+(1, 'CMS-1', 'F2', 'Abdul', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(2, 'CMS-2', '231', 'Naveen', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
 
 -- --------------------------------------------------------
 
@@ -222,8 +222,8 @@ CREATE TABLE IF NOT EXISTS `item` (
 INSERT INTO `item` (`id`, `item_id`, `item_category`, `item_tax`, `item_name`, `item_type`) VALUES
 (1, 'ITM-1', 'CAT-1', 'TAX-1', 'Mango', 'Piece'),
 (2, 'ITM-2', 'CAT-2', 'TAX-1', 'Potato', 'Piece'),
-(3, 'ITM-3', 'CAT-3', 'TAX-1', 'sdsadf', 'Kg'),
-(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Mango', 'Kg'),
+(3, 'ITM-3', 'CAT-3', 'TAX-1', 'Pista', 'Kg'),
+(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Banana', 'Kg'),
 (5, 'ITM-5', 'CAT-3', 'TAX-1', 'Kaju', 'Piece'),
 (6, 'ITM-6', 'CAT-3', 'TAX-1', 'Kismis', 'Piece');
 
@@ -301,16 +301,15 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`purchase_id`),
   UNIQUE KEY `id` (`id`),
   KEY `supid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase`
 --
 
 INSERT INTO `purchase` (`id`, `purchase_id`, `supplier_id`, `purchase_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
-(11, 'PTNO-1920-1', 'SUP-3', '2019-11-01', '1', 3, 3, 3.54),
-(8, 'PTNO-1920-2', 'SUP-1', '2019-11-15', 'fsds34322', 20, 90, 106),
-(9, 'PTNO-1920-3', 'SUP-2', '2019-11-20', 'fsds34322', 6, 20553, 24253);
+(12, 'PTNO-1920-1', 'SUP-1', '2019-11-01', '1', 122, 650, 767),
+(13, 'PTNO-1920-2', 'SUP-2', '2019-11-15', '', 80, 350, 413);
 
 -- --------------------------------------------------------
 
@@ -332,24 +331,19 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
   KEY `puchid` (`purchase_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_list`
 --
 
 INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
-(11, 'PTNO-1920-2', 'CAT-1', 'ITM-1', 3, 10, 30, 35),
-(12, 'PTNO-1920-2', 'CAT-1', 'ITM-4', 2, 3, 6, 7),
-(13, 'PTNO-1920-2', 'CAT-2', 'ITM-2', 3, 3, 9, 11),
-(14, 'PTNO-1920-2', 'CAT-3', 'ITM-3', 3, 6, 18, 21),
-(15, 'PTNO-1920-2', 'CAT-3', 'ITM-6', 6, 3, 18, 21),
-(16, 'PTNO-1920-2', 'CAT-3', 'ITM-5', 3, 3, 9, 11),
-(17, 'PTNO-1920-3', 'CAT-2', 'ITM-2', 3, 6847, 20541, 24238),
-(18, 'PTNO-1920-3', 'CAT-1', 'ITM-1', 3, 4, 12, 14),
-(19, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 1, 1, 1, 1.18),
-(20, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 1, 1, 1, 1.18),
-(21, 'PTNO-1920-1', 'CAT-1', 'ITM-4', 1, 1, 1, 1.18);
+(22, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 12, 10, 120, 141.6),
+(23, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 10, 3, 30, 35.4),
+(24, 'PTNO-1920-1', 'CAT-3', 'ITM-3', 100, 5, 500, 590),
+(25, 'PTNO-1920-2', 'CAT-1', 'ITM-1', 10, 10, 100, 118),
+(26, 'PTNO-1920-2', 'CAT-2', 'ITM-2', 20, 5, 100, 118),
+(27, 'PTNO-1920-2', 'CAT-3', 'ITM-3', 50, 3, 150, 177);
 
 -- --------------------------------------------------------
 
@@ -377,6 +371,63 @@ CREATE TABLE IF NOT EXISTS `salary_generation` (
 
 INSERT INTO `salary_generation` (`id`, `employee_id`, `parameter_id`, `salaryDate`, `basic_salary`, `allowance`, `deductions`, `net_salary`) VALUES
 (1, 'EMP-2', 'PMI-1', '2019-12-01', 43532, 12836, -13496, 42872);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+DROP TABLE IF EXISTS `sales`;
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sales_id` varchar(50) NOT NULL,
+  `customer_id` varchar(50) DEFAULT NULL,
+  `sales_date` date DEFAULT NULL,
+  `lr_number` varchar(50) NOT NULL,
+  `total_quantity` double NOT NULL,
+  `total_amount` double NOT NULL,
+  `total_amount_tax` double NOT NULL,
+  PRIMARY KEY (`sales_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `cusid` (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `sales_id`, `customer_id`, `sales_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
+(2, 'STNO-1920-1', 'CMS-2', '2019-11-01', '', 10, 500, 590);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_list`
+--
+
+DROP TABLE IF EXISTS `sales_list`;
+CREATE TABLE IF NOT EXISTS `sales_list` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sales_id` varchar(50) DEFAULT NULL,
+  `item_category` varchar(50) DEFAULT NULL,
+  `item_code` varchar(50) DEFAULT NULL,
+  `quantity` double DEFAULT NULL,
+  `price_per_unit` double DEFAULT NULL,
+  `total_amount` double DEFAULT NULL,
+  `total_amount_with_tax` double DEFAULT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `salsid` (`sales_id`),
+  KEY `itmcat` (`item_category`),
+  KEY `itm` (`item_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_list`
+--
+
+INSERT INTO `sales_list` (`id`, `sales_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
+(4, 'STNO-1920-1', 'CAT-1', 'ITM-1', 10, 50, 500, 590);
 
 -- --------------------------------------------------------
 
@@ -1428,9 +1479,9 @@ CREATE TABLE IF NOT EXISTS `supplier_or_company` (
 --
 
 INSERT INTO `supplier_or_company` (`id`, `supplier_id`, `gstin`, `supplier_name`, `state`, `city`, `city_pincode`, `s_phone_number`, `s_email`, `s_address`) VALUES
-(1, 'SUP-1', 'F2', 'Ad', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(2, 'SUP-2', '231', 'A', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(3, 'SUP-3', 'DAD', 'B', 'Karnataka', 'Hubli', 585032, 9999999999, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(1, 'SUP-1', 'AAAA', 'Praveen', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(2, 'SUP-2', '231', 'Sagar', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
+(3, 'SUP-3', 'DAD', 'Atul', 'Karnataka', 'Hubli', 585032, 9999999999, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
 (4, 'SUP-4', 'F2', 'C', 'Karnataka', 'Hubli', 585032, 8888888888, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
 
 -- --------------------------------------------------------
@@ -1530,6 +1581,20 @@ ALTER TABLE `purchase_list`
 --
 ALTER TABLE `salary_generation`
   ADD CONSTRAINT `salary_generation_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees_details` (`emp_id`);
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer_or_company` (`customer_id`);
+
+--
+-- Constraints for table `sales_list`
+--
+ALTER TABLE `sales_list`
+  ADD CONSTRAINT `sales_list_ibfk_1` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`sales_id`),
+  ADD CONSTRAINT `sales_list_ibfk_2` FOREIGN KEY (`item_code`) REFERENCES `item` (`item_id`),
+  ADD CONSTRAINT `sales_list_ibfk_3` FOREIGN KEY (`item_category`) REFERENCES `item_category` (`item_category_id`);
 
 --
 -- Constraints for table `user_login_credentials`

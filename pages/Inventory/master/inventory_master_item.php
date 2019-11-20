@@ -175,7 +175,7 @@ require '../../../connect.php';
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- <li><a href="#"><i class="fa fa-link"></i> Salary generator</a></li>
-                  <li><a href="#"><i class="fa fa-link"></i> Allowance & Deduction</a></li> -->
+                                    <li><a href="#"><i class="fa fa-link"></i> Allowance & Deduction</a></li> -->
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -588,7 +588,7 @@ require '../../../connect.php';
                                                         <td><? echo $ItemId; ?></td>
                                                         <td><? echo $ItemCat; ?></td>
                                                         <td><? echo $itemTax; ?></td>
-                                                        <td><? echo $itemTax; ?></td>
+                                                        <td><? echo $ItemName; ?></td>
                                                         <td><? echo $ItemType; ?></td>
                                                         <td><button class="btn btn-primary btn-xs editItem" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
                                                         </td>
