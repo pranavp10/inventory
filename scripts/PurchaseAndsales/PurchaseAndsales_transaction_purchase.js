@@ -36,8 +36,7 @@ $('#searchPurchaseList').on('click', function () {
         url: "../../../pages/PurchaseAndsales/transaction/get_purchase_list.php",
         success: function (response) {
             let purchaseList = JSON.parse(response);
-            console.log(purchaseList);
-
+            if(purchaseList != "nothing"){
             let lengthOfPurchaseList = purchaseList.length;
             for (let i = 0; i < lengthOfPurchaseList; i++) {
                 let tr = ``;
@@ -74,7 +73,9 @@ $('#searchPurchaseList').on('click', function () {
                 }
                 $("table tbody").append(tr);
             }
-
+        }else{
+            $("table tbody").append('<tr class="text-center"><td colspan="11">No Purchase Done for the given date</td></tr>');
+        }
         }
     });
 });
