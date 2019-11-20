@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 19, 2019 at 12:18 PM
+-- Generation Time: Nov 20, 2019 at 06:32 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -295,20 +295,20 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   `supplier_id` varchar(50) DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
   `lr_number` varchar(50) NOT NULL,
-  `total_quantity` bigint(60) NOT NULL,
-  `total_amount` bigint(60) NOT NULL,
-  `total_amount_tax` bigint(60) NOT NULL,
+  `total_quantity` double NOT NULL,
+  `total_amount` double NOT NULL,
+  `total_amount_tax` double NOT NULL,
   PRIMARY KEY (`purchase_id`),
   UNIQUE KEY `id` (`id`),
   KEY `supid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase`
 --
 
 INSERT INTO `purchase` (`id`, `purchase_id`, `supplier_id`, `purchase_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
-(7, 'PTNO-1920-1', 'SUP-2', '2019-11-11', 'fsds34322', 68, 3654, 4312),
+(11, 'PTNO-1920-1', 'SUP-3', '2019-11-01', '1', 3, 3, 3.54),
 (8, 'PTNO-1920-2', 'SUP-1', '2019-11-15', 'fsds34322', 20, 90, 106),
 (9, 'PTNO-1920-3', 'SUP-2', '2019-11-20', 'fsds34322', 6, 20553, 24253);
 
@@ -324,25 +324,21 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
   `purchase_id` varchar(50) DEFAULT NULL,
   `item_category` varchar(50) DEFAULT NULL,
   `item_code` varchar(50) DEFAULT NULL,
-  `quantity` bigint(100) DEFAULT NULL,
-  `price_per_unit` bigint(100) DEFAULT NULL,
-  `total_amount` bigint(100) DEFAULT NULL,
-  `total_amount_with_tax` bigint(100) DEFAULT NULL,
+  `quantity` double DEFAULT NULL,
+  `price_per_unit` double DEFAULT NULL,
+  `total_amount` double DEFAULT NULL,
+  `total_amount_with_tax` double DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `puchid` (`purchase_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_list`
 --
 
 INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
-(7, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 56, 60, 3360, 3965),
-(8, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 3, 60, 180, 212),
-(9, 'PTNO-1920-1', 'CAT-1', 'ITM-4', 3, 30, 90, 106),
-(10, 'PTNO-1920-1', 'CAT-3', 'ITM-3', 6, 4, 24, 28),
 (11, 'PTNO-1920-2', 'CAT-1', 'ITM-1', 3, 10, 30, 35),
 (12, 'PTNO-1920-2', 'CAT-1', 'ITM-4', 2, 3, 6, 7),
 (13, 'PTNO-1920-2', 'CAT-2', 'ITM-2', 3, 3, 9, 11),
@@ -350,7 +346,10 @@ INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, 
 (15, 'PTNO-1920-2', 'CAT-3', 'ITM-6', 6, 3, 18, 21),
 (16, 'PTNO-1920-2', 'CAT-3', 'ITM-5', 3, 3, 9, 11),
 (17, 'PTNO-1920-3', 'CAT-2', 'ITM-2', 3, 6847, 20541, 24238),
-(18, 'PTNO-1920-3', 'CAT-1', 'ITM-1', 3, 4, 12, 14);
+(18, 'PTNO-1920-3', 'CAT-1', 'ITM-1', 3, 4, 12, 14),
+(19, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 1, 1, 1, 1.18),
+(20, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 1, 1, 1, 1.18),
+(21, 'PTNO-1920-1', 'CAT-1', 'ITM-4', 1, 1, 1, 1.18);
 
 -- --------------------------------------------------------
 
