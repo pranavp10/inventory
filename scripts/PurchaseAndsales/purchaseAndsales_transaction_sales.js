@@ -62,7 +62,7 @@ $('#searchSalesList').on('click', function () {
                         tr += `<td>${taxCode[j]}</td>`
                         tr += `<td>${totalAmountWithTax[j]}</td>`
                         tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${salesList[i].grandTotal}</td>`;
-                        tr += `<td style="vertical-align: middle;" class="align-middle text-center" rowspan="${(+itemListSize)}"><p><button class="btn btn-primary btn-xs editPurchase"><span class="glyphicon glyphicon-pencil"></span></button> <span><button class="btn btn-danger btn-xs deletePurchase" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></span> </p></td></<tr>`
+                        tr += `<td style="vertical-align: middle;" class="align-middle text-center" rowspan="${(+itemListSize)}"><p><button class="btn btn-primary btn-xs editSales"><span class="glyphicon glyphicon-pencil"></span></button> <span><button class="btn btn-danger btn-xs deleteSales" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></span> </p></td></<tr>`
                     } else {
                         tr += `<tr><td>${itemName[j]}</td>`
                         tr += `<td>${quantity[j]}</td>`
@@ -74,13 +74,12 @@ $('#searchSalesList').on('click', function () {
                 }
                 $("table tbody").append(tr);
             }
-
         }
     });
 });
 
-$(document).on("click", ".deletePurchase", function () {
-    $("#deletesalesList").modal("show");
+$(document).on("click", ".deleteSales", function () {
+    $("#deleteSalesList").modal("show");
 
     $tr = $(this).closest("tr");
     var data = $tr
@@ -91,11 +90,11 @@ $(document).on("click", ".deletePurchase", function () {
         .get();
     console.log(data);
     $("#displayBox").text(
-        `(Purchase Transaction Number is ${data[1]}) and Purchase Item from the Supplier (${data[2]}) will be deleted !!!`
+        `(Sales Transaction Number is ${data[1]}) and Sales Item from the Customer (${data[2]}) will be deleted !!!`
     );
     $("#deleteId").val(data[1]);
 });
-$(document).on("click", ".editPurchase", function () {
+$(document).on("click", ".editSales", function () {
     $tr = $(this).closest("tr");
     var data = $tr
         .children("td")
@@ -103,5 +102,5 @@ $(document).on("click", ".editPurchase", function () {
             return $(this).text();
         })
         .get();
-    window.location = `../../../pages/PurchaseAndsales/transaction/edit_purchase_list.php?trNumber=${data[1]}&date=${data[0]}&supplier=${data[2]}`;
+    window.location = `../../../pages/PurchaseAndsales/transaction/edit_sales_list.php?trNumber=${data[1]}&date=${data[0]}&customerId=${data[2]}`;
 });

@@ -133,6 +133,6 @@ if ($connect->query($sqlDeletePurchaseList)) {
 } else {
     $_SESSION["updatePurchaseList"] = 'no';
     header("Location: ../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_purchase.php");
-}}
-exit;
+}
+}
 ?>

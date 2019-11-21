@@ -329,27 +329,27 @@ require '../../../connect.php';
                     echo $newSalesNotAdded;
                 }
             }
-            if (isset($_SESSION['updateSalesList'])) {
-                if (($_SESSION['updateSalesList'] == 'yes')) {
-                    $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
+            if (isset($_SESSION['updateSales'])) {
+                if (($_SESSION['updateSales'] == 'yes')) {
+                    $salesUpdated =  '<div class="alert alert-success alert-dismissible" id="salesUpdatedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Updated Sales List </strong>.
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parametersUpdateAlert").fadeOut().empty();
+                            $("#salesUpdatedAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['updateSalesList']);
-                    echo $parametersUpdate;
+                    unset($_SESSION['updateSales']);
+                    echo $salesUpdated;
                 } else {
-                    $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
+                    $salesNotUpdated =  '<div class="alert alert-danger alert-dismissible" id="salesNotUpdatedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>Sales List Not Updated!!!</strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
-                            $("#parametersNotUpdateAlert").fadeOut().empty();
+                            $("#salesNotUpdatedAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['updateSalesList']);
-                    echo $parametersNotUpdate;
+                    unset($_SESSION['updateSales']);
+                    echo $salesNotUpdated;
                 }
             }
             if (isset($_SESSION['deleteSales'])) {
@@ -387,13 +387,13 @@ require '../../../connect.php';
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../pages/PurchaseAndsales/transaction/delete_purchase_list.php" method="POST">
+                            <form action="../../../pages/PurchaseAndsales/transaction/delete_Sales_list.php" method="POST">
                                 <h3 id='displayBox'></h3>
                                 <input type="hidden" id="deleteId" name="deleteId" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="deletePurchaseListButton">Delete Discount</button>
+                            <button type="submit" class="btn btn-primary" name="deleteSalesListButton">Delete Discount</button>
                             </form>
                         </div>
                     </div>
