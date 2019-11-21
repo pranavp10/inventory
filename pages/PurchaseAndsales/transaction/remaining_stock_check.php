@@ -11,7 +11,7 @@ require '../../../connect.php';
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Purchase & sales</title>
+    <title>Stock</title>
     <!-- Tell the browser to be responsive to screen width -->
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -273,8 +273,9 @@ require '../../../connect.php';
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="active"><a href="../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_purchase.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Purchase</a></li>
+                                    <li><a href="../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_purchase.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Purchase</a></li>
                                     <li><a href="../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_sales.php"><i class="fa fa-bar-chart" aria-hidden="true"></i></i> Sales</a></li>
+                                    <li class="active"><a href="../../../pages/PurchaseAndsales/transaction/remaining_stock_check.php"><i class="fa fa-database" aria-hidden="true"></i></i>Stock</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -305,190 +306,54 @@ require '../../../connect.php';
         </aside>
         <!-- ######################################################################################################## -->
         <div class="content-wrapper">
-            <?
-            if (isset($_SESSION['addPurchase'])) {
-                if (($_SESSION['addPurchase'] == 'yes')) {
-                    $purchaseAdded =  '<div class="alert alert-success alert-dismissible" id="purchaseAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New Purchase Added!</strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#purchaseAddedAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['addPurchase']);
-                    echo $purchaseAdded;
-                } else {
-                    $purchaseNotAdded =  '<div class="alert alert-danger alert-dismissible" id="purchaseNotAddedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New Purchase has not neen saved because of the some missing column !!! </strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#purchaseNotAddedAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['addPurchase']);
-                    echo $purchaseNotAdded;
-                }
-            }
-            if (isset($_SESSION['updatePurchaseList'])) {
-                if (($_SESSION['updatePurchaseList'] == 'yes')) {
-                    $parametersUpdate =  '<div class="alert alert-success alert-dismissible" id="parametersUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Updated Purchase List </strong>.
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersUpdateAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['updatePurchaseList']);
-                    echo $parametersUpdate;
-                } else {
-                    $parametersNotUpdate =  '<div class="alert alert-danger alert-dismissible" id="parametersNotUpdateAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Purchase List Not Updated!!!</strong>
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#parametersNotUpdateAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['updatePurchaseList']);
-                    echo $parametersNotUpdate;
-                }
-            }
-            if (isset($_SESSION['deletePurchase'])) {
-                if (($_SESSION['deletePurchase'] == 'yes')) {
-                    $purchaseDeleted =  '<div class="alert alert-warning alert-dismissible" id="purchaseDeletedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Purchase Deleted!!!.</strong> 
-                            </div>   <script>setTimeout(fade_out, 5000);
-                            function fade_out() {
-                            $("#purchaseDeletedAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['deletePurchase']);
-                    echo $purchaseDeleted;
-                } else {
-                    $purchaseNotDeleted =  '<div class="alert alert-danger alert-dismissible" id="purchaseNotDeletedAlert" >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Purchase </strong> cannot be deleted  because the designation is used by the one of the employee So you cannot perform this action. 
-                            </div>   <script>setTimeout(fade_out, 10000);
-                            function fade_out() {
-                            $("#$purchaseNotDeletedAlert").fadeOut().empty();
-                            }</script>';
-                    unset($_SESSION['deletePurchase']);
-                    echo $purchaseNotDeleted;
-                }
-            }
-            ?>
-            <!-- Delete addItem -->
-            <div class="modal fade" id="deletePurchaseList" tabindex="-1" role="dialog" aria-labelledby="deletePurchaseList" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title" id="deletePurchaseListHeading"> Delete Item </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../../pages/PurchaseAndsales/transaction/delete_purchase_list.php" method="POST">
-                                <h3 id='displayBox'></h3>
-                                <input type="hidden" id="deleteId" name="deleteId" value="">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="deletePurchaseListButton">Delete Discount</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- ###################################################################################################### -->
             <section class="content">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label for="discountId">Select Supplier:</label>
-                        <select class="form-control select2" name="supplierId" id="supplierId">
-                            <option value="All">All</option>
-                            <?
-                            $sqlDisplaySupplier = "SELECT `supplier_id`,`supplier_name` FROM `supplier_or_company` ";
-                            if ($rawDate = $connect->query($sqlDisplaySupplier)) {
-                                while ($displaySupplier = $rawDate->fetch_assoc()) {
-                                    $supplier_Id = $displaySupplier['supplier_id'];
-                                    $supplier_name = $displaySupplier['supplier_name'];
-                                    ?>
-                                    <option value="<? echo $supplier_Id ?>"><? echo $supplier_name ?></option>
-                            <?
-                                }
-                            }
-                            ?>
-                        </select>
-                        <div class="form-group">
-                            <label for="fromDate">From Date</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right date" name="fromDate" id="fromDate">
+                        <label for="date">Select Date</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
                             </div>
+                            <input type="text" class="form-control pull-right date" name="date" id="date">
                         </div>
-                        <div class="form-group">
-                            <label for="toDate">To Date</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right date" name="toDate" id="toDate">
-                            </div>
-                            <button type="button" class="btn btn-primary" id="searchPurchaseList">
-                        <strong><i class="fa fa-search"></i> Purchase List</strong></button>
-                        
-                        
                     </div>
-                            <button type="button" class="btn btn-primary" id="remainingStockCheck"  onClick="location.href='../../../pages/PurchaseAndsales/transaction/remaining_stock_check.php'">
-                        <strong><i class="fa fa-database"></i> Stock Check</strong></button>
-                        
-                    </div>
-                    <br>
-                    <br>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">Purchase List</h3>
-
-                                    <div class="box-tools">
-                                        <button type="button" class="btn btn-primary" onClick="location.href='../../../pages/PurchaseAndsales/transaction/add_purchase.php'">
-                                            <strong><i class="fa fa-plus"></i> Add Purchase </strong></button>
-                                    </div>
-                                    
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <table id="dataTable" class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Purchase Date</th>
-                                                    <th>ID</th>
-                                                    <th>Supplier Names</th>
-                                                    <th>Item Name</th>
-                                                    <th>Quantity</th>
-                                                    <th>Price Per Unit</th>
-                                                    <th>Amount</th>
-                                                    <th>Tax</th>
-                                                    <th>Total Amount</th>
-                                                    <th>Grand Total</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.box-body -->
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Stock List</h3>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table id="dataTable" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Purchase Date</th>
+                                                <th>ID</th>
+                                                <th>Supplier Names</th>
+                                                <th>Item Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price Per Unit</th>
+                                                <th>Amount</th>
+                                                <th>Tax</th>
+                                                <th>Total Amount</th>
+                                                <th>Grand Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- /.box -->
+                                <!-- /.box-body -->
                             </div>
-                            <!-- /.col -->
+                            <!-- /.box -->
                         </div>
-                        <!-- /.row -->
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
             </section>
             <!-- /.content-wrapper -->
         </div>
@@ -524,7 +389,7 @@ require '../../../connect.php';
         <!-- ###################################################################################### -->
         <!-- my scripts -->
 
-        <script src="../../../scripts/PurchaseAndsales/PurchaseAndsales_transaction_purchase.js"></script>
+        <script src="../../../scripts/PurchaseAndsales/remaining_stock_check.js"></script>
         <!-- ###################################################################################################################################### -->
 </body>
 

@@ -5,13 +5,13 @@ $(".date").datepicker({
 
 $(".select2").select2();
 
-$('#searchPurchaseList').on('click', function () {
+$('#searchSalesList').on('click', function () {
     $('#dataTable tr').remove();
     var showTableHeading = `
     <tr>
-    <th>Purchase Date</th>
+    <th>Sales Date</th>
     <th>ID</th>
-    <th>Supplier Names</th>
+    <th>Customer Names</th>
     <th>Item Name</th>
     <th>Quantity</th>
     <th>Price Per Unit</th>
@@ -22,37 +22,37 @@ $('#searchPurchaseList').on('click', function () {
     <th>Action</th>
     </tr>`;
     $("table thead").append(showTableHeading);
-    var supplier = $('#supplierId').val();
+    var customer = $('#customerId').val();
     var fromDate = $('#fromDate').val();
     var toDate = $('#toDate').val();
 
     $.ajax({
         type: "POST",
         data: {
-            'supplier': supplier,
+            'customerId': customer,
             'fromDate': fromDate,
             'toDate': toDate
         },
-        url: "../../../pages/PurchaseAndsales/transaction/get_purchase_list.php",
+        url: "../../../pages/PurchaseAndsales/transaction/get_sales_list.php",
         success: function (response) {
-            let purchaseList = JSON.parse(response);
-            console.log(purchaseList);
+            let salesList = JSON.parse(response);
+            console.log(salesList);
 
-            let lengthOfPurchaseList = purchaseList.length;
-            for (let i = 0; i < lengthOfPurchaseList; i++) {
+            let lengthOfSalesList = salesList.length;
+            for (let i = 0; i < lengthOfSalesList; i++) {
                 let tr = ``;
-                let itemList = purchaseList[i].itemName.split(",");
+                let itemList = salesList[i].itemName.split(",");
                 let itemListSize = itemList.length;
-                tr += `<tr><td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${purchaseList[i].purchaseDate}</td>`;
-                tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${purchaseList[i].purchaseId}</td>`;
-                tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${purchaseList[i].supplierName}</td>`;
+                tr += `<tr><td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${salesList[i].salesDate}</td>`;
+                tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${salesList[i].salesId}</td>`;
+                tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${salesList[i].customerName}</td>`;
 
-                let itemName = purchaseList[i].itemName.split(",");
-                let quantity = purchaseList[i].quantity.split(",");
-                let pricePerUnit = purchaseList[i].pricePerUnit.split(",");
-                let taxCode = purchaseList[i].taxCode.split(",");
-                let totalAmount = purchaseList[i].totalAmount.split(",");
-                let totalAmountWithTax = purchaseList[i].totalAmountWithTax.split(",");
+                let itemName = salesList[i].itemName.split(",");
+                let quantity = salesList[i].quantity.split(",");
+                let pricePerUnit = salesList[i].pricePerUnit.split(",");
+                let taxCode = salesList[i].taxCode.split(",");
+                let totalAmount = salesList[i].totalAmount.split(",");
+                let totalAmountWithTax = salesList[i].totalAmountWithTax.split(",");
                 for (let j = 0; j < itemListSize; j++) {
                     if (j == 0) {
                         tr += `<td>${itemName[j]}</td>`
@@ -61,7 +61,7 @@ $('#searchPurchaseList').on('click', function () {
                         tr += `<td>${totalAmount[j]}</td>`
                         tr += `<td>${taxCode[j]}</td>`
                         tr += `<td>${totalAmountWithTax[j]}</td>`
-                        tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${purchaseList[i].grandTotal}</td>`;
+                        tr += `<td style="vertical-align: middle;" class='align-middle text-center' rowspan=${(+itemListSize)}>${salesList[i].grandTotal}</td>`;
                         tr += `<td style="vertical-align: middle;" class="align-middle text-center" rowspan="${(+itemListSize)}"><p><button class="btn btn-primary btn-xs editPurchase"><span class="glyphicon glyphicon-pencil"></span></button> <span><button class="btn btn-danger btn-xs deletePurchase" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></span> </p></td></<tr>`
                     } else {
                         tr += `<tr><td>${itemName[j]}</td>`
@@ -80,7 +80,7 @@ $('#searchPurchaseList').on('click', function () {
 });
 
 $(document).on("click", ".deletePurchase", function () {
-    $("#deletePurchaseList").modal("show");
+    $("#deletesalesList").modal("show");
 
     $tr = $(this).closest("tr");
     var data = $tr
