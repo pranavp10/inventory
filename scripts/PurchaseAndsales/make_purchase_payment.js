@@ -12,6 +12,8 @@ function isNumberKey(evt) {
   return true;
 }
 $("#paymentDate").on("change", function () {
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
   let financialYear = "";
   let paymentDate = $(this)
     .val()
@@ -37,12 +39,22 @@ $("#paymentDate").on("change", function () {
       var id = JSON.parse(response);
       id = +id + 1;
       $("#purchaseId").val(`PPAY-${financialYear}-${id}`);
+      for (i = 0; i <= numberOfRows; i++) {
+        displayPurchaseID(i);
+      }
+      $('.totalAmount').val("");
+      $('.amountToPay').val("");
+      $('.balance').val("");
+      $('.remainingAmount').val("");
+      getTotalAmount();
     }
   });
 });
 
 
 $("#paymentType").on("change", function () {
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
   let paymentType = $(this).val();
   if (paymentType === "Cheque") {
     $('#checkNoDisplay').prop('hidden', false);
@@ -53,18 +65,31 @@ $("#paymentType").on("change", function () {
 });
 
 $("#supplierId").on("change", function () {
-  for (i = 0; i <= numberOfRows; i++) {
-    displayPurchaseID(i);
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
+  $("#paymentDate").prop("disabled", false);
+  
+  let paymentDate = $("#paymentDate")
+    .val()
+  if ($(this).val() != "-Select-" && paymentDate !== '') {
+    for (i = 0; i <= numberOfRows; i++) {
+      displayPurchaseID(i);
+    }
+    $('.totalAmount').val("");
+    getTotalAmount();
+  } else {
+    $('.totalAmount').val("");
   }
-  getTotalAmount();
 });
 
 function displayPurchaseID(id) {
   let supplierId = $("#supplierId").val();
+  let paymentDate = $("#paymentDate").val();
   $.ajax({
     type: "POST",
     data: {
-      'supplierId': supplierId
+      'supplierId': supplierId,
+      'paymentDate': paymentDate
     },
     url: "../../../pages/PurchaseAndsales/processing/get_purchase_id.php",
     success: function (response) {
@@ -78,7 +103,9 @@ function displayPurchaseID(id) {
           `<option value="${customerId}">${customerId}</option>`
         ));
       } else {
-        displayMessage("No Purchase is done with the supplier")
+        $(`#totalAmountOfSupplier`).val("")
+        displayMessage("No Purchase is done on of before the give date ");
+
       }
     }
   });
@@ -96,6 +123,8 @@ function displayMessage(message) {
 
 
 $("#newRow").on("click", function () {
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
   numberOfRows++;
   tr = `                                            <tr>
   <td id="${numberOfRows}">${numberOfRows + 1}</td>
@@ -128,6 +157,8 @@ $("#newRow").on("click", function () {
 });
 
 $("#tableData tbody").on("click", ".deleteRow", function () {
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
   var $tr = $(this).closest("tr");
   var data = $tr
     .children("td")
@@ -161,6 +192,9 @@ $(document).on("change", ".purchaseId", function () {
     var onlyId = purchaseIdId.match(/(\d+)/);
     ValidatePurchaseId(onlyId[0]);
     getAmount(onlyId[0]);
+    $(`#amountToPay${onlyId[0]}`).val("");
+    $(`#remainingAmount${onlyId[0]}`).val("");
+    totalPayedAmount();
   });
 });
 
@@ -176,6 +210,11 @@ function ValidatePurchaseId(id) {
         if (purchaseId == presentPurchaseId) {
           alert(`you cannot select the same Purchase Id ${$(`#purchaseId${id}`).val()}`);
           $(`select#purchaseId${id}`)[0].selectedIndex = 0;
+          $(`#totalAmount${id}`).val("");
+          $(`#balance${id}`).val("");
+          $(`#amountToPay${id}`).val("");
+          $(`#remainingAmount${id}`).val("");
+          totalPayedAmount();
         }
       }
     } else {
@@ -194,11 +233,10 @@ function getAmount(id) {
     url: "../../../pages/PurchaseAndsales/processing/get_purchase_payment.php",
     success: function (response) {
       var amount = JSON.parse(response);
-
+      const [totalAmount, amountPaid] = [amount.totalAmount, amount.amountPaid];
       if (amount !== "nothing") {
-        $(`#totalAmount${id}`).val(`${amount.totalAmount}`)
-      } else {
-        displayMessage("No Purchase is done with the supplier")
+        $(`#totalAmount${id}`).val(`${totalAmount}`);
+        $(`#balance${id}`).val(`${amountPaid}`);
       }
     }
   });
@@ -215,7 +253,7 @@ function getTotalAmount() {
     success: function (response) {
       var totalAmount = JSON.parse(response);
       if (totalAmount !== "nothing") {
-        $(`#totalAmountOfSupplier`).val(`${totalAmount.totalAmountSupplier}`)
+        $(`#totalAmountOfSupplier`).val(`${totalAmount.totalAmountSupplier}`);
       } else {
         displayMessage("No Purchase is done with the supplier")
       }
@@ -225,11 +263,13 @@ function getTotalAmount() {
 $(document).on("keyup", ".amountToPay", function () {
   $(`#readySubmitButton`).prop("disabled", true);
   $(`#submitButton`).prop("disabled", false);
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
   $(this).each(function () {
     var inputId = this.id;
     var onlyId = inputId.match(/(\d+)/);
     AmountPayLessThenBalance(onlyId[0]);
-
+    totalPayedAmount();
   });
 
 });
@@ -241,6 +281,7 @@ function AmountPayLessThenBalance(id) {
   if (+inputAmount > +balanceAmount) {
     alert(`Amount cannot be grater then ${balanceAmount}`);
     $(`#amountToPay${id}`).val(0);
+    $(`#remainingAmount${id}`).val(0);
   } else {
     remainingAmount(id);
   }
@@ -249,6 +290,53 @@ function AmountPayLessThenBalance(id) {
 function remainingAmount(id) {
   let balanceAmount = +$(`#balance${id}`).val();
   let inputAmount = +$(`#amountToPay${id}`).val();
-
   $(`#remainingAmount${id}`).val(balanceAmount - inputAmount);
+}
+
+function checkData() {
+  let flag = false;
+  $(`#readySubmitButton`).prop("disabled", true);
+  $(`#submitButton`).prop("disabled", false);
+  let supplierId = $("#supplierId").val();
+  let paymentDate = $("#paymentDate").val();
+  if (supplierId != "-Select-" && paymentDate != "") {
+    for (let i = 0; i <= numberOfRows; i++) {
+      let purchaseId = $(`#purchaseId${i}`).val();
+      let amountToPay = $(`#amountToPay${i}`).val();
+
+      if (purchaseId == "-Select-") {
+        flag = false;
+        displayMessage(`Select the Purchase Id in row ${i + 1}`);
+        return false;
+      } else {
+        if (amountToPay == "" || amountToPay == "0") {
+          flag = false;
+          displayMessage(
+            `Enter the amount to Pay in row  ${i + 1}`
+          );
+          return false;
+        } else {
+          flag = true;
+        }
+      }
+    }
+    if (flag === true) {
+      $(`#readySubmitButton`).prop("disabled", false);
+      $(`#submitButton`).prop("disabled", true);
+    }
+  } else {
+    displayMessage("Enter the Sales date and Select the Supplier");
+    return false;
+  }
+}
+
+function totalPayedAmount() {
+  let totalPayedAmount = $('#totalAmountOfSupplier').val();
+  let totalInputAmount = 0;
+  for (let i = 0; i <= numberOfRows; i++) {
+    let inputAmount = +$(`#amountToPay${i}`).val();
+    totalInputAmount += inputAmount;
+  }
+  $('#totalAmountPayed').val(totalInputAmount);
+  $('#remainingBalance').val(totalPayedAmount-totalInputAmount);
 }

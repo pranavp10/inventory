@@ -2,10 +2,10 @@
 require '../../../connect.php';
 
 
-if ($_POST['supplierId'] != NULL) {
-
+if ($_POST['supplierId'] != NULL && $_POST['paymentDate'] !=NULL) {
+    $paymentDate = date('Y-m-d',strtotime($_POST['paymentDate']));
     $id= $_POST['supplierId'];
-    $sqlSelect = "SELECT `purchase_id` FROM `purchase` WHERE `supplier_id`='$id'";
+    $sqlSelect = "SELECT `purchase_id` FROM `purchase` WHERE `supplier_id`='$id' AND `purchase_date` <= '$paymentDate' ";
     if ($rawData = $connect->query($sqlSelect)) {
         if(mysqli_num_rows($rawData)){
         while ($data = $rawData->fetch_assoc()) {

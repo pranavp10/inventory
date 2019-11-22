@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 21, 2019 at 12:26 PM
+-- Generation Time: Nov 22, 2019 at 12:22 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -385,13 +385,6 @@ CREATE TABLE IF NOT EXISTS `purchase_payment` (
   KEY `cusid` (`supplier_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchase_payment`
---
-
-INSERT INTO `purchase_payment` (`id`, `purchase_payment_id`, `supplier_id`, `total_amount`, `remaining_amount`) VALUES
-(1, 'PPAY-1920-1', 'SUP-1', 27256.82, 7256.8);
-
 -- --------------------------------------------------------
 
 --
@@ -409,13 +402,6 @@ CREATE TABLE IF NOT EXISTS `purchase_payment_list` (
   KEY `pyid` (`purchase_payment_id`),
   KEY `plist` (`purchase_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_payment_list`
---
-
-INSERT INTO `purchase_payment_list` (`id`, `purchase_payment_id`, `purchase_id`, `payment_date`, `amount_paid`) VALUES
-(1, 'PPAY-1920-1', 'PTNO-1920-1', '2019-11-01', 767);
 
 -- --------------------------------------------------------
 
