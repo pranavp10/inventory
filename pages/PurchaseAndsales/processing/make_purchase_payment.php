@@ -363,7 +363,7 @@
                                                 <div class="form-group">
                                                     <label for="paymentType">Payment Type</label>
                                                     <select class="form-control" name="paymentType" id="paymentType" style="width: 100%;">
-                                                        <option value="Cash">Cash</option>
+                                                        <option value="Cash" selected>Cash</option>
                                                         <option value="Cheque">Cheque</option>
                                                     </select>
                                                 </div>
@@ -423,7 +423,7 @@
                                         </div>
                                         <button type="submit" class="btn pull-right btn-success" id="readySubmitButton" disabled>Submit<i class="fa fa-check"></i></button>
                                         <button type="button" class="btn btn-danger pull-right" id="submitButton" onclick="checkData()">Check <i class="fa fa-question-circle"></i></button>
-                                        <button type="button" class="btn btn-default pull-right" onClick="location.href='../../../pages/PurchaseAndsales/transaction/purchaseAndsales_transaction_purchase.php'">Cancel</button>
+                                        <button type="button" class="btn btn-default pull-right" onClick="location.href='../../../pages/PurchaseAndsales/processing/PurchaseAndsales_processing_purchase_payment.php'">Cancel</button>
                                     </div>
                                 </div>
 

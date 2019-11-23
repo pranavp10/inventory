@@ -94,7 +94,7 @@ function displayRemainingAmount(){
     url: "../../../pages/PurchaseAndsales/processing/get_purchase_payed_amount.php",
     success: function (response) {
       let totalAmountPayed = JSON.parse(response);
-      if (totalAmountPayed[0].amountPayedTillNow !== "nothing") {
+      if (totalAmountPayed !== "nothing") {
         let value = +totalAmountPayed[0].amountPayedTillNow
         $(`#totalAmountPayedToSupplier`).val(value.toFixed(2));
       } else {
@@ -120,15 +120,16 @@ function displayPurchaseID(id) {
       $(`#purchaseId${id}`).append(
         `<option value="-Select-">-Select-</option>`
       );
+
       if (customerId !== "nothing") {
         let purchaseId1 =customerId.map(function (customerId){
-          if(customerId.payedPurchaseId > 0){ 
+          if(+customerId.payedPurchaseId > 0 ||customerId.payedPurchaseId == null){ 
             return customerId.purchaseId;
           }
         });
         purchaseId = purchaseId1.filter(function( element ) {
           return element !== undefined;
-       });
+      });
         purchaseId.forEach(purchaseId => $(`#purchaseId${id}`).append(
           `<option value="${purchaseId}">${purchaseId}</option>`
           ));
@@ -210,8 +211,8 @@ $("#tableData tbody").on("click", ".deleteRow", function () {
     $(`#balance${i + 1}`).attr("id", `balance${i}`);
     $(`#amountToPay${i + 1}`).attr("id", `amountToPay${i}`);
     $(`#remainingAmount${i + 1}`).attr("id", `remainingAmount${i}`);
-
   }
+  totalPayedAmount();
   numberOfRows--;
 });
 
@@ -282,9 +283,9 @@ function getTotalAmount() {
     },
     url: "../../../pages/PurchaseAndsales/processing/get_total_payment.php",
     success: function (response) {
-      var totalAmount = JSON.parse(response);
+      let totalAmount = JSON.parse(response);
       if (totalAmount !== "nothing") {
-        $(`#totalAmountOfSupplier`).val(`${totalAmount.totalAmountSupplier}`);
+        $(`#totalAmountOfSupplier`).val(`${parseFloat(totalAmount.totalAmountSupplier)}`);
       } else {
         displayMessage("No Purchase is done with the supplier")
       }

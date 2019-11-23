@@ -4,7 +4,7 @@ require '../../../connect.php';
 
 if ($_POST['presentPurchaseId'] != '-Select-') {
     $presentPurchaseId = $_POST['presentPurchaseId'];
-    $sqlPayment = "SELECT pList.total_amount_tax, (pList.total_amount_tax-(MAX(paymentPurchase.amount_paid))) AS totalAmountPayed FROM purchase_payment_list as paymentPurchase INNER JOIN purchase AS pList ON paymentPurchase.purchase_id= pList.purchase_id WHERE pList.purchase_id = '$presentPurchaseId'";
+    $sqlPayment = "SELECT pList.total_amount_tax, (pList.total_amount_tax-(SUM(paymentPurchase.amount_paid))) AS totalAmountPayed FROM purchase_payment_list as paymentPurchase INNER JOIN purchase AS pList ON paymentPurchase.purchase_id= pList.purchase_id WHERE pList.purchase_id = '$presentPurchaseId'";
     if ($rawPayment = $connect->query($sqlPayment)) {
         if(mysqli_num_rows($rawPayment))
         while ($amount = $rawPayment->fetch_assoc()) {

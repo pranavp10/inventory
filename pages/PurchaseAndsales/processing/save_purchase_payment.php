@@ -29,7 +29,7 @@ if (!empty($_POST['paymentType'])) {
 if (!empty($_POST['checkNo'])) {
     $checkNo = $_POST['checkNo'];
 } else {
-    $paymentType = '';
+    $checkNo = '';
 }
 if (!empty($_POST['totalAmountPayed'])) {
     $totalAmountPayed = $_POST['totalAmountPayed'];
