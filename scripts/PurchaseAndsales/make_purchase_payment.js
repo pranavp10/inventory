@@ -38,7 +38,7 @@ $("#paymentDate").on("change", function () {
     success: function (response) {
       var id = JSON.parse(response);
       id = +id + 1;
-      $("#purchaseId").val(`PPAY-${financialYear}-${id}`);
+      $("#paymentId").val(`PPAY-${financialYear}-${id}`);
       for (i = 0; i <= numberOfRows; i++) {
         displayPurchaseID(i);
       }
@@ -82,6 +82,28 @@ $("#supplierId").on("change", function () {
   }
 });
 
+function displayRemainingAmount(){
+  let supplierId = $("#supplierId").val();
+  let paymentDate = $("#paymentDate").val();
+  $.ajax({
+    type: "POST",
+    data: {
+      'supplierId': supplierId,
+      'paymentDate': paymentDate
+    },
+    url: "../../../pages/PurchaseAndsales/processing/get_purchase_payed_amount.php",
+    success: function (response) {
+      let totalAmountPayed = JSON.parse(response);
+      if (totalAmountPayed[0].amountPayedTillNow !== "nothing") {
+        let value = +totalAmountPayed[0].amountPayedTillNow
+        $(`#totalAmountPayedToSupplier`).val(value.toFixed(2));
+      } else {
+        $(`#totalAmountPayedToSupplier`).val(0)
+      }
+    }
+  });
+}
+
 function displayPurchaseID(id) {
   let supplierId = $("#supplierId").val();
   let paymentDate = $("#paymentDate").val();
@@ -99,9 +121,18 @@ function displayPurchaseID(id) {
         `<option value="-Select-">-Select-</option>`
       );
       if (customerId !== "nothing") {
-        customerId.forEach(customerId => $(`#purchaseId${id}`).append(
-          `<option value="${customerId}">${customerId}</option>`
-        ));
+        let purchaseId1 =customerId.map(function (customerId){
+          if(customerId.payedPurchaseId > 0){ 
+            return customerId.purchaseId;
+          }
+        });
+        purchaseId = purchaseId1.filter(function( element ) {
+          return element !== undefined;
+       });
+        purchaseId.forEach(purchaseId => $(`#purchaseId${id}`).append(
+          `<option value="${purchaseId}">${purchaseId}</option>`
+          ));
+          displayRemainingAmount();
       } else {
         $(`#totalAmountOfSupplier`).val("")
         displayMessage("No Purchase is done on of before the give date ");
@@ -233,10 +264,10 @@ function getAmount(id) {
     url: "../../../pages/PurchaseAndsales/processing/get_purchase_payment.php",
     success: function (response) {
       var amount = JSON.parse(response);
-      const [totalAmount, amountPaid] = [amount.totalAmount, amount.amountPaid];
+      const [totalAmount, amountPaid] = [+amount.totalAmount, +amount.amountPaid];
       if (amount !== "nothing") {
-        $(`#totalAmount${id}`).val(`${totalAmount}`);
-        $(`#balance${id}`).val(`${amountPaid}`);
+        $(`#totalAmount${id}`).val(`${totalAmount.toFixed(2)}`);
+        $(`#balance${id}`).val(`${amountPaid.toFixed(2)}`);
       }
     }
   });
@@ -290,7 +321,7 @@ function AmountPayLessThenBalance(id) {
 function remainingAmount(id) {
   let balanceAmount = +$(`#balance${id}`).val();
   let inputAmount = +$(`#amountToPay${id}`).val();
-  $(`#remainingAmount${id}`).val(balanceAmount - inputAmount);
+  $(`#remainingAmount${id}`).val((balanceAmount - inputAmount).toFixed(2));
 }
 
 function checkData() {
@@ -332,11 +363,13 @@ function checkData() {
 
 function totalPayedAmount() {
   let totalPayedAmount = $('#totalAmountOfSupplier').val();
+  let totalAmountPayedBefore = $('#totalAmountPayedToSupplier').val();
   let totalInputAmount = 0;
   for (let i = 0; i <= numberOfRows; i++) {
     let inputAmount = +$(`#amountToPay${i}`).val();
     totalInputAmount += inputAmount;
   }
+  let balance = (totalPayedAmount-totalInputAmount-totalAmountPayedBefore).toFixed(2);
   $('#totalAmountPayed').val(totalInputAmount);
-  $('#remainingBalance').val(totalPayedAmount-totalInputAmount);
+  $('#remainingBalance').val(balance);
 }

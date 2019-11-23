@@ -311,7 +311,7 @@
                 <section class="content">
                     <div class="alert alert-danger alert-dismissible" id="alert" hidden>
                     </div>
-                    <form action="../../../pages/PurchaseAndsales/transaction/save_purchase.php" method="post">
+                    <form action="../../../pages/PurchaseAndsales/processing/save_purchase_payment.php" method="post">
                         <div class="alert alert-danger alert-dismissible" id="alert" hidden>
                         </div>
                         <div class="row">
@@ -444,14 +444,14 @@
 
                                         <div class="form-inline">
                                             <label for="totalAmountOfSupplier">Total Amount</label>
-                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;"  type="text" name="totalAmountOfSupplier" class="form-control  pull-right totalAmountOfSupplier" id="totalAmountOfSupplier" readonly required>
+                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;" type="text" name="totalAmountOfSupplier" class="form-control  pull-right totalAmountOfSupplier" id="totalAmountOfSupplier" readonly required>
                                         </div>
                                     </div>
                                     <div class="box-body">
 
                                         <div class="form-inline">
-                                            <label for="totalAmountOfSupplier">Amount Payed till now</label>
-                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;"  type="text" name="totalAmountOfSupplier" class="form-control  pull-right totalAmountOfSupplier" id="totalAmountOfSupplier" readonly required>
+                                            <label for="totalAmountPayedToSupplier">Amount Payed till now</label>
+                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;" type="text" name="totalAmountPayedToSupplier" class="form-control  pull-right totalAmountPayedToSupplier" id="totalAmountPayedToSupplier" readonly required>
                                         </div>
                                     </div>
                                     <div class="box-body">
@@ -459,11 +459,11 @@
 
                                         <div class="form-inline">
                                             <label for="totalAmountPayed">Amount Payed Now</label>
-                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;" type="text" name="totalAmountPayed" class="form-control pull-right totalAmountPayed" id="totalAmountPayed" readonly required>   
+                                            <input style="background-color: transparent; border: transparent; margin-top: -0.72rem !important;" type="text" name="totalAmountPayed" class="form-control pull-right totalAmountPayed" id="totalAmountPayed" readonly required>
                                         </div>
-                                           </div>
+                                    </div>
                                     <div class="box-footer">
-                                    <div class="form-inline">
+                                        <div class="form-inline">
                                             <label for="totalAmountOfSupplier">Balance</label>
                                             <input style="background-color: transparent; border: transparent;  margin-top: -0.72rem !important;" type="text" name="remainingBalance" class="form-control  pull-right remainingBalance" id="remainingBalance" readonly required>
 

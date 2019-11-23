@@ -306,26 +306,26 @@ require '../../../connect.php';
         <!-- ######################################################################################################## -->
         <div class="content-wrapper">
             <?
-            if (isset($_SESSION['addPurchase'])) {
-                if (($_SESSION['addPurchase'] == 'yes')) {
-                    $purchaseAdded =  '<div class="alert alert-success alert-dismissible" id="purchaseAddedAlert" >
+            if (isset($_SESSION['addPurchasePayment'])) {
+                if (($_SESSION['addPurchasePayment'] == 'yes')) {
+                    $purchasePaymentAdded =  '<div class="alert alert-success alert-dismissible" id="purchaseAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New Purchase Added!</strong>
+                            <strong>Purchase Payment done </strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#purchaseAddedAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['addPurchase']);
-                    echo $purchaseAdded;
+                    unset($_SESSION['addPurchasePayment']);
+                    echo $purchasePaymentAdded;
                 } else {
                     $purchaseNotAdded =  '<div class="alert alert-danger alert-dismissible" id="purchaseNotAddedAlert" >
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>New Purchase has not neen saved because of the some missing column !!! </strong>
+                            <strong>Purchase Payment has not Been saved because of the some missing row missing values !!! </strong>
                             </div>   <script>setTimeout(fade_out, 5000);
                             function fade_out() {
                             $("#purchaseNotAddedAlert").fadeOut().empty();
                             }</script>';
-                    unset($_SESSION['addPurchase']);
+                    unset($_SESSION['addPurchasePayment']);
                     echo $purchaseNotAdded;
                 }
             }
