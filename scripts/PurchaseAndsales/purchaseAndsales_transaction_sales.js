@@ -88,7 +88,6 @@ $(document).on("click", ".deleteSales", function () {
             return $(this).text();
         })
         .get();
-    console.log(data);
     $("#displayBox").text(
         `(Sales Transaction Number is ${data[1]}) and Sales Item from the Customer (${data[2]}) will be deleted !!!`
     );

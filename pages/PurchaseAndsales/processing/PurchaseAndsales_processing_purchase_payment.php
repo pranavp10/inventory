@@ -406,8 +406,8 @@ require '../../../connect.php';
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="discountId">Select Supplier:</label>
-                        <select class="form-control select2" name="supplierId" id="supplierId">
-                            <option value="All">All</option>
+                        <select class="form-control select2" name="supplierId" id="supplierId" style="width: 100%;">
+                            <option value="-Select-">-Select-</option>
                             <?
                             $sqlDisplaySupplier = "SELECT `supplier_id`,`supplier_name` FROM `supplier_or_company` ";
                             if ($rawDate = $connect->query($sqlDisplaySupplier)) {
@@ -421,29 +421,6 @@ require '../../../connect.php';
                             }
                             ?>
                         </select>
-                        <div class="form-group">
-                            <label for="fromDate">From Date</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right date" name="fromDate" id="fromDate">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="toDate">To Date</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right date" name="toDate" id="toDate">
-                            </div>
-                            <button type="button" class="btn btn-primary" id="searchPurchaseList">
-                        <strong><i class="fa fa-search"></i> Purchase List</strong></button>
-                        
-                        
-                    </div>
-                        
                     </div>
                     <br>
                     <br>
@@ -463,20 +440,21 @@ require '../../../connect.php';
                                         <table id="dataTable" class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Purchase Date</th>
-                                                    <th>ID</th>
                                                     <th>Supplier Names</th>
-                                                    <th>Item Name</th>
-                                                    <th>Quantity</th>
-                                                    <th>Price Per Unit</th>
-                                                    <th>Amount</th>
-                                                    <th>Tax</th>
+                                                    <th>Payment Code</th>
+                                                    <th>Payment Date</th>
+                                                    <th>Payment Type</th>
+                                                    <th>Purchase ID </th>
+                                                    <th>Total Purchase Amount</th>
+                                                    <th>Amount Payed</th>
+                                                    <th>Remaining Balance</th>
+                                                    <th>Closing Balance</th>
                                                     <th>Total Amount</th>
-                                                    <th>Grand Total</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            
                                             </tbody>
                                         </table>
                                     </div>
@@ -522,7 +500,7 @@ require '../../../connect.php';
         <!-- ###################################################################################### -->
         <!-- my scripts -->
 
-        <script src="../../../scripts/PurchaseAndsales/PurchaseAndsales_transaction_purchase.js"></script>
+        <script src="../../../scripts/PurchaseAndsales/PurchaseAndsales_transaction_purchase_payment.js"></script>
         <!-- ###################################################################################################################################### -->
 </body>
 

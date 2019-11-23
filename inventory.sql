@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 22, 2019 at 12:22 PM
+-- Generation Time: Nov 23, 2019 at 12:28 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -309,18 +309,21 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`purchase_id`),
   UNIQUE KEY `id` (`id`),
   KEY `supid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase`
 --
 
 INSERT INTO `purchase` (`id`, `purchase_id`, `supplier_id`, `purchase_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
-(12, 'PTNO-1920-1', 'SUP-1', '2019-11-01', '1', 122, 650, 767),
+(12, 'PTNO-1920-1', 'SUP-1', '2019-11-01', '1', 122, 650, 500),
 (13, 'PTNO-1920-2', 'SUP-2', '2019-11-15', '', 80, 350, 413),
-(14, 'PTNO-1920-3', 'SUP-1', '2019-11-09', '', 21, 21435, 25293.300000000003),
+(14, 'PTNO-1920-3', 'SUP-1', '2019-11-09', '', 21, 21435, 25293),
 (15, 'PTNO-1920-4', 'SUP-1', '2019-11-22', 'fsds34322', 22, 1014, 1196.52),
-(16, 'PTNO-1920-5', 'SUP-2', '2019-11-14', '6354', 10, 1196, 1411.2800000000002);
+(16, 'PTNO-1920-5', 'SUP-2', '2019-11-14', '6354', 10, 1196, 1411),
+(17, 'PTNO-1920-6', 'SUP-1', '2019-11-22', '11', 188, 13533, 15968.94),
+(18, 'PTNO-1920-7', 'SUP-3', '2019-11-13', 'fsds34322', 4, 10000, 11800),
+(19, 'PTNO-1920-8', 'SUP-3', '2019-11-22', '6354', 3, 6000, 7080);
 
 -- --------------------------------------------------------
 
@@ -342,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
   KEY `puchid` (`purchase_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_list`
@@ -365,7 +368,18 @@ INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, 
 (35, 'PTNO-1920-4', 'CAT-3', 'ITM-5', 12, 52, 624, 736.32),
 (36, 'PTNO-1920-5', 'CAT-3', 'ITM-5', 3, 68, 204, 240.72),
 (37, 'PTNO-1920-5', 'CAT-2', 'ITM-2', 1, 524, 524, 618.32),
-(38, 'PTNO-1920-5', 'CAT-1', 'ITM-4', 6, 78, 468, 552.24);
+(38, 'PTNO-1920-5', 'CAT-1', 'ITM-4', 6, 78, 468, 552.24),
+(39, 'PTNO-1920-6', 'CAT-1', 'ITM-1', 36, 63, 2268, 2676.24),
+(40, 'PTNO-1920-6', 'CAT-2', 'ITM-2', 65, 45, 2925, 3451.5),
+(41, 'PTNO-1920-6', 'CAT-3', 'ITM-3', 75, 96, 7200, 8496),
+(42, 'PTNO-1920-6', 'CAT-3', 'ITM-5', 12, 95, 1140, 1345.2),
+(43, 'PTNO-1920-7', 'CAT-1', 'ITM-1', 1, 1000, 1000, 1180),
+(44, 'PTNO-1920-7', 'CAT-2', 'ITM-2', 1, 2000, 2000, 2360),
+(45, 'PTNO-1920-7', 'CAT-3', 'ITM-3', 1, 3000, 3000, 3540),
+(46, 'PTNO-1920-7', 'CAT-3', 'ITM-5', 1, 4000, 4000, 4720),
+(47, 'PTNO-1920-8', 'CAT-1', 'ITM-1', 1, 3000, 3000, 3540),
+(48, 'PTNO-1920-8', 'CAT-2', 'ITM-2', 1, 2000, 2000, 2360),
+(49, 'PTNO-1920-8', 'CAT-3', 'ITM-6', 1, 1000, 1000, 1180);
 
 -- --------------------------------------------------------
 
@@ -379,11 +393,27 @@ CREATE TABLE IF NOT EXISTS `purchase_payment` (
   `purchase_payment_id` varchar(50) NOT NULL,
   `supplier_id` varchar(50) NOT NULL,
   `total_amount` double NOT NULL,
-  `remaining_amount` double NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_type` varchar(50) NOT NULL,
+  `check_no` varchar(30) NOT NULL,
   PRIMARY KEY (`purchase_payment_id`),
   UNIQUE KEY `id` (`id`),
   KEY `cusid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_payment`
+--
+
+INSERT INTO `purchase_payment` (`id`, `purchase_payment_id`, `supplier_id`, `total_amount`, `payment_date`, `payment_type`, `check_no`) VALUES
+(1, 'PPAY-1920-1', 'SUP-1', 500, '2019-11-30', 'Cash', ''),
+(2, 'PPAY-1920-2', 'SUP-1', 26489.52, '2019-11-30', 'Cash', ''),
+(3, 'PPAY-1920-3', 'SUP-1', 10000, '2019-11-30', 'Cheque', ''),
+(4, 'PPAY-1920-4', 'SUP-2', 400, '2019-11-30', 'Cash', ''),
+(6, 'PPAY-1920-5', 'SUP-2', 13, '2019-11-30', 'Cash', ''),
+(7, 'PPAY-1920-6', 'SUP-2', 1411, '2019-11-30', 'Cheque', ''),
+(8, 'PPAY-1920-7', 'SUP-3', 18000, '2019-11-30', 'Cash', ''),
+(9, 'PPAY-1920-8', 'SUP-3', 880, '2019-12-04', 'Cheque', '1552');
 
 -- --------------------------------------------------------
 
@@ -396,12 +426,28 @@ CREATE TABLE IF NOT EXISTS `purchase_payment_list` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `purchase_payment_id` varchar(50) NOT NULL,
   `purchase_id` varchar(50) NOT NULL,
-  `payment_date` date NOT NULL,
   `amount_paid` double NOT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `pyid` (`purchase_payment_id`),
   KEY `plist` (`purchase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_payment_list`
+--
+
+INSERT INTO `purchase_payment_list` (`id`, `purchase_payment_id`, `purchase_id`, `amount_paid`) VALUES
+(1, 'PPAY-1920-1', 'PTNO-1920-1', 500),
+(2, 'PPAY-1920-2', 'PTNO-1920-4', 1196.52),
+(3, 'PPAY-1920-2', 'PTNO-1920-3', 25293),
+(4, 'PPAY-1920-3', 'PTNO-1920-6', 10000),
+(5, 'PPAY-1920-4', 'PTNO-1920-2', 400),
+(7, 'PPAY-1920-5', 'PTNO-1920-2', 13),
+(8, 'PPAY-1920-6', 'PTNO-1920-5', 1411),
+(9, 'PPAY-1920-7', 'PTNO-1920-7', 11000),
+(10, 'PPAY-1920-7', 'PTNO-1920-8', 7000),
+(11, 'PPAY-1920-8', 'PTNO-1920-7', 800),
+(12, 'PPAY-1920-8', 'PTNO-1920-8', 80);
 
 -- --------------------------------------------------------
 
@@ -451,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   PRIMARY KEY (`sales_id`),
   UNIQUE KEY `id` (`id`),
   KEY `cusid` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
@@ -480,7 +526,7 @@ CREATE TABLE IF NOT EXISTS `sales_list` (
   KEY `salsid` (`sales_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_list`
@@ -505,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `statelist` (
   `longitude` varchar(10) NOT NULL,
   `state` varchar(50) NOT NULL,
   PRIMARY KEY (`city_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `statelist`
