@@ -45,8 +45,8 @@ require '../../../connect.php';
                                         <?
                                         if (!isset($_GET['report']) || @$_GET['report'] == '-Select-') {
                                             ?>
-                                            <thead  class="black white-text">
-                                                <tr class='text-center bg-primary'>
+                                            <thead>
+                                                <tr class='text-center'>
                                                     <td>Select the item</td>
                                                 </tr>
                                             </thead>
@@ -60,8 +60,8 @@ require '../../../connect.php';
                                                 if ($_GET['report'] === "category") {
                                                     ?>
                                                 <thead>
-                                                    <tr class='text-center bg-primary'>
-                                                        <th class='text-center'>Item Category ID</th>
+                                                    <tr>
+                                                        <th  class='text-center'>Item Category ID</th>
                                                         <th  class='text-center'>Item Category Name</th>
                                                     </tr>
                                                 </thead>
@@ -84,7 +84,7 @@ require '../../../connect.php';
                                                                             } else {
                                                                                 if ($_GET['report'] === "tax") {
                                                                                     ?>
-                                                    <thead  class="black white-text">
+                                                    <thead>
                                                         <tr>
                                                             <th  class='text-center'>Tax ID</th>
                                                             <th  class='text-center'>Tax Code</th>
@@ -115,7 +115,7 @@ require '../../../connect.php';
                                                             } else {
                                                                 if ($_GET['report'] === "item") {
                                                                     ?>
-                                                        <thead  class="black white-text">
+                                                        <thead>
                                                             <tr>
                                                                 <th  class='text-center'>Item ID</th>
                                                                 <th  class='text-center'>Item Category Name</th>
