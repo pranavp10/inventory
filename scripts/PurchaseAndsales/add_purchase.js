@@ -327,7 +327,7 @@ function totalQuantityOfPurchase() {
     let rowQuantity = $(`#quantity${i}`).val();
     totalQuantityOfPurchase += (+rowQuantity);
   }
-  $('#totalQuantityOfPurchase').val(totalQuantityOfPurchase).toFixed(2);
+  $('#totalQuantityOfPurchase').val(totalQuantityOfPurchase.toFixed(2));
 }
 
 function totalAmountOfPurchase() {
@@ -344,7 +344,7 @@ function totalAmountWithTaxOfPurchase() {
     let rowAmount = $(`#totalAmountWithTax${i}`).val();
     totalAmountWithTaxOfPurchase += (+rowAmount);
   }
-  $('#totalAmountWithTaxOfPurchase').val(totalAmountWithTaxOfPurchase).toFixed(2);
+  $('#totalAmountWithTaxOfPurchase').val(totalAmountWithTaxOfPurchase.toFixed(2));
 }
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 23, 2019 at 12:28 PM
+-- Generation Time: Nov 25, 2019 at 05:46 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -13,19 +13,9 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `inventory`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `credit_limit`
 --
 
 DROP TABLE IF EXISTS `credit_limit`;
@@ -39,20 +29,7 @@ CREATE TABLE IF NOT EXISTS `credit_limit` (
   PRIMARY KEY (`credit_limit_id`),
   UNIQUE KEY `id` (`id`),
   KEY `cusid` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `credit_limit`
---
-
-INSERT INTO `credit_limit` (`id`, `credit_limit_id`, `customer_id`, `credit_limit_value`, `credit_limit_from_date`, `credit_limit_to_date`) VALUES
-(1, 'CCL-1', 'CMS-2', 50000, '2019-04-01', '2020-03-31');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customer_or_company`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `customer_or_company`;
 CREATE TABLE IF NOT EXISTS `customer_or_company` (
@@ -68,21 +45,7 @@ CREATE TABLE IF NOT EXISTS `customer_or_company` (
   `c_address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customer_or_company`
---
-
-INSERT INTO `customer_or_company` (`id`, `customer_id`, `gstin`, `cust_comp_name`, `state`, `city`, `city_pincode`, `c_phone_number`, `c_email`, `c_address`) VALUES
-(1, 'CMS-1', 'F2', 'Abdul', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(2, 'CMS-2', '231', 'Naveen', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `designation`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `designation`;
 CREATE TABLE IF NOT EXISTS `designation` (
@@ -91,21 +54,7 @@ CREATE TABLE IF NOT EXISTS `designation` (
   `description` varchar(50) NOT NULL,
   PRIMARY KEY (`designation_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `designation`
---
-
-INSERT INTO `designation` (`id`, `designation_id`, `description`) VALUES
-(1, 'DES-1', 'Manager'),
-(2, 'DES-2', 'Developer');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `discounts_and_flats`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `discounts_and_flats`;
 CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
@@ -116,22 +65,7 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats` (
   `discount_to_date` date NOT NULL,
   PRIMARY KEY (`discount_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `discounts_and_flats`
---
-
-INSERT INTO `discounts_and_flats` (`id`, `discount_id`, `discount_name`, `discount_from_date`, `discount_to_date`) VALUES
-(1, 'DAF-1920-1', 'Diwali', '2019-12-01', '2019-12-18'),
-(2, 'DAF-1920-2', 'Dfds', '2020-01-09', '2020-01-24'),
-(3, 'DAF-1920-3', 'Diwalids', '2019-06-03', '2019-06-18');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `discounts_and_flats_details`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `discounts_and_flats_details`;
 CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
@@ -146,27 +80,7 @@ CREATE TABLE IF NOT EXISTS `discounts_and_flats_details` (
   KEY `desid` (`discount_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `discounts_and_flats_details`
---
-
-INSERT INTO `discounts_and_flats_details` (`id`, `discount_id`, `item_category`, `item`, `discount_type`, `discount_value`, `minimun_amount`) VALUES
-(1, 'DAF-1920-1', 'CAT-3', 'ITM-3', 'percent', 33, 33),
-(2, 'DAF-1920-2', 'CAT-3', 'ITM-3', 'percent', 1, 6),
-(3, 'DAF-1920-2', 'CAT-1', 'ITM-4', 'flat', 1, 0),
-(4, 'DAF-1920-2', 'CAT-1', 'ITM-1', 'percent', 1, 0),
-(5, 'DAF-1920-3', 'CAT-2', 'ITM-2', 'percent', 1, 4),
-(6, 'DAF-1920-3', 'CAT-1', 'ITM-1', 'percent', 1, 0),
-(7, 'DAF-1920-3', 'CAT-1', 'ITM-4', 'percent', 1, 0),
-(8, 'DAF-1920-3', 'CAT-3', 'ITM-3', 'percent', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employees_details`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `employees_details`;
 CREATE TABLE IF NOT EXISTS `employees_details` (
@@ -185,24 +99,7 @@ CREATE TABLE IF NOT EXISTS `employees_details` (
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `id` (`id`),
   KEY `emp_des` (`emp_designation`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `employees_details`
---
-
-INSERT INTO `employees_details` (`id`, `emp_id`, `emp_first_name`, `emp_last_name`, `emp_email`, `emp_designation`, `emp_dob`, `emp_gender`, `emp_address`, `emp_joining`, `emp_basic_salary`, `emp_login_flag`) VALUES
-(1, 'EMP-1', 'Aa', 'God', 'mahantesh@gmail.com', 'DES-2', '2019-11-07', 'Male', 'h.no 89 sawmi-vivekananda', '2019-11-16', 20000, 1),
-(2, 'EMP-2', 'Bb', 'Bbb', 'mahantesh@gmail.com', 'DES-1', '2019-11-28', 'Female', 'h.no 89 sawmi-vivekananda', '2019-11-08', 43532, 1),
-(3, 'EMP-3', 'Aa', 'God', 'mahantesh@gmail.com', 'DES-1', '2019-11-14', 'Male', 'h.no 89 sawmi-vivekananda', '2019-11-08', 2413, 1),
-(4, 'EMP-4', 'Play', 'Sd', 'mahantesh@gmail.com', 'DES-1', '2019-11-09', 'Male', 'h.no 89 sawmi-vivekananda', '2019-11-14', 353234, 1),
-(5, 'EMP-5', 'Play', 'God', 'mahantesh@gmail.com', 'DES-1', '2019-11-13', 'Female', 'h.no 89 sawmi-vivekananda', '2019-11-06', 33443, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE IF NOT EXISTS `item` (
@@ -216,25 +113,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   UNIQUE KEY `id` (`id`),
   KEY `itemid` (`item_category`),
   KEY `itemTax` (`item_tax`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `item`
---
-
-INSERT INTO `item` (`id`, `item_id`, `item_category`, `item_tax`, `item_name`, `item_type`) VALUES
-(1, 'ITM-1', 'CAT-1', 'TAX-1', 'Mango', 'Piece'),
-(2, 'ITM-2', 'CAT-2', 'TAX-1', 'Potato', 'Piece'),
-(3, 'ITM-3', 'CAT-3', 'TAX-1', 'Pista', 'Kg'),
-(4, 'ITM-4', 'CAT-1', 'TAX-1', 'Banana', 'Kg'),
-(5, 'ITM-5', 'CAT-3', 'TAX-1', 'Kaju', 'Piece'),
-(6, 'ITM-6', 'CAT-3', 'TAX-1', 'Kismis', 'Piece');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item_category`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `item_category`;
 CREATE TABLE IF NOT EXISTS `item_category` (
@@ -243,22 +122,7 @@ CREATE TABLE IF NOT EXISTS `item_category` (
   `item_category_name` varchar(50) NOT NULL,
   PRIMARY KEY (`item_category_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `item_category`
---
-
-INSERT INTO `item_category` (`id`, `item_category_id`, `item_category_name`) VALUES
-(1, 'CAT-1', 'Fruit'),
-(2, 'CAT-2', 'Veg'),
-(3, 'CAT-3', 'Dry fruits');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `parameters`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `parameters`;
 CREATE TABLE IF NOT EXISTS `parameters` (
@@ -272,29 +136,7 @@ CREATE TABLE IF NOT EXISTS `parameters` (
   `parameter_value` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `desid` (`designation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `parameters`
---
-
-INSERT INTO `parameters` (`id`, `parameter_id`, `parameter_date`, `designation_id`, `parameter_name`, `parameters_type`, `parameter_value_type`, `parameter_value`) VALUES
-(1, 'PMI-1', '2019-12-01', 'DES-1', 'HRA', 'Allowance', 'percentage', 18),
-(2, 'PMI-1', '2019-12-01', 'DES-1', 'Medical', 'Allowance', 'flat', 3000),
-(3, 'PMI-1', '2019-12-01', 'DES-1', 'Transportation', 'Allowance', 'flat', 2000),
-(4, 'PMI-1', '2019-12-01', 'DES-1', 'PF', 'Deductions', 'percentage', 18),
-(5, 'PMI-1', '2019-12-01', 'DES-1', 'Professional Tax', 'Deductions', 'percentage', 13),
-(6, 'PMI-2', '2019-01-01', 'DES-1', 'HRA', 'Allowance', 'percentage', 33),
-(7, 'PMI-2', '2019-01-01', 'DES-1', 'Medical', 'Allowance', 'percentage', 12),
-(8, 'PMI-2', '2019-01-01', 'DES-1', 'Transportation', 'Allowance', 'flat', 1000),
-(9, 'PMI-2', '2019-01-01', 'DES-1', 'PF', 'Deductions', 'percentage', 18),
-(10, 'PMI-2', '2019-01-01', 'DES-1', 'Professional Tax', 'Deductions', 'flat', 100);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE IF NOT EXISTS `purchase` (
@@ -309,27 +151,7 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`purchase_id`),
   UNIQUE KEY `id` (`id`),
   KEY `supid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase`
---
-
-INSERT INTO `purchase` (`id`, `purchase_id`, `supplier_id`, `purchase_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
-(12, 'PTNO-1920-1', 'SUP-1', '2019-11-01', '1', 122, 650, 500),
-(13, 'PTNO-1920-2', 'SUP-2', '2019-11-15', '', 80, 350, 413),
-(14, 'PTNO-1920-3', 'SUP-1', '2019-11-09', '', 21, 21435, 25293),
-(15, 'PTNO-1920-4', 'SUP-1', '2019-11-22', 'fsds34322', 22, 1014, 1196.52),
-(16, 'PTNO-1920-5', 'SUP-2', '2019-11-14', '6354', 10, 1196, 1411),
-(17, 'PTNO-1920-6', 'SUP-1', '2019-11-22', '11', 188, 13533, 15968.94),
-(18, 'PTNO-1920-7', 'SUP-3', '2019-11-13', 'fsds34322', 4, 10000, 11800),
-(19, 'PTNO-1920-8', 'SUP-3', '2019-11-22', '6354', 3, 6000, 7080);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_list`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `purchase_list`;
 CREATE TABLE IF NOT EXISTS `purchase_list` (
@@ -345,47 +167,7 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
   KEY `puchid` (`purchase_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_list`
---
-
-INSERT INTO `purchase_list` (`id`, `purchase_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
-(22, 'PTNO-1920-1', 'CAT-1', 'ITM-1', 12, 10, 120, 141.6),
-(23, 'PTNO-1920-1', 'CAT-2', 'ITM-2', 10, 3, 30, 35.4),
-(24, 'PTNO-1920-1', 'CAT-3', 'ITM-3', 100, 5, 500, 590),
-(25, 'PTNO-1920-2', 'CAT-1', 'ITM-1', 10, 10, 100, 118),
-(26, 'PTNO-1920-2', 'CAT-2', 'ITM-2', 20, 5, 100, 118),
-(27, 'PTNO-1920-2', 'CAT-3', 'ITM-3', 50, 3, 150, 177),
-(28, 'PTNO-1920-3', 'CAT-2', 'ITM-2', 3, 6847, 20541, 24238.38),
-(29, 'PTNO-1920-3', 'CAT-1', 'ITM-4', 3, 60, 180, 212.4),
-(30, 'PTNO-1920-3', 'CAT-3', 'ITM-3', 3, 30, 90, 106.2),
-(31, 'PTNO-1920-3', 'CAT-3', 'ITM-5', 12, 52, 624, 736.32),
-(32, 'PTNO-1920-4', 'CAT-2', 'ITM-2', 3, 60, 180, 212.4),
-(33, 'PTNO-1920-4', 'CAT-3', 'ITM-3', 6, 30, 180, 212.4),
-(34, 'PTNO-1920-4', 'CAT-1', 'ITM-1', 1, 30, 30, 35.4),
-(35, 'PTNO-1920-4', 'CAT-3', 'ITM-5', 12, 52, 624, 736.32),
-(36, 'PTNO-1920-5', 'CAT-3', 'ITM-5', 3, 68, 204, 240.72),
-(37, 'PTNO-1920-5', 'CAT-2', 'ITM-2', 1, 524, 524, 618.32),
-(38, 'PTNO-1920-5', 'CAT-1', 'ITM-4', 6, 78, 468, 552.24),
-(39, 'PTNO-1920-6', 'CAT-1', 'ITM-1', 36, 63, 2268, 2676.24),
-(40, 'PTNO-1920-6', 'CAT-2', 'ITM-2', 65, 45, 2925, 3451.5),
-(41, 'PTNO-1920-6', 'CAT-3', 'ITM-3', 75, 96, 7200, 8496),
-(42, 'PTNO-1920-6', 'CAT-3', 'ITM-5', 12, 95, 1140, 1345.2),
-(43, 'PTNO-1920-7', 'CAT-1', 'ITM-1', 1, 1000, 1000, 1180),
-(44, 'PTNO-1920-7', 'CAT-2', 'ITM-2', 1, 2000, 2000, 2360),
-(45, 'PTNO-1920-7', 'CAT-3', 'ITM-3', 1, 3000, 3000, 3540),
-(46, 'PTNO-1920-7', 'CAT-3', 'ITM-5', 1, 4000, 4000, 4720),
-(47, 'PTNO-1920-8', 'CAT-1', 'ITM-1', 1, 3000, 3000, 3540),
-(48, 'PTNO-1920-8', 'CAT-2', 'ITM-2', 1, 2000, 2000, 2360),
-(49, 'PTNO-1920-8', 'CAT-3', 'ITM-6', 1, 1000, 1000, 1180);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_payment`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `purchase_payment`;
 CREATE TABLE IF NOT EXISTS `purchase_payment` (
@@ -399,27 +181,7 @@ CREATE TABLE IF NOT EXISTS `purchase_payment` (
   PRIMARY KEY (`purchase_payment_id`),
   UNIQUE KEY `id` (`id`),
   KEY `cusid` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_payment`
---
-
-INSERT INTO `purchase_payment` (`id`, `purchase_payment_id`, `supplier_id`, `total_amount`, `payment_date`, `payment_type`, `check_no`) VALUES
-(1, 'PPAY-1920-1', 'SUP-1', 500, '2019-11-30', 'Cash', ''),
-(2, 'PPAY-1920-2', 'SUP-1', 26489.52, '2019-11-30', 'Cash', ''),
-(3, 'PPAY-1920-3', 'SUP-1', 10000, '2019-11-30', 'Cheque', ''),
-(4, 'PPAY-1920-4', 'SUP-2', 400, '2019-11-30', 'Cash', ''),
-(6, 'PPAY-1920-5', 'SUP-2', 13, '2019-11-30', 'Cash', ''),
-(7, 'PPAY-1920-6', 'SUP-2', 1411, '2019-11-30', 'Cheque', ''),
-(8, 'PPAY-1920-7', 'SUP-3', 18000, '2019-11-30', 'Cash', ''),
-(9, 'PPAY-1920-8', 'SUP-3', 880, '2019-12-04', 'Cheque', '1552');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_payment_list`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `purchase_payment_list`;
 CREATE TABLE IF NOT EXISTS `purchase_payment_list` (
@@ -430,30 +192,7 @@ CREATE TABLE IF NOT EXISTS `purchase_payment_list` (
   UNIQUE KEY `id` (`id`),
   KEY `pyid` (`purchase_payment_id`),
   KEY `plist` (`purchase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_payment_list`
---
-
-INSERT INTO `purchase_payment_list` (`id`, `purchase_payment_id`, `purchase_id`, `amount_paid`) VALUES
-(1, 'PPAY-1920-1', 'PTNO-1920-1', 500),
-(2, 'PPAY-1920-2', 'PTNO-1920-4', 1196.52),
-(3, 'PPAY-1920-2', 'PTNO-1920-3', 25293),
-(4, 'PPAY-1920-3', 'PTNO-1920-6', 10000),
-(5, 'PPAY-1920-4', 'PTNO-1920-2', 400),
-(7, 'PPAY-1920-5', 'PTNO-1920-2', 13),
-(8, 'PPAY-1920-6', 'PTNO-1920-5', 1411),
-(9, 'PPAY-1920-7', 'PTNO-1920-7', 11000),
-(10, 'PPAY-1920-7', 'PTNO-1920-8', 7000),
-(11, 'PPAY-1920-8', 'PTNO-1920-7', 800),
-(12, 'PPAY-1920-8', 'PTNO-1920-8', 80);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salary_generation`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `salary_generation`;
 CREATE TABLE IF NOT EXISTS `salary_generation` (
@@ -467,22 +206,7 @@ CREATE TABLE IF NOT EXISTS `salary_generation` (
   `net_salary` bigint(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `empid` (`employee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `salary_generation`
---
-
-INSERT INTO `salary_generation` (`id`, `employee_id`, `parameter_id`, `salaryDate`, `basic_salary`, `allowance`, `deductions`, `net_salary`) VALUES
-(1, 'EMP-2', 'PMI-1', '2019-12-01', 43532, 12836, -13496, 42872),
-(2, 'EMP-2', 'PMI-2', '2019-01-01', 43532, 20589, -7936, 56185),
-(3, 'EMP-3', 'PMI-2', '2019-01-01', 2413, 2086, -535, 3964);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sales`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
@@ -497,20 +221,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   PRIMARY KEY (`sales_id`),
   UNIQUE KEY `id` (`id`),
   KEY `cusid` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `sales_id`, `customer_id`, `sales_date`, `lr_number`, `total_quantity`, `total_amount`, `total_amount_tax`) VALUES
-(3, 'STNO-1920-2', 'CMS-2', '2019-11-13', 'fsds34322', 35, 22610, 26679.8);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sales_list`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `sales_list`;
 CREATE TABLE IF NOT EXISTS `sales_list` (
@@ -526,22 +237,7 @@ CREATE TABLE IF NOT EXISTS `sales_list` (
   KEY `salsid` (`sales_id`),
   KEY `itmcat` (`item_category`),
   KEY `itm` (`item_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales_list`
---
-
-INSERT INTO `sales_list` (`id`, `sales_id`, `item_category`, `item_code`, `quantity`, `price_per_unit`, `total_amount`, `total_amount_with_tax`) VALUES
-(5, 'STNO-1920-2', 'CAT-2', 'ITM-2', 3, 60, 180, 212.4),
-(6, 'STNO-1920-2', 'CAT-1', 'ITM-1', 2, 700, 1400, 1652),
-(7, 'STNO-1920-2', 'CAT-3', 'ITM-3', 30, 701, 21030, 24815.4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `statelist`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `statelist`;
 CREATE TABLE IF NOT EXISTS `statelist` (
@@ -1560,12 +1256,6 @@ INSERT INTO `statelist` (`city_id`, `city_name`, `latitude`, `longitude`, `state
 (999, 'Rudrapur', '', '', 'Uttaranchal'),
 (1000, 'Rurki', '29.87 N', '77.89 E', 'Uttaranchal');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `supplier_or_company`
---
-
 DROP TABLE IF EXISTS `supplier_or_company`;
 CREATE TABLE IF NOT EXISTS `supplier_or_company` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -1580,23 +1270,7 @@ CREATE TABLE IF NOT EXISTS `supplier_or_company` (
   `s_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`supplier_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `supplier_or_company`
---
-
-INSERT INTO `supplier_or_company` (`id`, `supplier_id`, `gstin`, `supplier_name`, `state`, `city`, `city_pincode`, `s_phone_number`, `s_email`, `s_address`) VALUES
-(1, 'SUP-1', 'AAAA', 'Praveen', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(2, 'SUP-2', '231', 'Sagar', 'Karnataka', 'Hubli', 585032, 1111111111, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(3, 'SUP-3', 'DAD', 'Atul', 'Karnataka', 'Hubli', 585032, 9999999999, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda'),
-(4, 'SUP-4', 'F2', 'C', 'Karnataka', 'Hubli', 585032, 8888888888, 'mahantesh@gmail.com', 'h.no 89 sawmi-vivekananda');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tax`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `tax`;
 CREATE TABLE IF NOT EXISTS `tax` (
@@ -1606,20 +1280,7 @@ CREATE TABLE IF NOT EXISTS `tax` (
   `tax_percentage` bigint(5) DEFAULT NULL,
   PRIMARY KEY (`tax_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tax`
---
-
-INSERT INTO `tax` (`id`, `tax_id`, `tax_code`, `tax_percentage`) VALUES
-(1, 'TAX-1', 'GST-18', 18);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_login_credentials`
---
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `user_login_credentials`;
 CREATE TABLE IF NOT EXISTS `user_login_credentials` (
@@ -1631,15 +1292,8 @@ CREATE TABLE IF NOT EXISTS `user_login_credentials` (
   PRIMARY KEY (`login_id`),
   UNIQUE KEY `id` (`id`),
   KEY `logid` (`employees_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB;
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `credit_limit`
---
 ALTER TABLE `credit_limit`
   ADD CONSTRAINT `credit_limit_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer_or_company` (`customer_id`);
 
@@ -1723,7 +1377,3 @@ ALTER TABLE `sales_list`
 ALTER TABLE `user_login_credentials`
   ADD CONSTRAINT `user_login_credentials_ibfk_1` FOREIGN KEY (`employees_id`) REFERENCES `employees_details` (`emp_id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

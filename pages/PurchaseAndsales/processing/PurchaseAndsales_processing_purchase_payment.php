@@ -441,15 +441,13 @@ require '../../../connect.php';
                                             <thead>
                                                 <tr>
                                                     <th>Supplier Names</th>
-                                                    <th>Payment Code</th>
-                                                    <th>Payment Date</th>
-                                                    <th>Payment Type</th>
                                                     <th>Purchase ID </th>
                                                     <th>Total Purchase Amount</th>
                                                     <th>Amount Payed</th>
                                                     <th>Remaining Balance</th>
-                                                    <th>Closing Balance</th>
                                                     <th>Total Amount</th>
+                                                    <th>Total Amount Paid</th>
+                                                    <th>Closing Balance</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
