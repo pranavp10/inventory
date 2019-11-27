@@ -12,7 +12,7 @@ if ($connect->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-error_reporting(E_ALL);
+error_reporting(~E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 date_default_timezone_set('Asia/Kolkata');
@@ -105,6 +105,124 @@ if (@$_GET['report'] === 'category' && $_GET['category'] === "-Select-") {
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 	$objWriter->save('php://output');
+} else {
+	$report = @$_GET['report'];
+	$category = @$_GET['category'];
+	if ($report === 'category' && strpos($category, 'CAT') !== false) {
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Particular Category Item List ');
+		$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:M1');
+		$styleArray = array(
+			'font'  => array(
+				'color' => array('rgb' => '0,0,139'),
+				'size'  => 20
+			)
+		);
+		$objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray($styleArray);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+
+		$objPHPExcel->setActiveSheetIndex(0)
+			->setCellValue('D3', 'Sl No')
+			->setCellValue('E3', 'Item Code')
+			->setCellValue('F3', 'Item Name')
+			->setCellValue('G3', 'Item Type')
+			->setCellValue('H3', 'Item Tax Code')
+			->setCellValue('I3', 'Item Tax');
+
+		$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('D3')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('E3')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('F3')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('G3')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('H3')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('I3')->getFont()->setBold(true);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(9);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(9);
+
+
+		$rowcnt = 4;
+		$i = 1;
+		$sqlDisplayItemCategory = "SELECT item_category.item_category_name,item.*,tax.tax_percentage FROM item_category AS item_category INNER JOIN item AS item ON item.item_category = item_category.item_category_id INNER JOIN tax AS tax ON item.item_tax = tax.tax_id WHERE item_category.item_category_id = '$_GET[category]'";
+		if ($rawDate = $connect->query($sqlDisplayItemCategory)) {
+			if (mysqli_num_rows($rawDate) == 0) {
+				$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Item list not found in this Category');
+				$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:M4');
+				$styleArray = array(
+					'font'  => array(
+						'color' => array('rgb' => '0,0,0'),
+						'size'  => 10
+					)
+				);
+				$objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($styleArray);
+				$objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			} else {
+				$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A2:M2');
+				$styleArray = array(
+					'font'  => array(
+						'color' => array('rgb' => '0,0,0'),
+						'size'  => 15
+					)
+				);
+				$objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray($styleArray);
+				$objPHPExcel->getActiveSheet()->getStyle('A2:M2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+				while ($displayCat = $rawDate->fetch_assoc()) {
+					$catName = $displayCat['item_category_name'];
+					$item_id = $displayCat['item_id'];
+					$item_name = $displayCat['item_name'];
+					$item_type = $displayCat['item_type'];
+					$item_tax = $displayCat['item_tax'];
+					$tax_percentage = $displayCat['tax_percentage'];
+
+					$objPHPExcel->getActiveSheet()->setCellValue('A2', $catName);
+					$objPHPExcel->getActiveSheet()->setCellValue('D' . $rowcnt, $i);
+					$objPHPExcel->getActiveSheet()->setCellValue('E' . $rowcnt, $item_id);
+					$objPHPExcel->getActiveSheet()->setCellValue('F' . $rowcnt, $item_name);
+					$objPHPExcel->getActiveSheet()->setCellValue('G' . $rowcnt, $item_type);
+					$objPHPExcel->getActiveSheet()->setCellValue('H' . $rowcnt, $item_tax);
+					$objPHPExcel->getActiveSheet()->setCellValue('I' . $rowcnt, $tax_percentage);
+					$rowcnt++;
+					$i++;
+				}
+			}
+			$rowcnt++;
+			$rowcnt++;
+
+			$objPHPExcel->getActiveSheet()->setCellValue('A' . $rowcnt, 'Developed By Pranav(Software trainee)');
+			$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A' . $rowcnt . ':M' . $rowcnt);
+			$styleArray = array(
+				'font'  => array(
+					'color' => array('rgb' => '0,0,139'),
+					'size'  => 8
+				)
+			);
+			$objPHPExcel->getActiveSheet()->getStyle('A' . $rowcnt)->applyFromArray($styleArray);
+			$objPHPExcel->getActiveSheet()->getStyle('A' . $rowcnt . ':M' . $rowcnt)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+			$objPHPExcel->setActiveSheetIndex(0);
+
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="'.$catName.'.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+			header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header('Pragma: public'); // HTTP/1.0
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+			$objWriter->save('php://output');
+		}
+	}
 }
 
 
@@ -246,7 +364,7 @@ if (@$_GET['report'] === 'item') {
 			$itemTax = $displayItem['tax_code'];
 			$ItemName = $displayItem['item_name'];
 			$ItemType = $displayItem['item_type'];
-			if($ItemCat != $checkCate){
+			if ($ItemCat != $checkCate) {
 				$rowcnt++;
 				$objPHPExcel->getActiveSheet()->setCellValue('E' . $rowcnt, $ItemCat);
 			}

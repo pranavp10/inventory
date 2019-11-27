@@ -30,7 +30,7 @@ require '../../../connect.php';
         <div class="row">
             <div class="col-xs-12">
                 <h3 class="box-title text-center"><? echo ucfirst(@$_GET['report']); ?></h3>
-                <p  <? if (@$_GET['report'] =='-Select-') {?> hidden <?}?>> &nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs" onclick="location.href='../../../pages/Inventory/report/reportPrint.php?report=<? echo @$_GET['report']; ?>&category=<? echo @$_GET['category']; ?>';">Printer Friendly <i class="fa fa-print" aria-hidden="true"></i></button> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs" onclick="location.href='../../../pages/Inventory/report/reportExcel.php?report=<? echo @$_GET['report']; ?>&category=<? echo @$_GET['category']; ?>';" >Export to Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></button></span> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs"> Export to Word <i class="fa fa-file-word-o" aria-hidden="true"></i></button></span> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs" onclick="location.href='../../../pages/Inventory/report/Inventory_report_reports.php';"> Reset All Filters <i class="fa fa-refresh" aria-hidden="true"></i></button></span></p>
+                <p  <? if (@$_GET['report'] =='-Select-' || !isset($_GET['report'])) {?> hidden <?}?>> &nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs" onclick="window.open('../../../pages/Inventory/report/reportPrint.php?report=<? echo @$_GET['report']; ?>&category=<? echo @$_GET['category']; ?>')">Printer Friendly <i class="fa fa-print" aria-hidden="true"></i></button> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs" onclick="window.open('../../../pages/Inventory/report/reportExcel.php?report=<? echo @$_GET['report']; ?>&category=<? echo @$_GET['category']; ?>')" >Export to Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></button></span> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs" onclick="window.open('../../../pages/Inventory/report/reportPDF.php?report=<? echo @$_GET['report']; ?>&category=<? echo @$_GET['category']; ?>')"> Export to PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button></span> &nbsp;&nbsp;&nbsp;<span><button type="button" class="btn btn-info btn-xs" onclick="location.href='../../../pages/Inventory/report/Inventory_report_reports.php';"> Reset All Filters <i class="fa fa-refresh" aria-hidden="true"></i></button></span></p>
                 <div class="box">
                     <div class="form-inline">
                         <div class="box-header">
@@ -228,12 +228,8 @@ require '../../../connect.php';
                                 ?>
                             </table>
                         </div>
-                        <!-- /.box-body -->
                     </div>
-                    <!-- /.box -->
                 </div>
-                <!-- /.col -->
-
     </section>
 
     <!-- jQuery 3 -->
