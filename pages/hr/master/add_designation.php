@@ -21,14 +21,13 @@ if (isset($_POST['addDesignationButton'])) {
     }
 
     $sqlInsertDesignation = "INSERT INTO `designation`(`designation_id`, `description`) VALUES ('$designation_id','$designation');";
-    echo ($sqlInsertDesignation);
 
     if ($connect->query($sqlInsertDesignation)) {
         $_SESSION['addDesignation'] = 'yes';
         header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }else {
         $_SESSION['addDesignation'] = 'no';
-
+        header("Location: ../../../pages/hr/master/hr_master_designation.php");
     }
 }
 ?>

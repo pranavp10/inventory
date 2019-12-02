@@ -337,6 +337,38 @@ require '../../../connect.php';
                     </div>
                 </div>
             </div>
+            <!-- Export the xml file -->
+            <div class="modal fade" id="importXLS" tabindex="-1" role="dialog" aria-labelledby="importXLS" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="importXLSTitle"> Import Excel File </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../../pages/hr/master/importXml.php" method="POST" enctype="multipart/form-data" >
+                                <li>The file type should be in xml</li>
+                                <li>The file type should be corrupt</li>
+                                <li>The file content should contain  Designation Id And Designation Name and it should be in same order</li>
+                                <li>The file Designation Id should in DES- and number and it should be unique</li>
+                                <div class="form-group">
+                                <div class="input-group input-file">
+                                    <label for="importXLSFiles">Choose File </label>
+                                    <input class="input-group input-file"  type="file" name="importXLSFiles" id="importXLSFiles" accept=".xls,.xlsx">
+                                </div>
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="addDesignationButton">Import</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- ###################################################################################################### -->
             <!-- ####################################################################################################### -->
             <!-- Edit designation -->
@@ -463,6 +495,30 @@ require '../../../connect.php';
                             echo $designationNotDelete;
                         }
                     }
+                    if(isset($_SESSION['importXLS'])){
+                        if(($_SESSION['importXLS']=='yes')){
+                            $importXLS =  '<div class="alert alert-warning alert-dismissible" id="designationDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>'.$_SESSION['message'].'</strong>
+                            </div>   <script>setTimeout(fade_out, 5000);
+                            function fade_out() {
+                            $("#designationDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['importXLS']);
+                            echo $importXLS;
+                        }else{
+                            $importXLSNot =  '<div class="alert alert-danger alert-dismissible" id="designationNotDeleteAlert" >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>'.$_SESSION['message'].'</strong> 
+                            </div>   <script>setTimeout(fade_out, 10000);
+                            function fade_out() {
+                            $("#$designationNotDeleteAlert").fadeOut().empty();
+                            }</script>';
+                            unset($_SESSION['importXLS']);
+                            unset($_SESSION['message']);
+                            echo $importXLSNot;
+                        }
+                    }
                 ?>
                 <div class="row">
                     <div class="col-xs-12">
@@ -473,6 +529,11 @@ require '../../../connect.php';
                                 <div class="box-tools">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewDesignation" onclick="addDesignation()">
                                         <strong><i class="fa fa-plus"></i> Add Designation</strong></button>
+                                </div>
+
+                                <div class="box-tools">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importXLS" onclick="addDesignation()">
+                                        <strong><i class="fa fa-upload"></i> Import Excel </strong></button>
                                 </div>
                             </div>
                             <!-- /.box-header -->
