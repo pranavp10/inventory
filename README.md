@@ -81,7 +81,7 @@ Download [Wamp Server](http://www.wampserver.com/en/) on your Local System
 
 ### Installation
 
-1. Install [Wamp Server](http://www.wampserver.com/en/) on your Local System read note during installation. 
+1. To install [Wamp Server](http://www.wampserver.com/en/) on your Local System read note during installation. 
 2. Open php.ini file
 ```sh
 cd C:\wamp64\bin\apache\apache2.4.39\bin\php.ini
@@ -98,7 +98,7 @@ cd C:\wamp64\www\
 ```sh
 git clone https://github.com/pranavp10/inventory
 ```
-4. Open the Browser and past the link, if it asks for login just give username = root and password is empty.
+4. Open the Browser and paste the link, if it asks for login just give username = root and password is empty.
 ```sh
 http://localhost/phpmyadmin/index.php
 ```
@@ -110,7 +110,7 @@ inventory
 ```sh
 http://localhost/phpmyadmin/db_import.php?db=inventory
 ```
-7. Open the Browser and past the link. 
+7. Open the Browser and paste the link. 
 ```sh
 http://localhost/inventory/
 ```
