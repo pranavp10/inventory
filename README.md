@@ -190,7 +190,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [Pranav](https://www.linkedin.com/in/pranav-p-241914183) - pranavkp.me@outlook.com
+Linkedin - [Pranav](https://www.linkedin.com/in/pranav-p-241914183) - pranavkp.me@outlook.com
 
 More Project Link: [https://github.com/pranavp10](https://github.com/pranavp10)
 
